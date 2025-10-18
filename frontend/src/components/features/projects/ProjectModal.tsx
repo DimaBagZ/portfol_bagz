@@ -2,9 +2,7 @@
 
 import { motion } from "framer-motion";
 import { ExternalLink, Github, Calendar, Clock, Users, Code } from "lucide-react";
-import Modal from "./ui/Modal";
-import Button from "./ui/Button";
-import ImageGallery from "./ui/ImageGallery";
+import { Modal, Button, ImageGallery } from "@/components/ui";
 import { Project } from "@/types";
 
 interface ProjectModalProps {

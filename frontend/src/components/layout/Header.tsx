@@ -4,7 +4,7 @@ import { useState, memo } from "react";
 import Link from "next/link";
 import { Menu, X, User, ChevronLeft, ChevronRight } from "lucide-react";
 import { useSidebar } from "@/contexts/SidebarContext";
-import ThemeToggle from "./ThemeToggle";
+import { ThemeToggle } from "@/components/features/theme";
 import { NAVIGATION } from "@/config/constants";
 
 const Header = () => {

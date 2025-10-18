@@ -3,12 +3,8 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Code, Globe, Users, Award } from "lucide-react";
-import HeroSection from "@/components/ui/HeroSection";
-import ContentSection from "@/components/ui/ContentSection";
-import Card from "@/components/ui/Card";
-import StatsGrid from "@/components/ui/StatsGrid";
-import ExperienceCard from "@/components/ExperienceCard";
-import ExperienceModal from "@/components/ExperienceModal";
+import { HeroSection, ContentSection, Card, StatsGrid } from "@/components/ui";
+import { ExperienceCard, ExperienceModal } from "@/components/features/experience";
 import { workExperience } from "@/data/experience";
 import { WorkExperience } from "@/types";
 

@@ -3,10 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Mail, Phone, MapPin, Send, Github, Linkedin, Twitter } from "lucide-react";
-import HeroSection from "@/components/ui/HeroSection";
-import ContentSection from "@/components/ui/ContentSection";
-import Card from "@/components/ui/Card";
-import Button from "@/components/ui/Button";
+import { HeroSection, ContentSection, Card, Button } from "@/components/ui";
 import { CONTACT_INFO, SOCIAL_LINKS, RESPONSE_TIME } from "@/config/constants";
 import { validateContactForm, type ContactFormData } from "@/utils/validation";
 

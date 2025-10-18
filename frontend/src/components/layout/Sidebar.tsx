@@ -15,7 +15,7 @@ import {
   Globe,
 } from "lucide-react";
 import { skills } from "@/data/skills";
-import StatsCard from "./StatsCard";
+import { StatsCard } from "@/components/common";
 import { useSidebar } from "@/contexts/SidebarContext";
 
 const Sidebar = () => {

@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
-import Sidebar from "@/components/Sidebar";
-import LayoutHeader from "@/components/LayoutHeader";
-import LayoutFooter from "@/components/LayoutFooter";
-import MainContent from "@/components/MainContent";
+import "@/styles/globals.css";
+import { Sidebar, LayoutHeader, LayoutFooter, MainContent } from "@/components";
 import { SidebarProvider } from "@/contexts/SidebarContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 

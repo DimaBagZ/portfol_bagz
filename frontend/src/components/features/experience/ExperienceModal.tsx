@@ -10,8 +10,7 @@ import {
   Code,
   Briefcase,
 } from "lucide-react";
-import Modal from "./ui/Modal";
-import Button from "./ui/Button";
+import { Modal, Button } from "@/components/ui";
 import { WorkExperience } from "@/types";
 
 interface ExperienceModalProps {

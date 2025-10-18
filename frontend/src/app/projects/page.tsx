@@ -3,12 +3,8 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { ExternalLink, Filter } from "lucide-react";
-import ProjectCard from "@/components/ProjectCard";
-import ProjectModal from "@/components/ProjectModal";
-import HeroSection from "@/components/ui/HeroSection";
-import ContentSection from "@/components/ui/ContentSection";
-import Button from "@/components/ui/Button";
-import StatsGrid from "@/components/ui/StatsGrid";
+import { ProjectCard, ProjectModal } from "@/components/features/projects";
+import { HeroSection, ContentSection, Button, StatsGrid } from "@/components/ui";
 import { useProjects } from "@/hooks/useProjects";
 import { Project } from "@/types";
 
