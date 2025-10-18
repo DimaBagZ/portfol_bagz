@@ -1,0 +1,133 @@
+@import "tailwindcss";
+
+/* Светлая тема */
+:root {
+  /* Основные цвета */
+  --background: #ffffff;
+  --foreground: #1a1a1a;
+  --card: #ffffff;
+  --card-foreground: #1a1a1a;
+
+  /* Черно-желтая схема */
+  --primary: #fbbf24; /* Желтый */
+  --primary-foreground: #1a1a1a;
+  --secondary: #1a1a1a; /* Черный */
+  --secondary-foreground: #ffffff;
+
+  /* Акценты */
+  --accent: #f59e0b; /* Темно-желтый */
+  --accent-foreground: #1a1a1a;
+  --muted: #f3f4f6;
+  --muted-foreground: #6b7280;
+
+  /* Границы и разделители */
+  --border: #e5e7eb;
+  --input: #f9fafb;
+
+  /* Статусы */
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
+  --info: #3b82f6;
+}
+
+/* Темная тема */
+[data-theme="dark"] {
+  /* Основные цвета */
+  --background: #0a0a0a;
+  --foreground: #fafafa;
+  --card: #1a1a1a;
+  --card-foreground: #fafafa;
+
+  /* Черно-желтая схема */
+  --primary: #fbbf24; /* Желтый остается ярким */
+  --primary-foreground: #0a0a0a;
+  --secondary: #fafafa; /* Белый в темной теме */
+  --secondary-foreground: #0a0a0a;
+
+  /* Акценты */
+  --accent: #f59e0b; /* Темно-желтый */
+  --accent-foreground: #0a0a0a;
+  --muted: #262626;
+  --muted-foreground: #a3a3a3;
+
+  /* Границы и разделители */
+  --border: #404040;
+  --input: #262626;
+
+  /* Статусы */
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
+  --info: #3b82f6;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
+  --color-info: var(--info);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Кастомные утилиты для темы */
+.bg-primary {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.bg-secondary {
+  background-color: var(--secondary);
+  color: var(--secondary-foreground);
+}
+
+.bg-card {
+  background-color: var(--card);
+  color: var(--card-foreground);
+}
+
+.bg-muted {
+  background-color: var(--muted);
+  color: var(--muted-foreground);
+}
+
+.text-primary {
+  color: var(--primary);
+}
+
+.text-secondary {
+  color: var(--secondary);
+}
+
+.text-muted {
+  color: var(--muted-foreground);
+}
+
+.border-theme {
+  border-color: var(--border);
+}
+
+/* Анимации для плавных переходов */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
