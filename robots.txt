@@ -3,4 +3,4 @@ Allow: /
 Disallow: /private/
 Disallow: /admin/
 
-Sitemap: https://your-domain.com/sitemap.xml
+Sitemap: https://dimabagz.github.io/portfol_bagz/sitemap.xml
