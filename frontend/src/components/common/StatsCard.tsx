@@ -1,14 +1,45 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { TrendingUp, Code, Users, Award } from "lucide-react";
+import { TrendingUp, Code, Users, Award, Clock, CheckCircle } from "lucide-react";
 
-const StatsCard = () => {
+interface StatsCardProps {
+  projectStats?: {
+    total: number;
+    completed: number;
+    inProgress: number;
+    planned: number;
+    uniqueTechnologies: string[];
+  };
+  workExperience?: number;
+}
+
+const StatsCard = ({ projectStats, workExperience }: StatsCardProps) => {
   const stats = [
-    { label: "Проектов завершено", value: "15+", icon: Code, color: "text-primary" },
-    { label: "Довольных клиентов", value: "12+", icon: Users, color: "text-success" },
-    { label: "Лет опыта", value: "3+", icon: TrendingUp, color: "text-accent" },
-    { label: "Технологий изучено", value: "20+", icon: Award, color: "text-warning" },
+    {
+      label: "Всего проектов",
+      value: `${projectStats?.total || 0}`,
+      icon: Code,
+      color: "text-primary",
+    },
+    {
+      label: "Завершено",
+      value: `${projectStats?.completed || 0}`,
+      icon: CheckCircle,
+      color: "text-success",
+    },
+    {
+      label: "В разработке",
+      value: `${projectStats?.inProgress || 0}`,
+      icon: Clock,
+      color: "text-warning",
+    },
+    {
+      label: "Технологий",
+      value: `${projectStats?.uniqueTechnologies.length || 0}`,
+      icon: Award,
+      color: "text-accent",
+    },
   ];
 
   return (

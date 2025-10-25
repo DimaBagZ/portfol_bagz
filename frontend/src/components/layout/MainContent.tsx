@@ -14,7 +14,9 @@ const MainContent = ({ children }: MainContentProps) => {
     <div
       className="transition-all duration-300 min-h-screen pt-16"
       style={{
-        marginLeft: isMobile ? "0px" : isCollapsed ? "80px" : "320px",
+        // В десктопной версии сайдбар всегда открывается поверх контента
+        // В мобильной версии контент занимает всю ширину
+        marginLeft: isMobile ? "0px" : isCollapsed ? "80px" : "80px",
       }}
     >
       <main className="min-h-screen">{children}</main>

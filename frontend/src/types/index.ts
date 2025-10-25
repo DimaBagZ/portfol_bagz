@@ -8,7 +8,11 @@ export interface Project {
   technologies: string[];
   githubUrl?: string;
   liveUrl?: string;
+  storybookUrl?: string;
+  serverUrl?: string;
+  kanbanUrl?: string;
   category: "frontend" | "backend" | "fullstack" | "mobile";
+  categories?: string[];
   featured: boolean;
   createdAt: string;
   status: "completed" | "in-progress" | "planned";
@@ -20,7 +24,7 @@ export interface Project {
 export interface Skill {
   name: string;
   level: number; // 1-5
-  category: "frontend" | "backend" | "tools" | "languages";
+  category: "frontend" | "backend" | "tools" | "languages" | "mobile";
 }
 
 export interface WorkExperience {
@@ -35,4 +39,5 @@ export interface WorkExperience {
   responsibilities: string[];
   companyLogo?: string;
   companyUrl?: string;
+  relatedProjects?: string[]; // IDs проектов, связанных с этой работой
 }

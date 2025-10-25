@@ -1,15 +1,14 @@
 import { memo } from "react";
 import Link from "next/link";
-import { Github, Linkedin, Mail, Twitter } from "lucide-react";
+import { Github, Send, Mail } from "lucide-react";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   const socialLinks = [
-    { name: "GitHub", href: "https://github.com/username", icon: Github },
-    { name: "LinkedIn", href: "https://linkedin.com/in/username", icon: Linkedin },
-    { name: "Twitter", href: "https://twitter.com/username", icon: Twitter },
-    { name: "Email", href: "mailto:email@example.com", icon: Mail },
+    { name: "GitHub", href: "https://github.com/DimaBagZ", icon: Github },
+    { name: "Telegram", href: "https://t.me/@DimaBagz", icon: Send },
+    { name: "Email", href: "mailto:DimaBagZ@yandex.ru", icon: Mail },
   ];
 
   return (
@@ -18,7 +17,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Brand */}
           <div>
-            <h3 className="text-2xl font-bold mb-4 text-primary">Bagiskij</h3>
+            <h3 className="text-2xl font-bold mb-4 text-primary">Портфолио-BAGZ</h3>
             <p className="text-muted mb-4">
               Fullstack разработчик, создающий современные веб-приложения
             </p>
@@ -83,15 +82,16 @@ const Footer = () => {
           <div>
             <h4 className="text-lg font-semibold mb-4 text-primary">Контакты</h4>
             <div className="space-y-2 text-muted">
-              <p>📧 email@example.com</p>
-              <p>📱 +7 (999) 123-45-67</p>
+              <p>📧 DimaBagZ@yandex.ru</p>
+              <p>📱 +7 (999) 700-84-70</p>
+              <p>✈️ @DimaBagz</p>
               <p>📍 Москва, Россия</p>
             </div>
           </div>
         </div>
 
         <div className="border-t border-theme mt-8 pt-8 text-center text-muted">
-          <p>&copy; {currentYear} Bagiskij. Все права защищены.</p>
+          <p>&copy; {currentYear} Дмитрий Багинский. Все права защищены.</p>
         </div>
       </div>
     </footer>

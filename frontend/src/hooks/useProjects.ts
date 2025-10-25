@@ -1,13 +1,18 @@
 import { useMemo } from "react";
 import { projects } from "@/data/projects";
-import { PROJECT_CATEGORIES } from "@/config/constants";
+import { PROJECT_CATEGORIES, PROJECT_STATUSES } from "@/config/constants";
+import { featuredProjectsIds } from "@/config/featuredProjects";
 
 // Хук для работы с проектами
 export const useProjects = () => {
-  const featuredProjects = useMemo(
-    () => projects.filter((project) => project.featured),
-    []
-  );
+  const featuredProjects = useMemo(() => {
+    // Получаем проекты в указанном порядке по ID
+    const orderedProjects = featuredProjectsIds
+      .map((id) => projects.find((project) => project.id === id))
+      .filter(Boolean); // Убираем undefined
+
+    return orderedProjects;
+  }, []);
 
   const projectStats = useMemo(
     () => [
@@ -37,7 +42,40 @@ export const useProjects = () => {
 
   const getProjectsByCategory = (category: string) => {
     if (category === "all") return projects;
-    return projects.filter((project) => project.category === category);
+    return projects.filter((project) => {
+      // Проверяем основную категорию
+      if (project.category === category) return true;
+      // Проверяем дополнительные категории
+      if (project.categories && project.categories.includes(category)) return true;
+      return false;
+    });
+  };
+
+  const getProjectsByStatus = (status: string) => {
+    if (status === "all") return projects;
+    return projects.filter((project) => project.status === status);
+  };
+
+  const getProjectsByCategoryAndStatus = (category: string, status: string) => {
+    let filteredProjects = projects;
+
+    // Фильтр по категории
+    if (category !== "all") {
+      filteredProjects = filteredProjects.filter((project) => {
+        // Проверяем основную категорию
+        if (project.category === category) return true;
+        // Проверяем дополнительные категории
+        if (project.categories && project.categories.includes(category)) return true;
+        return false;
+      });
+    }
+
+    // Фильтр по статусу
+    if (status !== "all") {
+      filteredProjects = filteredProjects.filter((project) => project.status === status);
+    }
+
+    return filteredProjects;
   };
 
   return {
@@ -45,6 +83,9 @@ export const useProjects = () => {
     featuredProjects,
     projectStats,
     categories: PROJECT_CATEGORIES,
+    statuses: PROJECT_STATUSES,
     getProjectsByCategory,
+    getProjectsByStatus,
+    getProjectsByCategoryAndStatus,
   };
 };

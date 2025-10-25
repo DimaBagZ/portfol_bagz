@@ -1,6 +1,6 @@
 "use client";
 
-import { memo } from "react";
+import { memo, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ChevronLeft,
@@ -13,40 +13,61 @@ import {
   Code,
   Database,
   Globe,
+  Smartphone,
+  Monitor,
+  Send,
 } from "lucide-react";
+import AvatarModal from "@/components/ui/AvatarModal";
 import { skills } from "@/data/skills";
+import { workExperience } from "@/data/experience";
+import { projects } from "@/data/projects";
 import { StatsCard } from "@/components/common";
 import { useSidebar } from "@/contexts/SidebarContext";
+import {
+  calculateAge,
+  calculateWorkExperience,
+  calculateProjectStats,
+  getAgeWord,
+  getExperienceWord,
+} from "@/utils/calculations";
 
 const Sidebar = () => {
   const { isCollapsed, isMobile, isHydrated, toggleSidebar } = useSidebar();
+  const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
+
+  // Персональные данные
+  const birthDate = "29.01.1994";
+  const age = useMemo(() => calculateAge(birthDate), []);
+  const workExp = useMemo(() => calculateWorkExperience(workExperience), []);
+  const projectStats = useMemo(() => calculateProjectStats(projects), []);
 
   const socialLinks = [
     {
       name: "GitHub",
-      href: "https://github.com/username",
+      href: "https://github.com/DimaBagZ",
       icon: Github,
       color: "hover:text-gray-900",
     },
     {
-      name: "LinkedIn",
-      href: "https://linkedin.com/in/username",
-      icon: Linkedin,
+      name: "Telegram",
+      href: "https://t.me/@DimaBagz",
+      icon: Send,
       color: "hover:text-blue-600",
     },
     {
       name: "Email",
-      href: "mailto:email@example.com",
+      href: "mailto:DimaBagZ@yandex.ru",
       icon: Mail,
       color: "hover:text-red-600",
     },
   ];
 
   const skillCategories = {
-    frontend: { label: "Frontend", icon: Code, color: "text-blue-600" },
+    frontend: { label: "Frontend", icon: Monitor, color: "text-blue-600" },
     backend: { label: "Backend", icon: Database, color: "text-green-600" },
-    tools: { label: "Tools", icon: Globe, color: "text-purple-600" },
-    languages: { label: "Languages", icon: Code, color: "text-orange-600" },
+    mobile: { label: "Mobile", icon: Smartphone, color: "text-purple-600" },
+    tools: { label: "DevOps & Tools", icon: Globe, color: "text-orange-600" },
+    languages: { label: "Languages", icon: Code, color: "text-red-600" },
   };
 
   const groupedSkills = skills.reduce((acc, skill) => {
@@ -59,14 +80,14 @@ const Sidebar = () => {
 
   return (
     <>
-      {/* Overlay for mobile */}
+      {/* Overlay for mobile and desktop when sidebar is open */}
       <AnimatePresence>
         {!isCollapsed && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed top-16 left-0 right-0 bottom-0 bg-black/50 z-[45] lg:hidden"
+            className="fixed top-16 left-0 right-0 bottom-0 bg-black/50 z-[45]"
             onClick={toggleSidebar}
           />
         )}
@@ -94,10 +115,38 @@ const Sidebar = () => {
               <div className={`relative ${isCollapsed && !isMobile ? "mb-2" : "mb-4"}`}>
                 <div
                   className={`${
-                    isCollapsed && !isMobile ? "w-12 h-12 text-lg" : "w-24 h-24 text-2xl"
-                  } bg-gradient-to-br from-primary to-accent rounded-full flex items-center justify-center text-primary-foreground font-bold`}
+                    isCollapsed && !isMobile ? "w-12 h-12" : "w-24 h-24"
+                  } rounded-full overflow-hidden border-2 border-primary/20 ${
+                    isCollapsed && !isMobile
+                      ? "cursor-pointer hover:scale-105 hover:shadow-lg transition-all duration-200"
+                      : !isCollapsed || isMobile
+                      ? "cursor-pointer hover:scale-105 hover:shadow-lg transition-all duration-200"
+                      : ""
+                  }`}
+                  onClick={
+                    isCollapsed && !isMobile
+                      ? toggleSidebar
+                      : !isCollapsed || isMobile
+                      ? () => setIsAvatarModalOpen(true)
+                      : undefined
+                  }
+                  title={
+                    isCollapsed && !isMobile
+                      ? "Нажмите для открытия профиля"
+                      : !isCollapsed || isMobile
+                      ? "Нажмите для увеличения фото"
+                      : undefined
+                  }
                 >
-                  B
+                  <img
+                    src={
+                      isCollapsed && !isMobile
+                        ? "/images/avatar/avatar.svg"
+                        : "/images/avatar/avatar.png"
+                    }
+                    alt="Дмитрий Багинский"
+                    className="w-full h-full object-cover"
+                  />
                 </div>
                 <div
                   className={`absolute -bottom-1 -right-1 ${
@@ -116,8 +165,13 @@ const Sidebar = () => {
                     transition={{ duration: 0.2 }}
                     className="text-center"
                   >
-                    <h2 className="text-xl font-bold text-primary mb-1">Bagiskij</h2>
-                    <p className="text-sm text-muted mb-2">Fullstack Developer</p>
+                    <h2 className="text-xl font-bold text-primary mb-1">
+                      Дмитрий Багинский
+                    </h2>
+                    <p className="text-sm text-muted mb-1">Fullstack Developer</p>
+                    <p className="text-xs text-muted mb-2">
+                      {age} {getAgeWord(age)}
+                    </p>
                     <div className="flex items-center justify-center text-xs text-muted mb-3">
                       <MapPin size={12} className="mr-1" />
                       Москва, Россия
@@ -167,7 +221,7 @@ const Sidebar = () => {
                 >
                   {/* Stats Card */}
                   <div className="mb-6">
-                    <StatsCard />
+                    <StatsCard projectStats={projectStats} workExperience={workExp} />
                   </div>
 
                   <h3 className="text-lg font-semibold text-primary mb-4">Навыки</h3>
@@ -213,31 +267,43 @@ const Sidebar = () => {
               )}
             </AnimatePresence>
 
-            {/* Collapsed Skills Icons */}
+            {/* Collapsed Skills Progress */}
             <AnimatePresence>
               {isCollapsed && !isMobile && (
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="flex flex-col items-center space-y-4"
+                  className="flex flex-col items-center space-y-3"
                 >
                   {Object.entries(skillCategories).map(([category, categoryInfo]) => {
                     const Icon = categoryInfo.icon;
+                    const categorySkills = groupedSkills[category] || [];
+                    const avgLevel =
+                      categorySkills.length > 0
+                        ? categorySkills.reduce((sum, skill) => sum + skill.level, 0) /
+                          categorySkills.length
+                        : 0;
+
                     return (
                       <div
                         key={category}
                         className="flex flex-col items-center"
-                        title={categoryInfo.label}
+                        title={`${categoryInfo.label}: ${
+                          categorySkills.length
+                        } навыков, средний уровень ${avgLevel.toFixed(1)}/5`}
                       >
-                        <Icon size={20} className={`${categoryInfo.color} mb-1`} />
-                        <div className="w-1 h-8 bg-muted rounded-full">
+                        <Icon size={18} className={`${categoryInfo.color} mb-1`} />
+                        <div className="w-1 h-6 bg-muted rounded-full">
                           <div
-                            className="bg-primary rounded-full transition-all duration-300"
+                            className="bg-primary rounded-full transition-all duration-500"
                             style={{
-                              height: `${(groupedSkills[category]?.length || 0) * 20}%`,
+                              height: `${(avgLevel / 5) * 100}%`,
                             }}
                           />
+                        </div>
+                        <div className="text-xs text-muted mt-1">
+                          {categorySkills.length}
                         </div>
                       </div>
                     );
@@ -263,15 +329,25 @@ const Sidebar = () => {
                 >
                   <div className="flex items-center justify-center text-xs text-muted mb-2">
                     <Calendar size={12} className="mr-1" />
-                    Опыт: 3+ года
+                    Опыт: {workExp}+ {getExperienceWord(workExp)}
                   </div>
-                  <p className="text-xs text-muted">© 2024 Bagiskij</p>
+                  <div className="flex items-center justify-center text-xs text-muted mb-2">
+                    <Code size={12} className="mr-1" />
+                    Проектов: {projectStats.total}
+                  </div>
+                  <p className="text-xs text-muted">© 2024 Дмитрий Багинский</p>
                 </motion.div>
               )}
             </AnimatePresence>
           </div>
         </div>
       </motion.aside>
+
+      {/* Модальное окно для увеличенного аватара */}
+      <AvatarModal
+        isOpen={isAvatarModalOpen}
+        onClose={() => setIsAvatarModalOpen(false)}
+      />
     </>
   );
 };

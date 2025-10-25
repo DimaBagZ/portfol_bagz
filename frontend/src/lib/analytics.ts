@@ -4,9 +4,9 @@ export const GA_TRACKING_ID = process.env.NEXT_PUBLIC_GA_ID || "";
 // Расширяем интерфейс Window для TypeScript
 declare global {
   interface Window {
-    dataLayer: any[];
-    gtag: (...args: any[]) => void;
-    ym: (id: string, action: string, config?: any) => void;
+    dataLayer: unknown[];
+    gtag: (...args: unknown[]) => void;
+    ym: (id: string, action: string, config?: unknown) => void;
   }
 }
 
@@ -21,7 +21,7 @@ export const initGA = () => {
 
     // Инициализируем gtag
     window.dataLayer = window.dataLayer || [];
-    function gtag(...args: any[]) {
+    function gtag(...args: unknown[]) {
       window.dataLayer.push(args);
     }
     gtag("js", new Date());
@@ -67,7 +67,7 @@ export const YANDEX_METRICA_ID = process.env.NEXT_PUBLIC_YANDEX_METRICA_ID || ""
 export const initYandexMetrica = () => {
   if (typeof window !== "undefined" && YANDEX_METRICA_ID) {
     (function (
-      m: any,
+      m: unknown,
       e: Document,
       t: string,
       r: string,
@@ -77,7 +77,7 @@ export const initYandexMetrica = () => {
     ) {
       m[i] =
         m[i] ||
-        function (...args: any[]) {
+        function (...args: unknown[]) {
           (m[i].a = m[i].a || []).push(args);
         };
       m[i].l = 1 * new Date().getTime();

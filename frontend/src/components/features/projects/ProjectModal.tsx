@@ -1,9 +1,23 @@
 "use client";
 
+import React from "react";
 import { motion } from "framer-motion";
-import { ExternalLink, Github, Calendar, Clock, Users, Code } from "lucide-react";
+import {
+  ExternalLink,
+  Github,
+  Calendar,
+  Clock,
+  Users,
+  Code,
+  BookOpen,
+  Server,
+  AlertCircle,
+  Kanban,
+} from "lucide-react";
 import { Modal, Button, ImageGallery } from "@/components/ui";
 import { Project } from "@/types";
+import { FeatureBlock } from "./FeatureBlock";
+import { featureBlocksConfig, filterFeaturesByCategory } from "./featureBlocksConfig";
 
 interface ProjectModalProps {
   project: Project | null;
@@ -13,6 +27,23 @@ interface ProjectModalProps {
 
 const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
   if (!project) return null;
+
+  // Функция для форматирования длительности проекта
+  const formatDuration = (duration: string | undefined) => {
+    if (!duration || duration === "") {
+      return { value: "Не указано", label: "" };
+    }
+
+    const numDuration = parseFloat(duration);
+    if (isNaN(numDuration) || numDuration < 1) {
+      return { value: "Менее месяца", label: "" };
+    }
+
+    return {
+      value: numDuration.toString(),
+      label: numDuration === 1 ? "месяц" : numDuration < 5 ? "месяца" : "месяцев",
+    };
+  };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="xl" title={project.title}>
@@ -32,18 +63,55 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
               <p className="text-muted leading-relaxed">{project.description}</p>
             </div>
 
-            {/* Features */}
+            {/* Features - Special layout for EVE Corp Manager, default for others */}
             {project.features && project.features.length > 0 && (
               <div>
-                <h3 className="text-lg font-semibold text-primary mb-2">Особенности</h3>
-                <ul className="space-y-2">
-                  {project.features.map((feature, index) => (
-                    <li key={index} className="flex items-start">
-                      <div className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0" />
-                      <span className="text-muted">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
+                {project &&
+                (project.id === "20" ||
+                  project.id === "19" ||
+                  project.id === "14" ||
+                  project.id === "1" ||
+                  project.id === "3" ||
+                  project.id === "5") ? (
+                  // Special grouped layout for EVE Corp Manager
+                  <>
+                    <h3 className="text-lg font-semibold text-primary mb-4">
+                      Особенности проекта
+                    </h3>
+                    <div className="grid grid-cols-1 gap-6">
+                      {Object.entries(featureBlocksConfig).map(([key, config], index) => {
+                        const filteredFeatures = filterFeaturesByCategory(
+                          project.features || [],
+                          config.keywords
+                        );
+                        return (
+                          <FeatureBlock
+                            key={key}
+                            title={config.title}
+                            features={filteredFeatures}
+                            color={config.color}
+                            delay={index * 0.1}
+                          />
+                        );
+                      })}
+                    </div>
+                  </>
+                ) : (
+                  // Default layout for all other projects
+                  <>
+                    <h3 className="text-lg font-semibold text-primary mb-2">
+                      Особенности
+                    </h3>
+                    <ul className="space-y-2">
+                      {project.features.map((feature, index) => (
+                        <li key={index} className="flex items-start">
+                          <div className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0" />
+                          <span className="text-muted">{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </>
+                )}
               </div>
             )}
           </div>
@@ -118,9 +186,11 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
           >
             <Clock className="text-success mx-auto mb-2" size={24} />
             <div className="text-2xl font-bold text-primary mb-1">
-              {project.duration || "3"}
+              {formatDuration(project.duration).value}
             </div>
-            <div className="text-sm text-muted">месяцев</div>
+            <div className="text-sm text-muted">
+              {formatDuration(project.duration).label}
+            </div>
           </motion.div>
 
           <motion.div
@@ -166,14 +236,55 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
           )}
 
           {project.liveUrl && (
+            <div className="flex-1 flex items-center space-x-3">
+              <Button
+                href={project.liveUrl}
+                className="flex-1"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <ExternalLink size={20} className="mr-2" />
+                {project.id === "18" ? "Открыть сайт" : "Открыть проект"}
+              </Button>
+
+              {/* Кнопка запуска сервера */}
+              {project.serverUrl && (
+                <a
+                  href={project.serverUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center space-x-2 bg-warning/10 border border-warning/20 rounded-lg px-3 py-2 hover:bg-warning/20 transition-colors duration-200 cursor-pointer"
+                >
+                  <Server size={16} className="text-warning flex-shrink-0" />
+                  <span className="text-sm text-warning">⚠️ Запустить сервер</span>
+                </a>
+              )}
+            </div>
+          )}
+
+          {project.storybookUrl && (
             <Button
-              href={project.liveUrl}
+              href={project.storybookUrl}
+              variant="outline"
               className="flex-1"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <ExternalLink size={20} className="mr-2" />
-              Открыть проект
+              <BookOpen size={20} className="mr-2" />
+              Storybook
+            </Button>
+          )}
+
+          {project.kanbanUrl && (
+            <Button
+              href={project.kanbanUrl}
+              variant="outline"
+              className="flex-1"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Kanban size={20} className="mr-2" />
+              Канбан доска
             </Button>
           )}
         </div>

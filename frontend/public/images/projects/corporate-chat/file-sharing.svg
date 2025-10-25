@@ -1,0 +1,60 @@
+<svg width="400" height="300" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Фон -->
+  <rect width="400" height="300" fill="#f5f5f5"/>
+  
+  <!-- Заголовок -->
+  <rect x="0" y="0" width="400" height="40" fill="#1976d2"/>
+  <text x="20" y="25" fill="white" font-family="Arial, sans-serif" font-size="14" font-weight="bold">📁 Обмен файлами</text>
+  
+  <!-- Область файлов -->
+  <rect x="20" y="50" width="360" height="200" rx="8" fill="#ffffff" stroke="#e0e0e0" stroke-width="1"/>
+  
+  <!-- Папки -->
+  <rect x="40" y="70" width="80" height="60" rx="4" fill="#e3f2fd" stroke="#1976d2" stroke-width="1"/>
+  <text x="80" y="90" text-anchor="middle" fill="#1976d2" font-family="Arial, sans-serif" font-size="20">📁</text>
+  <text x="80" y="110" text-anchor="middle" fill="#1976d2" font-family="Arial, sans-serif" font-size="10" font-weight="bold">Документы</text>
+  <text x="80" y="125" text-anchor="middle" fill="#666" font-family="Arial, sans-serif" font-size="8">15 файлов</text>
+  
+  <rect x="140" y="70" width="80" height="60" rx="4" fill="#e8f5e8" stroke="#388e3c" stroke-width="1"/>
+  <text x="180" y="90" text-anchor="middle" fill="#388e3c" font-family="Arial, sans-serif" font-size="20">🖼️</text>
+  <text x="180" y="110" text-anchor="middle" fill="#388e3c" font-family="Arial, sans-serif" font-size="10" font-weight="bold">Изображения</text>
+  <text x="180" y="125" text-anchor="middle" fill="#666" font-family="Arial, sans-serif" font-size="8">8 файлов</text>
+  
+  <rect x="240" y="70" width="80" height="60" rx="4" fill="#fff3e0" stroke="#f57c00" stroke-width="1"/>
+  <text x="280" y="90" text-anchor="middle" fill="#f57c00" font-family="Arial, sans-serif" font-size="20">🎥</text>
+  <text x="280" y="110" text-anchor="middle" fill="#f57c00" font-family="Arial, sans-serif" font-size="10" font-weight="bold">Видео</text>
+  <text x="280" y="125" text-anchor="middle" fill="#666" font-family="Arial, sans-serif" font-size="8">3 файла</text>
+  
+  <rect x="340" y="70" width="80" height="60" rx="4" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="1"/>
+  <text x="380" y="90" text-anchor="middle" fill="#7b1fa2" font-family="Arial, sans-serif" font-size="20">📊</text>
+  <text x="380" y="110" text-anchor="middle" fill="#7b1fa2" font-family="Arial, sans-serif" font-size="10" font-weight="bold">Отчеты</text>
+  <text x="380" y="125" text-anchor="middle" fill="#666" font-family="Arial, sans-serif" font-size="8">12 файлов</text>
+  
+  <!-- Список файлов -->
+  <text x="40" y="160" fill="#333" font-family="Arial, sans-serif" font-size="12" font-weight="bold">Недавние файлы</text>
+  
+  <!-- Файл 1 -->
+  <rect x="40" y="170" width="320" height="25" rx="4" fill="#f8f9fa"/>
+  <text x="50" y="185" fill="#1976d2" font-family="Arial, sans-serif" font-size="12">📄</text>
+  <text x="70" y="185" fill="#333" font-family="Arial, sans-serif" font-size="11">Презентация_проекта.pdf</text>
+  <text x="300" y="185" text-anchor="end" fill="#666" font-family="Arial, sans-serif" font-size="9">2.5 MB</text>
+  <text x="350" y="185" text-anchor="end" fill="#999" font-family="Arial, sans-serif" font-size="9">2 часа назад</text>
+  
+  <!-- Файл 2 -->
+  <rect x="40" y="200" width="320" height="25" rx="4" fill="#f8f9fa"/>
+  <text x="50" y="215" fill="#388e3c" font-family="Arial, sans-serif" font-size="12">📊</text>
+  <text x="70" y="215" fill="#333" font-family="Arial, sans-serif" font-size="11">Отчет_за_месяц.xlsx</text>
+  <text x="300" y="215" text-anchor="end" fill="#666" font-family="Arial, sans-serif" font-size="9">1.2 MB</text>
+  <text x="350" y="215" text-anchor="end" fill="#999" font-family="Arial, sans-serif" font-size="9">5 часов назад</text>
+  
+  <!-- Файл 3 -->
+  <rect x="40" y="230" width="320" height="25" rx="4" fill="#f8f9fa"/>
+  <text x="50" y="245" fill="#f57c00" font-family="Arial, sans-serif" font-size="12">🎥</text>
+  <text x="70" y="245" fill="#333" font-family="Arial, sans-serif" font-size="11">Запись_встречи.mp4</text>
+  <text x="300" y="245" text-anchor="end" fill="#666" font-family="Arial, sans-serif" font-size="9">45.2 MB</text>
+  <text x="350" y="245" text-anchor="end" fill="#999" font-family="Arial, sans-serif" font-size="9">1 день назад</text>
+  
+  <!-- Кнопка загрузки -->
+  <rect x="20" y="270" width="360" height="20" rx="10" fill="#4caf50"/>
+  <text x="200" y="283" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="11" font-weight="bold">📤 Загрузить файлы</text>
+</svg>

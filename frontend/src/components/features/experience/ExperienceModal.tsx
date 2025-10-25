@@ -11,15 +11,23 @@ import {
   Briefcase,
 } from "lucide-react";
 import { Modal, Button } from "@/components/ui";
-import { WorkExperience } from "@/types";
+import { WorkExperience, Project } from "@/types";
+import { projects } from "@/data/projects";
+import Link from "next/link";
 
 interface ExperienceModalProps {
   experience: WorkExperience | null;
   isOpen: boolean;
   onClose: () => void;
+  onViewProject?: (project: Project) => void;
 }
 
-const ExperienceModal = ({ experience, isOpen, onClose }: ExperienceModalProps) => {
+const ExperienceModal = ({
+  experience,
+  isOpen,
+  onClose,
+  onViewProject,
+}: ExperienceModalProps) => {
   if (!experience) return null;
 
   return (
@@ -130,6 +138,84 @@ const ExperienceModal = ({ experience, isOpen, onClose }: ExperienceModalProps) 
             ))}
           </div>
         </div>
+
+        {/* Related Projects */}
+        {experience.relatedProjects && experience.relatedProjects.length > 0 && (
+          <div>
+            <h3 className="text-lg font-semibold text-primary mb-3 flex items-center">
+              <Briefcase size={20} className="mr-2" />
+              Связанные проекты
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {experience.relatedProjects.map((projectId, index) => {
+                const project = projects.find((p) => p.id === projectId);
+                if (!project) return null;
+
+                return (
+                  <motion.div
+                    key={projectId}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                    className="bg-card border border-theme rounded-lg p-4 hover:shadow-md transition-shadow duration-200"
+                  >
+                    <div className="flex items-start justify-between mb-2">
+                      <h4 className="font-semibold text-primary text-sm">
+                        {project.title}
+                      </h4>
+                      <span className="text-xs text-muted bg-muted px-2 py-1 rounded">
+                        {project.status === "completed"
+                          ? "Завершен"
+                          : project.status === "in-progress"
+                          ? "В разработке"
+                          : "Планируется"}
+                      </span>
+                    </div>
+                    <p className="text-xs text-muted mb-3 line-clamp-2">
+                      {project.description}
+                    </p>
+                    <div className="flex flex-wrap gap-1 mb-3">
+                      {project.technologies.slice(0, 3).map((tech) => (
+                        <span
+                          key={tech}
+                          className="px-2 py-1 bg-primary/10 text-primary rounded text-xs"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                      {project.technologies.length > 3 && (
+                        <span className="px-2 py-1 bg-muted text-muted rounded text-xs">
+                          +{project.technologies.length - 3}
+                        </span>
+                      )}
+                    </div>
+                    {onViewProject ? (
+                      <button
+                        onClick={() => {
+                          onViewProject(project);
+                          onClose();
+                        }}
+                        className="inline-flex items-center text-xs text-primary hover:text-accent transition-colors"
+                      >
+                        <ExternalLink size={12} className="mr-1" />
+                        Посмотреть проект
+                      </button>
+                    ) : (
+                      <Link
+                        href={`/projects#${project.id}`}
+                        className="inline-flex items-center text-xs text-primary hover:text-accent transition-colors"
+                        onClick={onClose}
+                      >
+                        <ExternalLink size={12} className="mr-1" />
+                        Посмотреть проект
+                      </Link>
+                    )}
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         {/* Experience Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4 border-t border-theme">

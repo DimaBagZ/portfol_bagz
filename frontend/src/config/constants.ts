@@ -33,23 +33,31 @@ export const PROJECT_CATEGORIES = [
   { id: "mobile", label: "Mobile" },
 ] as const;
 
+// Статусы проектов
+export const PROJECT_STATUSES = [
+  { id: "all", label: "Все статусы" },
+  { id: "completed", label: "Завершенные" },
+  { id: "in-progress", label: "В разработке" },
+  { id: "planned", label: "Планируемые" },
+] as const;
+
 // Социальные сети
 export const SOCIAL_LINKS = [
   {
     name: "GitHub",
-    href: "https://github.com/username",
+    href: "https://github.com/DimaBagZ",
     icon: "Github",
     color: "hover:text-gray-900",
   },
   {
-    name: "LinkedIn",
-    href: "https://linkedin.com/in/username",
-    icon: "Linkedin",
+    name: "Telegram",
+    href: "https://t.me/@DimaBagz",
+    icon: "Send",
     color: "hover:text-blue-600",
   },
   {
     name: "Email",
-    href: "mailto:email@example.com",
+    href: "mailto:DimaBagZ@yandex.ru",
     icon: "Mail",
     color: "hover:text-red-600",
   },
@@ -59,14 +67,14 @@ export const SOCIAL_LINKS = [
 export const CONTACT_INFO = [
   {
     title: "Email",
-    value: "bagiskij@example.com",
-    href: "mailto:bagiskij@example.com",
+    value: "DimaBagZ@yandex.ru",
+    href: "mailto:DimaBagZ@yandex.ru",
     icon: "Mail",
   },
   {
     title: "Телефон",
-    value: "+7 (999) 123-45-67",
-    href: "tel:+79991234567",
+    value: "+7 (999) 700-84-70",
+    href: "tel:+79997008470",
     icon: "Phone",
   },
   {
