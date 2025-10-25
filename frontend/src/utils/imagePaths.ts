@@ -14,6 +14,7 @@ export function getImagePath(imagePath: string): string {
     return imagePath;
   }
 
-  // В продакшн режиме (GitHub Pages) используем относительные пути
-  return imagePath.replace("/images/", "./images/");
+  // В продакшн режиме (GitHub Pages) используем абсолютные пути с basePath
+  // Это гарантирует, что изображения будут работать на всех страницах
+  return imagePath;
 }
