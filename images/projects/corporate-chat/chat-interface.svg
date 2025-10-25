@@ -1,0 +1,50 @@
+<svg width="400" height="300" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Фон -->
+  <rect width="400" height="300" fill="#f5f5f5"/>
+  
+  <!-- Заголовок чата -->
+  <rect x="0" y="0" width="400" height="50" fill="#1976d2"/>
+  <text x="20" y="30" fill="white" font-family="Arial, sans-serif" font-size="16" font-weight="bold"># Общий чат</text>
+  <circle cx="350" cy="25" r="8" fill="#4caf50"/>
+  <text x="365" y="30" fill="white" font-family="Arial, sans-serif" font-size="12">12 онлайн</text>
+  
+  <!-- Область сообщений -->
+  <rect x="0" y="50" width="400" height="200" fill="#ffffff"/>
+  
+  <!-- Сообщения -->
+  <!-- Сообщение 1 -->
+  <rect x="20" y="70" width="200" height="40" rx="20" fill="#e3f2fd"/>
+  <text x="30" y="85" fill="#1976d2" font-family="Arial, sans-serif" font-size="10" font-weight="bold">Анна Иванова</text>
+  <text x="30" y="100" fill="#333" font-family="Arial, sans-serif" font-size="11">Доброе утро! Как дела с проектом?</text>
+  <text x="200" y="105" text-anchor="end" fill="#999" font-family="Arial, sans-serif" font-size="9">09:15</text>
+  
+  <!-- Сообщение 2 -->
+  <rect x="180" y="120" width="200" height="35" rx="20" fill="#c8e6c9"/>
+  <text x="190" y="135" fill="#2e7d32" font-family="Arial, sans-serif" font-size="10" font-weight="bold">Петр Сидоров</text>
+  <text x="190" y="150" fill="#333" font-family="Arial, sans-serif" font-size="11">Все идет по плану! 👍</text>
+  <text x="360" y="150" text-anchor="end" fill="#999" font-family="Arial, sans-serif" font-size="9">09:18</text>
+  
+  <!-- Сообщение 3 -->
+  <rect x="20" y="165" width="150" height="30" rx="15" fill="#fff3e0"/>
+  <text x="30" y="180" fill="#f57c00" font-family="Arial, sans-serif" font-size="10" font-weight="bold">Мария Козлова</text>
+  <text x="30" y="195" fill="#333" font-family="Arial, sans-serif" font-size="11">Встреча в 15:00</text>
+  <text x="160" y="190" text-anchor="end" fill="#999" font-family="Arial, sans-serif" font-size="9">09:25</text>
+  
+  <!-- Сообщение 4 -->
+  <rect x="250" y="205" width="120" height="30" rx="15" fill="#f3e5f5"/>
+  <text x="260" y="220" fill="#7b1fa2" font-family="Arial, sans-serif" font-size="10" font-weight="bold">Алексей Петров</text>
+  <text x="260" y="235" fill="#333" font-family="Arial, sans-serif" font-size="11">Готов к встрече!</text>
+  <text x="360" y="230" text-anchor="end" fill="#999" font-family="Arial, sans-serif" font-size="9">09:30</text>
+  
+  <!-- Поле ввода -->
+  <rect x="0" y="250" width="400" height="50" fill="#f8f9fa" stroke="#e0e0e0" stroke-width="1"/>
+  <rect x="20" y="265" width="300" height="20" rx="10" fill="white" stroke="#ddd" stroke-width="1"/>
+  <text x="30" y="277" fill="#999" font-family="Arial, sans-serif" font-size="10">Введите сообщение...</text>
+  
+  <!-- Кнопки действий -->
+  <circle cx="340" cy="275" r="12" fill="#4caf50"/>
+  <text x="340" y="279" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="10">📎</text>
+  
+  <circle cx="365" cy="275" r="12" fill="#2196f3"/>
+  <text x="365" y="279" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="10">📷</text>
+</svg>
