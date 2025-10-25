@@ -31,7 +31,15 @@ jobs:
       - name: Copy public assets
         run: |
           cd frontend
-          cp -r public/* out/
+          echo "Contents of public directory:"
+          ls -la public/
+          echo "Contents of out directory before copy:"
+          ls -la out/
+          cp -r public/. out/
+          echo "Contents of out directory after copy:"
+          ls -la out/
+          echo "Contents of out/images directory:"
+          ls -la out/images/ || echo "No images directory found"
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
