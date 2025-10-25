@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
+import { getImagePath } from "@/utils/imagePaths";
 
 interface AvatarModalProps {
   isOpen: boolean;
@@ -38,7 +39,7 @@ const AvatarModal = ({ isOpen, onClose }: AvatarModalProps) => {
             {/* Увеличенное изображение */}
             <div className="relative rounded-lg overflow-hidden shadow-2xl">
               <img
-                src="/images/avatar/avatar.png"
+                src={getImagePath("/images/avatar/avatar.png")}
                 alt="Дмитрий Багинский - увеличенное фото"
                 className="w-full h-auto max-h-[80vh] object-contain"
               />

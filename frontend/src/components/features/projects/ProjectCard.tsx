@@ -12,6 +12,7 @@ import {
   Kanban,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { getImagePath } from "@/utils/imagePaths";
 
 interface ProjectCardProps {
   project: Project;
@@ -59,7 +60,7 @@ const ProjectCard = ({ project, onViewDetails }: ProjectCardProps) => {
       <div className="h-48 relative overflow-hidden">
         {isHydrated && project.image ? (
           <img
-            src={project.image}
+            src={getImagePath(project.image)}
             alt={project.title}
             className="w-full h-full object-cover"
           />

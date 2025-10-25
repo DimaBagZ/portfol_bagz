@@ -23,6 +23,7 @@ import { workExperience } from "@/data/experience";
 import { projects } from "@/data/projects";
 import { StatsCard } from "@/components/common";
 import { useSidebar } from "@/contexts/SidebarContext";
+import { getImagePath } from "@/utils/imagePaths";
 import {
   calculateAge,
   calculateWorkExperience,
@@ -141,8 +142,8 @@ const Sidebar = () => {
                   <img
                     src={
                       isCollapsed && !isMobile
-                        ? "/images/avatar/avatar.svg"
-                        : "/images/avatar/avatar.png"
+                        ? getImagePath("/images/avatar/avatar.svg")
+                        : getImagePath("/images/avatar/avatar.png")
                     }
                     alt="Дмитрий Багинский"
                     className="w-full h-full object-cover"

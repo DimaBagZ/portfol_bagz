@@ -6,8 +6,11 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
-  basePath: "/portfol_bagz",
-  assetPrefix: "/portfol_bagz/",
+  // В режиме разработки не используем basePath
+  ...(process.env.NODE_ENV === "production" && {
+    basePath: "/portfol_bagz",
+    assetPrefix: "/portfol_bagz/",
+  }),
 };
 
 export default nextConfig;

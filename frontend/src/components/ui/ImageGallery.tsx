@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, X, Maximize2 } from "lucide-react";
+import { getImagePath } from "@/utils/imagePaths";
 
 interface ImageGalleryProps {
   images: string[];
@@ -69,7 +70,7 @@ const ImageGallery = ({
           {/* Изображение или плейсхолдер */}
           {images[currentIndex] ? (
             <img
-              src={images[currentIndex]}
+              src={getImagePath(images[currentIndex])}
               alt={`${alt} ${currentIndex + 1}`}
               className="w-full h-full object-cover"
               onError={(e) => {
@@ -145,7 +146,7 @@ const ImageGallery = ({
               >
                 {images[index] ? (
                   <img
-                    src={images[index]}
+                    src={getImagePath(images[index])}
                     alt={`${alt} thumbnail ${index + 1}`}
                     className="w-full h-full object-cover"
                     onError={(e) => {
@@ -195,7 +196,7 @@ const ImageGallery = ({
                 <div className="aspect-video bg-gradient-to-br from-primary/20 to-accent/20 rounded-lg overflow-hidden">
                   {images[currentIndex] ? (
                     <img
-                      src={images[currentIndex]}
+                      src={getImagePath(images[currentIndex])}
                       alt={`${alt} ${currentIndex + 1}`}
                       className="w-full h-full object-contain"
                       onError={(e) => {
@@ -272,7 +273,7 @@ const ImageGallery = ({
                     >
                       {images[index] ? (
                         <img
-                          src={images[index]}
+                          src={getImagePath(images[index])}
                           alt={`${alt} thumbnail ${index + 1}`}
                           className="w-full h-full object-cover"
                           onError={(e) => {
