@@ -40,6 +40,10 @@ jobs:
           ls -la out/
           echo "Contents of out/images directory:"
           ls -la out/images/ || echo "No images directory found"
+          echo "Contents of out/images/avatar directory:"
+          ls -la out/images/avatar/ || echo "No avatar directory found"
+          echo "Contents of out/images/projects directory:"
+          ls -la out/images/projects/ || echo "No projects directory found"
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
