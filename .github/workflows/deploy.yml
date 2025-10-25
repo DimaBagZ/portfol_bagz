@@ -28,6 +28,11 @@ jobs:
           cd frontend
           npm run build
 
+      - name: Copy public assets
+        run: |
+          cd frontend
+          cp -r public/* out/
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         if: github.ref == 'refs/heads/main'
