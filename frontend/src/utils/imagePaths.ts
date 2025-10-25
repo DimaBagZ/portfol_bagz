@@ -14,7 +14,7 @@ export function getImagePath(imagePath: string): string {
     return imagePath;
   }
 
-  // В продакшн режиме (GitHub Pages) используем абсолютные пути с basePath
+  // В продакшн режиме (GitHub Pages) добавляем basePath к путям
   // Это гарантирует, что изображения будут работать на всех страницах
-  return imagePath;
+  return `/portfol_bagz${imagePath}`;
 }
