@@ -85,6 +85,20 @@ if (!appleIconFound) {
   console.warn("   Проверьте, что apple-icon.tsx находится в src/app/");
 }
 
+// Копируем icon.png как favicon.ico для совместимости (всегда заменяем)
+if (iconFound) {
+  const faviconPath = join(outDir, "favicon.ico");
+  const iconPath = join(outDir, "icon.png");
+  if (existsSync(iconPath)) {
+    try {
+      copyFileSync(iconPath, faviconPath);
+      console.log("✓ favicon.ico обновлен из icon.png");
+    } catch (error) {
+      console.warn("⚠ Не удалось обновить favicon.ico:", error.message);
+    }
+  }
+}
+
 if (iconFound && appleIconFound) {
   console.log("✓ Все иконки найдены и готовы к использованию!");
 }

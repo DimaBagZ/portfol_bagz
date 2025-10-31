@@ -92,21 +92,10 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <head>
-        <link rel="icon" href={`${basePath}/icon.png`} sizes="32x32" type="image/png" />
-        <link rel="icon" href={`${basePath}/icon`} sizes="32x32" type="image/png" />
-        <link rel="icon" href={`${basePath}/favicon.ico`} sizes="any" />
-        <link
-          rel="apple-touch-icon"
-          href={`${basePath}/apple-icon.png`}
-          sizes="180x180"
-          type="image/png"
-        />
-        <link
-          rel="apple-touch-icon"
-          href={`${basePath}/apple-icon`}
-          sizes="180x180"
-          type="image/png"
-        />
+        <link rel="icon" type="image/png" sizes="32x32" href={`${basePath}/icon.png`} />
+        <link rel="icon" type="image/png" sizes="16x16" href={`${basePath}/icon.png`} />
+        <link rel="apple-touch-icon" type="image/png" sizes="180x180" href={`${basePath}/apple-icon.png`} />
+        <link rel="shortcut icon" type="image/png" href={`${basePath}/icon.png`} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
