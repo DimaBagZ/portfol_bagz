@@ -28,6 +28,25 @@ jobs:
           cd frontend
           npm run build
 
+      - name: Check generated icons
+        run: |
+          cd frontend
+          echo "Checking for icon files:"
+          echo "In public directory:"
+          ls -la public/ | grep -i icon || echo "No icon files in public"
+          echo "In out directory:"
+          ls -la out/ | grep -i icon || echo "No icon files in out"
+          if [ -f "out/icon.png" ] || [ -f "public/icon.png" ]; then
+            echo "✓ icon.png found"
+          else
+            echo "⚠ icon.png NOT found"
+          fi
+          if [ -f "out/apple-icon.png" ] || [ -f "public/apple-icon.png" ]; then
+            echo "✓ apple-icon.png found"
+          else
+            echo "⚠ apple-icon.png NOT found"
+          fi
+
       - name: Copy public assets
         run: |
           cd frontend

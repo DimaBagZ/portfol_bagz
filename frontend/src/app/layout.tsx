@@ -90,10 +90,26 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const structuredData = createStructuredData();
+  const basePath = process.env.NODE_ENV === "production" ? "/portfol_bagz" : "";
 
   return (
     <html lang="ru">
       <head>
+        <link rel="icon" href={`${basePath}/icon.png`} sizes="32x32" type="image/png" />
+        <link rel="icon" href={`${basePath}/icon`} sizes="32x32" type="image/png" />
+        <link rel="icon" href={`${basePath}/favicon.ico`} sizes="any" />
+        <link
+          rel="apple-touch-icon"
+          href={`${basePath}/apple-icon.png`}
+          sizes="180x180"
+          type="image/png"
+        />
+        <link
+          rel="apple-touch-icon"
+          href={`${basePath}/apple-icon`}
+          sizes="180x180"
+          type="image/png"
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

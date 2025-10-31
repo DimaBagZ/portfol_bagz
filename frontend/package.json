@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
+    "postbuild": "node scripts/generate-static-icons.mjs",
     "start": "next start",
     "lint": "eslint",
     "export": "next build && next export"
