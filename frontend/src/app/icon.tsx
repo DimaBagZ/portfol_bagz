@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
-// Route segment config
-export const runtime = "edge";
+// Route segment config - используем nodejs runtime для статического экспорта
+export const runtime = "nodejs";
 export const dynamic = "force-static";
 
 // Image metadata
@@ -17,18 +17,22 @@ export default function Icon() {
     (
       <div
         style={{
-          fontSize: 24,
-          background: "linear-gradient(90deg, #000000 0%, #FFD700 100%)",
+          fontSize: 20,
+          background: "linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%)",
           width: "100%",
           height: "100%",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          color: "white",
+          color: "#fbbf24",
           fontWeight: "bold",
+          borderRadius: "6px",
+          border: "2px solid #fbbf24",
+          boxShadow:
+            "inset 0 0 10px rgba(251, 191, 36, 0.3), 0 0 10px rgba(251, 191, 36, 0.2)",
         }}
       >
-        B
+        DB
       </div>
     ),
     {

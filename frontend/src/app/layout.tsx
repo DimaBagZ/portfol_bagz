@@ -12,6 +12,10 @@ export const metadata: Metadata = createMetadata({
   title: "Bagiskij - Fullstack Developer | Портфолио разработчика",
   description:
     "Портфолио fullstack разработчика с 3+ годами опыта. Специализируюсь на React, Next.js, Node.js, Nest.js, TypeScript. Создаю современные веб-приложения от идеи до развертывания.",
+  icons: {
+    icon: "/icon",
+    apple: "/apple-icon",
+  },
   keywords: [
     "разработчик",
     "fullstack разработчик",
