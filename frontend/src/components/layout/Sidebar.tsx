@@ -36,6 +36,13 @@ const Sidebar = () => {
   const { isCollapsed, isMobile, isHydrated, toggleSidebar } = useSidebar();
   const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
 
+  // Вычисляемые значения для упрощения условий
+  const isCompactMode = isCollapsed && !isMobile;
+  const isExpanded = !isCollapsed || isMobile;
+  const hiddenUntilHydrated = !isHydrated
+    ? { visibility: "hidden" as const, height: 0, overflow: "hidden" as const }
+    : undefined;
+
   // Персональные данные
   const birthDate = "29.01.1994";
   const age = useMemo(() => calculateAge(birthDate), []);
@@ -83,7 +90,7 @@ const Sidebar = () => {
     <>
       {/* Overlay for mobile and desktop when sidebar is open */}
       <AnimatePresence>
-        {!isCollapsed && (
+        {!isCollapsed && isHydrated && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -100,48 +107,42 @@ const Sidebar = () => {
         animate={{
           width: isCollapsed ? (isMobile ? 320 : 80) : 320,
           x: isMobile && isCollapsed ? -320 : 0,
+          opacity: isHydrated ? 1 : 0,
         }}
-        transition={{ duration: 0.3, ease: "easeInOut" }}
+        transition={{ duration: isHydrated ? 0.3 : 0, ease: "easeInOut" }}
         className="fixed left-0 top-16 h-[calc(100vh-4rem)] bg-card border-r border-theme z-50 shadow-lg overflow-hidden"
+        style={{ visibility: isHydrated ? "visible" : "hidden" }}
+        suppressHydrationWarning
       >
-        <div className="flex flex-col h-full">
+        <div className="flex flex-col h-full" suppressHydrationWarning>
           {/* Profile Section */}
           <div
-            className={`${
-              isCollapsed && !isMobile ? "p-2" : "p-6"
-            } border-b border-theme`}
+            className={`${isCompactMode ? "p-2" : "p-6"} border-b border-theme`}
+            suppressHydrationWarning
           >
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center" suppressHydrationWarning>
               {/* Avatar */}
-              <div className={`relative ${isCollapsed && !isMobile ? "mb-2" : "mb-4"}`}>
+              <div
+                className={`relative ${isCompactMode ? "mb-2" : "mb-4"}`}
+                suppressHydrationWarning
+              >
                 <div
                   className={`${
-                    isCollapsed && !isMobile ? "w-12 h-12" : "w-24 h-24"
-                  } rounded-full overflow-hidden border-2 border-primary/20 ${
-                    isCollapsed && !isMobile
-                      ? "cursor-pointer hover:scale-105 hover:shadow-lg transition-all duration-200"
-                      : !isCollapsed || isMobile
-                      ? "cursor-pointer hover:scale-105 hover:shadow-lg transition-all duration-200"
-                      : ""
-                  }`}
+                    isCompactMode ? "w-12 h-12" : "w-24 h-24"
+                  } rounded-full overflow-hidden border-2 border-primary/20 cursor-pointer hover:scale-105 hover:shadow-lg transition-all duration-200`}
                   onClick={
-                    isCollapsed && !isMobile
-                      ? toggleSidebar
-                      : !isCollapsed || isMobile
-                      ? () => setIsAvatarModalOpen(true)
-                      : undefined
+                    isCompactMode ? toggleSidebar : () => setIsAvatarModalOpen(true)
                   }
                   title={
-                    isCollapsed && !isMobile
+                    isCompactMode
                       ? "Нажмите для открытия профиля"
-                      : !isCollapsed || isMobile
-                      ? "Нажмите для увеличения фото"
-                      : undefined
+                      : "Нажмите для увеличения фото"
                   }
+                  suppressHydrationWarning
                 >
                   <img
                     src={
-                      isCollapsed && !isMobile
+                      isCompactMode
                         ? getImagePath("/images/avatar/avatar.svg")
                         : getImagePath("/images/avatar/avatar.png")
                     }
@@ -151,126 +152,149 @@ const Sidebar = () => {
                 </div>
                 <div
                   className={`absolute -bottom-1 -right-1 ${
-                    isCollapsed && !isMobile ? "w-4 h-4" : "w-6 h-6"
+                    isCompactMode ? "w-4 h-4" : "w-6 h-6"
                   } bg-success rounded-full border-2 border-card`}
-                ></div>
+                  suppressHydrationWarning
+                />
               </div>
 
               {/* Name and Title */}
-              <AnimatePresence>
-                {(!isCollapsed || isMobile) && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.2 }}
+              <div suppressHydrationWarning style={hiddenUntilHydrated}>
+                {isHydrated ? (
+                  <AnimatePresence>
+                    {isExpanded && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.2 }}
+                        className="text-center"
+                        suppressHydrationWarning
+                      >
+                        <h2 className="text-xl font-bold text-primary mb-1">
+                          Дмитрий Багинский
+                        </h2>
+                        <p className="text-sm text-muted mb-1">Fullstack Developer</p>
+                        <p className="text-xs text-muted mb-2">
+                          {age} {getAgeWord(age)}
+                        </p>
+                        <div className="flex items-center justify-center text-xs text-muted mb-3">
+                          <MapPin size={12} className="mr-1" />
+                          Москва, Россия
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                ) : (
+                  <div
                     className="text-center"
-                  >
-                    <h2 className="text-xl font-bold text-primary mb-1">
-                      Дмитрий Багинский
-                    </h2>
-                    <p className="text-sm text-muted mb-1">Fullstack Developer</p>
-                    <p className="text-xs text-muted mb-2">
-                      {age} {getAgeWord(age)}
-                    </p>
-                    <div className="flex items-center justify-center text-xs text-muted mb-3">
-                      <MapPin size={12} className="mr-1" />
-                      Москва, Россия
-                    </div>
-                  </motion.div>
+                    style={{ minHeight: "100px" }}
+                    suppressHydrationWarning
+                  />
                 )}
-              </AnimatePresence>
+              </div>
 
               {/* Social Links */}
               <div
-                className={`flex ${
-                  isCollapsed && !isMobile ? "flex-col space-y-2" : "space-x-3"
-                }`}
+                className={`flex ${isCompactMode ? "flex-col space-y-2" : "space-x-3"}`}
+                suppressHydrationWarning
+                style={hiddenUntilHydrated}
               >
-                {socialLinks.map((social) => {
-                  const Icon = social.icon;
-                  return (
-                    <a
-                      key={social.name}
-                      href={social.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`text-muted ${social.color} transition-colors duration-200`}
-                      title={isCollapsed && !isMobile ? social.name : undefined}
-                    >
-                      <Icon size={isCollapsed && !isMobile ? 20 : 18} />
-                    </a>
-                  );
-                })}
+                {isHydrated
+                  ? socialLinks.map((social) => {
+                      const Icon = social.icon;
+                      return (
+                        <a
+                          key={social.name}
+                          href={social.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={`text-muted ${social.color} transition-colors duration-200`}
+                          title={isCompactMode ? social.name : undefined}
+                          suppressHydrationWarning
+                        >
+                          <Icon size={isCompactMode ? 20 : 18} />
+                        </a>
+                      );
+                    })
+                  : socialLinks.map((_, index) => (
+                      <div
+                        key={index}
+                        style={{ width: "18px", height: "18px" }}
+                        suppressHydrationWarning
+                      />
+                    ))}
               </div>
             </div>
           </div>
 
           {/* Skills Section */}
           <div
-            className={`flex-1 overflow-y-auto ${
-              isCollapsed && !isMobile ? "p-2" : "p-6"
-            }`}
+            className={`flex-1 overflow-y-auto ${isCompactMode ? "p-2" : "p-6"}`}
+            suppressHydrationWarning
           >
-            <AnimatePresence>
-              {(!isCollapsed || isMobile) && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.2, delay: 0.1 }}
-                >
-                  {/* Stats Card */}
-                  <div className="mb-6">
-                    <StatsCard projectStats={projectStats} workExperience={workExp} />
-                  </div>
+            <div suppressHydrationWarning>
+              <AnimatePresence>
+                {isExpanded && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.2, delay: 0.1 }}
+                    suppressHydrationWarning
+                  >
+                    {/* Stats Card */}
+                    <div className="mb-6">
+                      <StatsCard projectStats={projectStats} workExperience={workExp} />
+                    </div>
 
-                  <h3 className="text-lg font-semibold text-primary mb-4">Навыки</h3>
+                    <h3 className="text-lg font-semibold text-primary mb-4">Навыки</h3>
 
-                  {Object.entries(groupedSkills).map(([category, categorySkills]) => {
-                    const categoryInfo =
-                      skillCategories[category as keyof typeof skillCategories];
-                    const Icon = categoryInfo.icon;
+                    {Object.entries(groupedSkills).map(([category, categorySkills]) => {
+                      const categoryInfo =
+                        skillCategories[category as keyof typeof skillCategories];
+                      const Icon = categoryInfo.icon;
 
-                    return (
-                      <div key={category} className="mb-6">
-                        <div className="flex items-center mb-3">
-                          <Icon size={16} className={`mr-2 ${categoryInfo.color}`} />
-                          <h4 className="text-sm font-medium text-muted">
-                            {categoryInfo.label}
-                          </h4>
-                        </div>
+                      return (
+                        <div key={category} className="mb-6">
+                          <div className="flex items-center mb-3">
+                            <Icon size={16} className={`mr-2 ${categoryInfo.color}`} />
+                            <h4 className="text-sm font-medium text-muted">
+                              {categoryInfo.label}
+                            </h4>
+                          </div>
 
-                        <div className="space-y-2">
-                          {categorySkills.map((skill) => (
-                            <div
-                              key={skill.name}
-                              className="flex items-center justify-between"
-                            >
-                              <span className="text-xs text-muted">{skill.name}</span>
-                              <div className="flex space-x-1">
-                                {[...Array(5)].map((_, i) => (
-                                  <div
-                                    key={i}
-                                    className={`w-2 h-2 rounded-full ${
-                                      i < skill.level ? "bg-primary" : "bg-muted"
-                                    }`}
-                                  />
-                                ))}
+                          <div className="space-y-2">
+                            {categorySkills.map((skill) => (
+                              <div
+                                key={skill.name}
+                                className="flex items-center justify-between"
+                              >
+                                <span className="text-xs text-muted">{skill.name}</span>
+                                <div className="flex space-x-1">
+                                  {[...Array(5)].map((_, i) => (
+                                    <div
+                                      key={i}
+                                      className={`w-2 h-2 rounded-full ${
+                                        i < skill.level ? "bg-primary" : "bg-muted"
+                                      }`}
+                                    />
+                                  ))}
+                                </div>
                               </div>
-                            </div>
-                          ))}
+                            ))}
+                          </div>
                         </div>
-                      </div>
-                    );
-                  })}
-                </motion.div>
-              )}
-            </AnimatePresence>
+                      );
+                    })}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
 
             {/* Collapsed Skills Progress */}
             <AnimatePresence>
-              {isCollapsed && !isMobile && (
+              {isCompactMode && (
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -316,30 +340,32 @@ const Sidebar = () => {
 
           {/* Footer */}
           <div
-            className={`${
-              isCollapsed && !isMobile ? "p-2" : "p-4"
-            } border-t border-theme`}
+            className={`${isCompactMode ? "p-2" : "p-4"} border-t border-theme`}
+            suppressHydrationWarning
           >
-            <AnimatePresence>
-              {(!isCollapsed || isMobile) && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="text-center"
-                >
-                  <div className="flex items-center justify-center text-xs text-muted mb-2">
-                    <Calendar size={12} className="mr-1" />
-                    Опыт: {workExp}+ {getExperienceWord(workExp)}
-                  </div>
-                  <div className="flex items-center justify-center text-xs text-muted mb-2">
-                    <Code size={12} className="mr-1" />
-                    Проектов: {projectStats.total}
-                  </div>
-                  <p className="text-xs text-muted">© 2024 Дмитрий Багинский</p>
-                </motion.div>
-              )}
-            </AnimatePresence>
+            <div suppressHydrationWarning>
+              <AnimatePresence>
+                {isExpanded && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="text-center"
+                    suppressHydrationWarning
+                  >
+                    <div className="flex items-center justify-center text-xs text-muted mb-2">
+                      <Calendar size={12} className="mr-1" />
+                      Опыт: {workExp}+ {getExperienceWord(workExp)}
+                    </div>
+                    <div className="flex items-center justify-center text-xs text-muted mb-2">
+                      <Code size={12} className="mr-1" />
+                      Проектов: {projectStats.total}
+                    </div>
+                    <p className="text-xs text-muted">© 2025 Дмитрий Багинский</p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
         </div>
       </motion.aside>

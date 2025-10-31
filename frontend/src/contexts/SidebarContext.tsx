@@ -33,30 +33,35 @@ interface SidebarProviderProps {
 }
 
 export const SidebarProvider = ({ children }: SidebarProviderProps) => {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  // Начинаем с collapsed=true чтобы избежать мерцания при загрузке
+  // Состояние будет восстановлено из localStorage после гидратации
+  const [isCollapsed, setIsCollapsed] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [isHydrated, setIsHydrated] = useState(false);
 
   useEffect(() => {
-    // Устанавливаем флаг гидратации
-    setIsHydrated(true);
-
     // Восстанавливаем сохраненное состояние сайдбара
     const savedCollapsed = localStorage.getItem("sidebar-collapsed");
-    if (savedCollapsed !== null) {
-      setIsCollapsed(JSON.parse(savedCollapsed));
-    }
+    const savedCollapsedValue =
+      savedCollapsed !== null ? JSON.parse(savedCollapsed) : false;
 
     const checkMobile = () => {
       const mobile = window.innerWidth < 1024;
       setIsMobile(mobile);
       if (mobile) {
         setIsCollapsed(true);
+      } else {
+        // На десктопе восстанавливаем сохраненное состояние
+        setIsCollapsed(savedCollapsedValue);
       }
     };
 
     checkMobile();
     window.addEventListener("resize", checkMobile);
+
+    // Устанавливаем флаг гидратации после установки начальных значений
+    setIsHydrated(true);
+
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 

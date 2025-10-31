@@ -16,7 +16,14 @@ const MainContent = ({ children }: MainContentProps) => {
       style={{
         // В десктопной версии сайдбар всегда открывается поверх контента
         // В мобильной версии контент занимает всю ширину
-        marginLeft: isMobile ? "0px" : isCollapsed ? "80px" : "80px",
+        // Не применяем отступы до гидратации чтобы избежать мерцания
+        marginLeft: isHydrated
+          ? isMobile
+            ? "0px"
+            : isCollapsed
+            ? "80px"
+            : "80px"
+          : "0px",
       }}
     >
       <main className="min-h-screen">{children}</main>
