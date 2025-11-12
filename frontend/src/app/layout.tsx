@@ -94,7 +94,12 @@ export default function RootLayout({
       <head>
         <link rel="icon" type="image/png" sizes="32x32" href={`${basePath}/icon.png`} />
         <link rel="icon" type="image/png" sizes="16x16" href={`${basePath}/icon.png`} />
-        <link rel="apple-touch-icon" type="image/png" sizes="180x180" href={`${basePath}/apple-icon.png`} />
+        <link
+          rel="apple-touch-icon"
+          type="image/png"
+          sizes="180x180"
+          href={`${basePath}/apple-icon.png`}
+        />
         <link rel="shortcut icon" type="image/png" href={`${basePath}/icon.png`} />
         <script
           type="application/ld+json"
