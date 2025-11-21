@@ -7,7 +7,7 @@ const Footer = () => {
 
   const socialLinks = [
     { name: "GitHub", href: "https://github.com/DimaBagZ", icon: Github },
-    { name: "Telegram", href: "https://t.me/@DimaBagz", icon: Send },
+    { name: "Telegram", href: "https://t.me/DimaBagz", icon: Send },
     { name: "Email", href: "mailto:DimaBagZ@yandex.ru", icon: Mail },
   ];
 
@@ -84,7 +84,7 @@ const Footer = () => {
             <div className="space-y-2 text-muted">
               <p>📧 DimaBagZ@yandex.ru</p>
               <p>📱 +7 (999) 700-84-70</p>
-              <p>✈️ @DimaBagz</p>
+              <p>✈️ <a href="https://t.me/DimaBagz" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">@DimaBagz</a></p>
               <p>📍 Москва, Россия</p>
             </div>
           </div>

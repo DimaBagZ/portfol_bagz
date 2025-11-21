@@ -51,7 +51,7 @@ export const SOCIAL_LINKS = [
   },
   {
     name: "Telegram",
-    href: "https://t.me/@DimaBagz",
+    href: "https://t.me/DimaBagz",
     icon: "Send",
     color: "hover:text-blue-600",
   },

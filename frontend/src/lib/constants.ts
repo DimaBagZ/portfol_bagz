@@ -81,7 +81,7 @@ export const SOCIAL_LINKS = {
   github: 'https://github.com/your-username',
   linkedin: 'https://linkedin.com/in/your-profile',
   twitter: 'https://twitter.com/your-username',
-  telegram: 'https://t.me/your-username',
+  telegram: 'https://t.me/DimaBagz',
   email: 'mailto:your-email@example.com',
   phone: 'tel:+7XXXXXXXXXX',
 };
