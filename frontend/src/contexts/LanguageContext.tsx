@@ -5,6 +5,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -44,17 +45,20 @@ const getLanguageFromCookie = (): Language | null => {
 };
 
 export const LanguageProvider = ({ children }: LanguageProviderProps) => {
-  // Функция для безопасного чтения языка из localStorage или cookies
-  const getInitialLanguage = (): Language => {
-    // Пытаемся прочитать из cookies (приоритет) или localStorage (только на клиенте)
-    if (typeof window !== "undefined") {
-      // Сначала проверяем cookies
-      const cookieLanguage = getLanguageFromCookie();
-      if (cookieLanguage) {
-        return cookieLanguage;
-      }
+  // Функция для синхронного чтения языка на клиенте
+  const getInitialLanguageSync = (): Language => {
+    if (typeof window === "undefined") {
+      return DEFAULT_LANGUAGE;
+    }
 
-      // Затем проверяем localStorage
+    // Проверяем cookies (приоритет)
+    const cookieLanguage = getLanguageFromCookie();
+    if (cookieLanguage) {
+      return cookieLanguage;
+    }
+
+    // Проверяем localStorage
+    try {
       const storedLanguage = localStorage.getItem("language");
       if (
         storedLanguage &&
@@ -62,52 +66,86 @@ export const LanguageProvider = ({ children }: LanguageProviderProps) => {
       ) {
         return storedLanguage as Language;
       }
+    } catch (e) {
+      // localStorage может быть недоступен в некоторых случаях
+      console.warn("Failed to read from localStorage:", e);
     }
 
-    // Возвращаем язык по умолчанию
     return DEFAULT_LANGUAGE;
   };
 
-  const [language, setLanguageState] = useState<Language>(getInitialLanguage);
+  // Инициализируем с языком, прочитанным синхронно на клиенте
+  const [language, setLanguageState] = useState<Language>(getInitialLanguageSync);
   const [isHydrated, setIsHydrated] = useState(false);
   const hasSyncedRef = useRef(false);
 
-  useEffect(() => {
-    setIsHydrated(true);
-
-    // Синхронизируем язык из cookies/localStorage при первой гидратации
+  // Используем useLayoutEffect для финальной синхронизации и установки isHydrated
+  useLayoutEffect(() => {
     if (!hasSyncedRef.current && typeof window !== "undefined") {
       hasSyncedRef.current = true;
 
-      // Проверяем cookies (приоритет)
+      // Функция для чтения языка
+      const readLanguage = (): Language => {
+        // Проверяем cookies (приоритет)
+        const cookieLanguage = getLanguageFromCookie();
+        if (cookieLanguage) {
+          return cookieLanguage;
+        }
+
+        // Проверяем localStorage
+        try {
+          const storedLanguage = localStorage.getItem("language");
+          if (
+            storedLanguage &&
+            (storedLanguage === "ru" ||
+              storedLanguage === "uk" ||
+              storedLanguage === "en")
+          ) {
+            return storedLanguage as Language;
+          }
+        } catch (e) {
+          console.warn("Failed to read from localStorage:", e);
+        }
+
+        return DEFAULT_LANGUAGE;
+      };
+
+      const storedLang = readLanguage();
+      // Обновляем язык только если он отличается от текущего
+      setLanguageState((currentLang) => {
+        if (storedLang !== currentLang) {
+          return storedLang;
+        }
+        return currentLang;
+      });
+      setIsHydrated(true);
+    }
+  }, []);
+
+  // Fallback для случаев, когда useLayoutEffect не сработал
+  useEffect(() => {
+    if (!isHydrated && typeof window !== "undefined" && !hasSyncedRef.current) {
       const cookieLanguage = getLanguageFromCookie();
       if (cookieLanguage) {
-        setLanguageState((currentLang) => {
-          if (cookieLanguage !== currentLang) {
-            return cookieLanguage;
+        setLanguageState(cookieLanguage);
+      } else {
+        try {
+          const storedLanguage = localStorage.getItem("language");
+          if (
+            storedLanguage &&
+            (storedLanguage === "ru" ||
+              storedLanguage === "uk" ||
+              storedLanguage === "en")
+          ) {
+            setLanguageState(storedLanguage as Language);
           }
-          return currentLang;
-        });
-        return;
+        } catch (e) {
+          console.warn("Failed to read from localStorage:", e);
+        }
       }
-
-      // Проверяем localStorage
-      const storedLanguage = localStorage.getItem("language");
-      if (
-        storedLanguage &&
-        (storedLanguage === "ru" || storedLanguage === "uk" || storedLanguage === "en")
-      ) {
-        const storedLang = storedLanguage as Language;
-        setLanguageState((currentLang) => {
-          if (storedLang !== currentLang) {
-            return storedLang;
-          }
-          return currentLang;
-        });
-      }
+      setIsHydrated(true);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isHydrated]);
 
   useEffect(() => {
     if (typeof document !== "undefined") {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, memo } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { Menu, X, User, ChevronLeft, ChevronRight } from "lucide-react";
 import { useSidebar } from "@/contexts/SidebarContext";
@@ -8,11 +8,14 @@ import { ThemeToggle } from "@/components/features/theme";
 import { LanguageSwitcher } from "@/components/features/language";
 import { NAVIGATION } from "@/config/constants";
 import { useTranslations } from "@/hooks/useTranslations";
+import { useLanguage } from "@/hooks/useLanguage";
+import { TranslatedText } from "@/components/ui";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { isCollapsed, toggleSidebar } = useSidebar();
   const translations = useTranslations();
+  const { isHydrated } = useLanguage();
 
   const navigation = NAVIGATION;
 
@@ -34,16 +37,18 @@ const Header = () => {
                 className="text-muted hover:text-primary transition-colors duration-200"
                 suppressHydrationWarning
               >
-                {translations.header.nav[item.key]}
+                <TranslatedText>{translations.header.nav[item.key]}</TranslatedText>
               </Link>
             ))}
             <button
               className="p-2 rounded-md text-muted hover:text-primary hover:bg-muted transition-colors duration-200"
               onClick={toggleSidebar}
               title={
-                isCollapsed
-                  ? translations.header.buttons.expandSidebar
-                  : translations.header.buttons.collapseSidebar
+                isHydrated
+                  ? isCollapsed
+                    ? translations.header.buttons.expandSidebar
+                    : translations.header.buttons.collapseSidebar
+                  : ""
               }
               suppressHydrationWarning
             >
@@ -59,7 +64,7 @@ const Header = () => {
             <button
               className="p-2 rounded-md text-muted hover:text-primary hover:bg-muted"
               onClick={toggleSidebar}
-              title={translations.header.buttons.openProfile}
+              title={isHydrated ? translations.header.buttons.openProfile : ""}
               suppressHydrationWarning
             >
               <User size={24} />
@@ -88,7 +93,7 @@ const Header = () => {
                   onClick={() => setIsMenuOpen(false)}
                   suppressHydrationWarning
                 >
-                  {translations.header.nav[item.key]}
+                  <TranslatedText>{translations.header.nav[item.key]}</TranslatedText>
                 </Link>
               ))}
             </div>
@@ -99,4 +104,5 @@ const Header = () => {
   );
 };
 
-export default memo(Header);
+// Убираем memo, чтобы компонент перерендеривался при изменении языка через контекст
+export default Header;

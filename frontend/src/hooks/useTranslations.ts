@@ -1,11 +1,12 @@
 "use client";
 
+import { useMemo } from "react";
 import { translations, type Language, type TranslationMap } from "@/locales/translations";
 import { useLanguage } from "./useLanguage";
 
 export const useTranslations = (): TranslationMap => {
   const { language } = useLanguage();
-  return translations[language];
+  return useMemo(() => translations[language], [language]);
 };
 
 export const useTranslationValue = (path: string): string => {

@@ -1,11 +1,11 @@
 "use client";
 
-import { ReactNode } from "react";
+import { ReactNode, ElementType } from "react";
 import { useLanguage } from "@/hooks/useLanguage";
 
 interface TranslatedTextProps {
   children: ReactNode;
-  as?: keyof JSX.IntrinsicElements;
+  as?: ElementType;
   className?: string;
   [key: string]: unknown;
 }
@@ -38,4 +38,3 @@ const TranslatedText = ({
 };
 
 export default TranslatedText;
-

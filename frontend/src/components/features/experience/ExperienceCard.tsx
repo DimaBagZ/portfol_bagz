@@ -5,6 +5,7 @@ import { Calendar, MapPin, ExternalLink, Eye } from "lucide-react";
 import { WorkExperience } from "@/types";
 import { useTranslations } from "@/hooks/useTranslations";
 import { useExperienceContent } from "@/hooks/useExperienceContent";
+import { useLanguage } from "@/hooks/useLanguage";
 import TranslatedText from "@/components/ui/TranslatedText";
 
 interface ExperienceCardProps {
@@ -14,6 +15,7 @@ interface ExperienceCardProps {
 
 const ExperienceCard = ({ experience, onViewDetails }: ExperienceCardProps) => {
   const translations = useTranslations();
+  const { isHydrated } = useLanguage();
   const cardTexts = translations.experience.card;
   const localizedExperience = useExperienceContent(experience);
   const { position, company, description, period, location } = localizedExperience;
@@ -42,7 +44,8 @@ const ExperienceCard = ({ experience, onViewDetails }: ExperienceCardProps) => {
               target="_blank"
               rel="noopener noreferrer"
               className="p-2 rounded-lg text-muted hover:text-primary hover:bg-muted transition-colors duration-200"
-              title={cardTexts.companyTooltip}
+              title={isHydrated ? cardTexts.companyTooltip : ""}
+              suppressHydrationWarning
             >
               <ExternalLink size={20} />
             </a>

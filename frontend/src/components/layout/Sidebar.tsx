@@ -23,16 +23,18 @@ import { useSidebar } from "@/contexts/SidebarContext";
 import { getImagePath } from "@/utils/imagePaths";
 import { calculateAge, calculateWorkExperience, calculateProjectStats } from "@/utils/calculations";
 import { useTranslations } from "@/hooks/useTranslations";
+import { useLanguage } from "@/hooks/useLanguage";
 
 const Sidebar = () => {
-  const { isCollapsed, isMobile, isHydrated, toggleSidebar } = useSidebar();
+  const { isCollapsed, isMobile, isHydrated: sidebarHydrated, toggleSidebar } = useSidebar();
+  const { isHydrated: languageHydrated } = useLanguage();
   const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
   const translations = useTranslations();
 
   // Вычисляемые значения для упрощения условий
   const isCompactMode = isCollapsed && !isMobile;
   const isExpanded = !isCollapsed || isMobile;
-  const hiddenUntilHydrated = !isHydrated
+  const hiddenUntilHydrated = !sidebarHydrated
     ? { visibility: "hidden" as const, height: 0, overflow: "hidden" as const }
     : undefined;
 
@@ -106,7 +108,7 @@ const Sidebar = () => {
     <>
       {/* Overlay for mobile and desktop when sidebar is open */}
       <AnimatePresence>
-        {!isCollapsed && isHydrated && (
+        {!isCollapsed && sidebarHydrated && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -123,11 +125,11 @@ const Sidebar = () => {
         animate={{
           width: isCollapsed ? (isMobile ? 320 : 80) : 320,
           x: isMobile && isCollapsed ? -320 : 0,
-          opacity: isHydrated ? 1 : 0,
+          opacity: sidebarHydrated ? 1 : 0,
         }}
-        transition={{ duration: isHydrated ? 0.3 : 0, ease: "easeInOut" }}
+        transition={{ duration: sidebarHydrated ? 0.3 : 0, ease: "easeInOut" }}
         className="fixed left-0 top-16 h-[calc(100vh-4rem)] bg-card border-r border-theme z-50 shadow-lg overflow-hidden"
-        style={{ visibility: isHydrated ? "visible" : "hidden" }}
+        style={{ visibility: sidebarHydrated ? "visible" : "hidden" }}
         suppressHydrationWarning
       >
         <div className="flex flex-col h-full" suppressHydrationWarning>
@@ -150,9 +152,11 @@ const Sidebar = () => {
                     isCompactMode ? toggleSidebar : () => setIsAvatarModalOpen(true)
                   }
                   title={
-                    isCompactMode
-                      ? translations.sidebar.profile.compactAvatarTooltip
-                      : translations.sidebar.profile.expandedAvatarTooltip
+                    languageHydrated
+                      ? isCompactMode
+                        ? translations.sidebar.profile.compactAvatarTooltip
+                        : translations.sidebar.profile.expandedAvatarTooltip
+                      : ""
                   }
                   suppressHydrationWarning
                 >
@@ -162,7 +166,7 @@ const Sidebar = () => {
                         ? getImagePath("/images/avatar/avatar.svg")
                         : getImagePath("/images/avatar/avatar.png")
                     }
-                    alt={translations.sidebar.profile.fullName}
+                    alt={languageHydrated ? translations.sidebar.profile.fullName : ""}
                     className="w-full h-full object-cover"
                     suppressHydrationWarning
                   />
@@ -177,7 +181,7 @@ const Sidebar = () => {
 
               {/* Name and Title */}
               <div suppressHydrationWarning style={hiddenUntilHydrated}>
-                {isHydrated ? (
+                {sidebarHydrated ? (
                   <AnimatePresence>
                     {isExpanded && (
                       <motion.div
@@ -222,7 +226,7 @@ const Sidebar = () => {
                 suppressHydrationWarning
                 style={hiddenUntilHydrated}
               >
-                {isHydrated
+                {sidebarHydrated
                   ? socialLinks.map((social) => {
                       const Icon = social.icon;
                       return (
@@ -338,10 +342,14 @@ const Sidebar = () => {
                       <div
                         key={category}
                         className="flex flex-col items-center"
-                        title={translations.sidebar.skills.tooltip
-                          .replace("{category}", categoryInfo.label)
-                          .replace("{count}", categorySkills.length.toString())
-                          .replace("{avg}", avgLevel.toFixed(1))}
+                        title={
+                          languageHydrated
+                            ? translations.sidebar.skills.tooltip
+                                .replace("{category}", categoryInfo.label)
+                                .replace("{count}", categorySkills.length.toString())
+                                .replace("{avg}", avgLevel.toFixed(1))
+                            : ""
+                        }
                         suppressHydrationWarning
                       >
                         <Icon size={18} className={`${categoryInfo.color} mb-1`} />
