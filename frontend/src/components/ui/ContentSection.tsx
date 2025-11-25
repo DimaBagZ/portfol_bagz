@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { ReactNode } from "react";
 import Section from "./Section";
+import TranslatedText from "./TranslatedText";
 
 interface ContentSectionProps {
   title?: string;
@@ -31,14 +32,14 @@ const ContentSection = ({
           className="text-center mb-16"
         >
           {title && (
-            <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4" suppressHydrationWarning>
+            <TranslatedText as="h2" className="text-3xl md:text-4xl font-bold text-primary mb-4">
               {title}
-            </h2>
+            </TranslatedText>
           )}
           {subtitle && (
-            <p className="text-xl text-muted max-w-3xl mx-auto" suppressHydrationWarning>
+            <TranslatedText as="p" className="text-xl text-muted max-w-3xl mx-auto">
               {subtitle}
-            </p>
+            </TranslatedText>
           )}
         </motion.div>
       )}

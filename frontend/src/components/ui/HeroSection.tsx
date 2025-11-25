@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { ReactNode } from "react";
 import Section from "./Section";
 import { useLanguage } from "@/hooks/useLanguage";
+import TranslatedText from "./TranslatedText";
 
 interface HeroSectionProps {
   title: string | ReactNode;
@@ -25,13 +26,19 @@ const HeroSection = ({ title, subtitle, children, className = "" }: HeroSectionP
       >
         {isHydrated ? (
           <>
-            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6" suppressHydrationWarning>
-              {title}
-            </h1>
+            {typeof title === "string" ? (
+              <TranslatedText as="h1" className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+                {title}
+              </TranslatedText>
+            ) : (
+              <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6" suppressHydrationWarning>
+                {title}
+              </h1>
+            )}
             {subtitle && (
-              <p className="text-xl text-muted max-w-3xl mx-auto mb-8" suppressHydrationWarning>
+              <TranslatedText as="p" className="text-xl text-muted max-w-3xl mx-auto mb-8">
                 {subtitle}
-              </p>
+              </TranslatedText>
             )}
             {children}
           </>

@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { useMemo } from "react";
 import AnimatedCounter from "./AnimatedCounter";
+import TranslatedText from "./TranslatedText";
 import { projects } from "@/data/projects";
 import { workExperience } from "@/data/experience";
 import { calculateWorkExperience, calculateProjectStats } from "@/utils/calculations";
@@ -59,9 +60,7 @@ const StatsSection = () => {
           <div className={`text-3xl font-bold ${stat.color} mb-2`}>
             <AnimatedCounter end={stat.value} suffix={stat.suffix} duration={2} />
           </div>
-          <div className="text-sm text-muted" suppressHydrationWarning>
-            {stat.label}
-          </div>
+          <TranslatedText className="text-sm text-muted">{stat.label}</TranslatedText>
         </motion.div>
       ))}
     </motion.div>

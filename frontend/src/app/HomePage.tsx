@@ -4,7 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Database, Globe, Monitor } from "lucide-react";
 import { ProjectCard, ProjectModal } from "@/components/features/projects";
-import { HeroSection, ContentSection, Card, Button } from "@/components/ui";
+import { HeroSection, ContentSection, Card, Button, TranslatedText } from "@/components/ui";
 import StatsSection from "@/components/ui/StatsSection";
 import AnimatedGreeting from "@/components/ui/AnimatedGreeting";
 import { useProjects } from "@/hooks/useProjects";
@@ -142,12 +142,12 @@ export default function HomePage() {
             transition={{ duration: 0.6, delay: 2.0 }}
             className="text-center mb-12"
           >
-            <h2 className="text-3xl font-bold text-primary mb-4" suppressHydrationWarning>
+            <TranslatedText as="h2" className="text-3xl font-bold text-primary mb-4">
               {home.stats.title}
-            </h2>
-            <p className="text-lg text-muted max-w-2xl mx-auto" suppressHydrationWarning>
+            </TranslatedText>
+            <TranslatedText as="p" className="text-lg text-muted max-w-2xl mx-auto">
               {home.stats.description}
-            </p>
+            </TranslatedText>
           </motion.div>
           <StatsSection />
         </div>
@@ -160,12 +160,12 @@ export default function HomePage() {
               <div className="bg-blue-100 dark:bg-blue-900/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Monitor className="text-blue-600" size={32} />
               </div>
-              <h3 className="text-xl font-semibold text-primary mb-2" suppressHydrationWarning>
+              <TranslatedText as="h3" className="text-xl font-semibold text-primary mb-2">
                 {home.services.cards.frontend.title}
-              </h3>
-              <p className="text-muted" suppressHydrationWarning>
+              </TranslatedText>
+              <TranslatedText as="p" className="text-muted">
                 {home.services.cards.frontend.description}
-              </p>
+              </TranslatedText>
             </div>
           </Card>
 
@@ -174,12 +174,12 @@ export default function HomePage() {
               <div className="bg-success/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Database className="text-success" size={32} />
               </div>
-              <h3 className="text-xl font-semibold text-primary mb-2" suppressHydrationWarning>
+              <TranslatedText as="h3" className="text-xl font-semibold text-primary mb-2">
                 {home.services.cards.backend.title}
-              </h3>
-              <p className="text-muted" suppressHydrationWarning>
+              </TranslatedText>
+              <TranslatedText as="p" className="text-muted">
                 {home.services.cards.backend.description}
-              </p>
+              </TranslatedText>
             </div>
           </Card>
 
@@ -188,12 +188,12 @@ export default function HomePage() {
               <div className="bg-accent/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Globe className="text-accent" size={32} />
               </div>
-              <h3 className="text-xl font-semibold text-primary mb-2" suppressHydrationWarning>
+              <TranslatedText as="h3" className="text-xl font-semibold text-primary mb-2">
                 {home.services.cards.devops.title}
-              </h3>
-              <p className="text-muted" suppressHydrationWarning>
+              </TranslatedText>
+              <TranslatedText as="p" className="text-muted">
                 {home.services.cards.devops.description}
-              </p>
+              </TranslatedText>
             </div>
           </Card>
         </div>
