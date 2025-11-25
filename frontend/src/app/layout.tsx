@@ -6,7 +6,6 @@ import { SidebarProvider } from "@/contexts/SidebarContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { createMetadata, createStructuredData } from "@/lib/seo";
-import type { Language } from "@/locales/translations";
 
 const inter = Inter({ subsets: ["latin", "cyrillic"] });
 

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, Phone, MapPin, Send, Github, Linkedin, Twitter } from "lucide-react";
+import { Mail, Phone, MapPin, Send, Github, Twitter } from "lucide-react";
 import { HeroSection, ContentSection, Card, Button } from "@/components/ui";
 import { CONTACT_INFO, SOCIAL_LINKS } from "@/config/constants";
 import { validateContactForm, type ContactFormData } from "@/utils/validation";
@@ -19,7 +19,6 @@ export default function ContactPage() {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errors, setErrors] = useState<Record<string, string>>({});
 
   const translations = useTranslations();
   const contactTexts = translations.contact;
@@ -41,11 +40,8 @@ export default function ContactPage() {
     // Валидация формы
     const validationErrors = validateContactForm(formData);
     if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors as Record<string, string>);
       return;
     }
-
-    setErrors({});
     setIsSubmitting(true);
 
     try {

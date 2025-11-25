@@ -11,11 +11,11 @@ export const useTranslations = (): TranslationMap => {
 export const useTranslationValue = (path: string): string => {
   const { language } = useLanguage();
   const keys = path.split(".");
-  let current: any = translations[language];
+  let current: unknown = translations[language];
 
   for (const key of keys) {
     if (current && typeof current === "object" && key in current) {
-      current = current[key];
+      current = (current as Record<string, unknown>)[key];
     } else {
       return path;
     }

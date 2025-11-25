@@ -5,7 +5,7 @@ import { useSidebar } from "@/contexts/SidebarContext";
 import Header from "./Header";
 
 const LayoutHeader = () => {
-  const { isCollapsed, isMobile, isHydrated } = useSidebar();
+  const { isCollapsed, isMobile } = useSidebar();
 
   return (
     <div

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Code, Database, Globe, Monitor } from "lucide-react";
+import { ArrowRight, Database, Globe, Monitor } from "lucide-react";
 import { ProjectCard, ProjectModal } from "@/components/features/projects";
 import { HeroSection, ContentSection, Card, Button } from "@/components/ui";
 import StatsSection from "@/components/ui/StatsSection";

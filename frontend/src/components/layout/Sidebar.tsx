@@ -3,10 +3,7 @@
 import { memo, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  ChevronLeft,
-  ChevronRight,
   Github,
-  Linkedin,
   Mail,
   MapPin,
   Calendar,

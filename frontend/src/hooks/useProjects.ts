@@ -11,10 +11,10 @@ export const useProjects = () => {
   const getTranslation = useCallback(
     (path: string) => {
       const keys = path.replace(/^\./, "").split(".");
-      let current: any = translations;
+      let current: unknown = translations;
       for (const key of keys) {
         if (current && typeof current === "object" && key in current) {
-          current = current[key];
+          current = (current as Record<string, unknown>)[key];
         } else {
           return path;
         }

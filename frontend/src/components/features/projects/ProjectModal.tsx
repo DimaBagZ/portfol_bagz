@@ -11,7 +11,6 @@ import {
   Code,
   BookOpen,
   Server,
-  AlertCircle,
   Kanban,
 } from "lucide-react";
 import { Modal, Button, ImageGallery } from "@/components/ui";
@@ -28,16 +27,17 @@ interface ProjectModalProps {
 }
 
 const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
-  if (!project) return null;
-
   const translations = useTranslations();
   const modalTexts = translations.projects.modal;
   const statusTexts = translations.projects.card.status;
+  const localizedProject = useProjectContent(project);
+
+  if (!project) return null;
+
   const categoryLabel =
     translations.projects.filters.categories[
       project.category as keyof typeof translations.projects.filters.categories
     ] || project.category;
-  const localizedProject = useProjectContent(project);
 
   const formatDuration = (duration: string | undefined) => {
     const durationTexts = modalTexts.stats.duration;

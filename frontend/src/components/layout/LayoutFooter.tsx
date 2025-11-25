@@ -5,7 +5,7 @@ import { useSidebar } from "@/contexts/SidebarContext";
 import Footer from "./Footer";
 
 const LayoutFooter = () => {
-  const { isCollapsed, isMobile, isHydrated } = useSidebar();
+  const { isCollapsed, isMobile } = useSidebar();
 
   return (
     <div

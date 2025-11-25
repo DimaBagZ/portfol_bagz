@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui";
-import { sendToTelegram, checkTelegramConnection } from "@/utils/telegram";
+// Telegram utilities are used via API routes
 
 export default function TestTelegramPage() {
   const [isLoading, setIsLoading] = useState(false);

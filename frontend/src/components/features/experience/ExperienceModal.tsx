@@ -31,11 +31,13 @@ const ExperienceModal = ({
   onClose,
   onViewProject,
 }: ExperienceModalProps) => {
-  if (!experience) return null;
   const translations = useTranslations();
   const modalTexts = translations.experience.modal;
   const projectStatusText = translations.projects.card.status;
   const localizedExperience = useExperienceContent(experience);
+
+  if (!experience) return null;
+
   const {
     position,
     company,

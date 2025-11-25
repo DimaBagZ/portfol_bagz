@@ -5,10 +5,21 @@ import { WorkExperience } from "@/types";
 import { useLanguage } from "./useLanguage";
 import { experienceContent } from "@/locales/experienceContent";
 
-export const useExperienceContent = (experience: WorkExperience) => {
+export const useExperienceContent = (experience: WorkExperience | null) => {
   const { language } = useLanguage();
 
   return useMemo(() => {
+    if (!experience) {
+      return {
+        company: "",
+        position: "",
+        period: "",
+        location: "",
+        description: "",
+        achievements: [],
+        responsibilities: [],
+      };
+    }
     const localized = experienceContent[language]?.[experience.id];
 
     return {

@@ -11,7 +11,7 @@ import { useTranslations } from "@/hooks/useTranslations";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { isMobile, isHydrated, isCollapsed, toggleSidebar } = useSidebar();
+  const { isCollapsed, toggleSidebar } = useSidebar();
   const translations = useTranslations();
 
   const navigation = NAVIGATION;

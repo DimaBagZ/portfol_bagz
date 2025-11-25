@@ -5,10 +5,19 @@ import { Project } from "@/types";
 import { useLanguage } from "./useLanguage";
 import { projectContent } from "@/locales/projectContent";
 
-export const useProjectContent = (project: Project) => {
+export const useProjectContent = (project: Project | null) => {
   const { language } = useLanguage();
 
   return useMemo(() => {
+    if (!project) {
+      return {
+        title: "",
+        description: "",
+        longDescription: undefined,
+        features: [],
+        technologies: [],
+      };
+    }
     const localized = projectContent[language]?.[project.id] ?? {};
     return {
       title: localized.title ?? project.title,
@@ -19,4 +28,3 @@ export const useProjectContent = (project: Project) => {
     };
   }, [language, project]);
 };
-
