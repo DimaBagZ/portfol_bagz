@@ -162,8 +162,9 @@ const Sidebar = () => {
                         ? getImagePath("/images/avatar/avatar.svg")
                         : getImagePath("/images/avatar/avatar.png")
                     }
-                    alt="Дмитрий Багинский"
+                    alt={translations.sidebar.profile.fullName}
                     className="w-full h-full object-cover"
+                    suppressHydrationWarning
                   />
                 </div>
                 <div
@@ -188,7 +189,7 @@ const Sidebar = () => {
                         suppressHydrationWarning
                       >
                         <h2 className="text-xl font-bold text-primary mb-1">
-                          Дмитрий
+                          {translations.sidebar.profile.firstName}
                         </h2>
                         <p className="text-sm text-muted mb-1">
                           {translations.sidebar.profile.role}
@@ -341,6 +342,7 @@ const Sidebar = () => {
                           .replace("{category}", categoryInfo.label)
                           .replace("{count}", categorySkills.length.toString())
                           .replace("{avg}", avgLevel.toFixed(1))}
+                        suppressHydrationWarning
                       >
                         <Icon size={18} className={`${categoryInfo.color} mb-1`} />
                         <div className="w-1 h-6 bg-muted rounded-full">

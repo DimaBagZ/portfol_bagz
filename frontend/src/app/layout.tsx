@@ -91,7 +91,7 @@ export default function RootLayout({
   const basePath = process.env.NODE_ENV === "production" ? "/portfol_bagz" : "";
 
   return (
-    <html lang="ru">
+    <html lang="ru" suppressHydrationWarning>
       <head>
         <link rel="icon" type="image/png" sizes="32x32" href={`${basePath}/icon.png`} />
         <link rel="icon" type="image/png" sizes="16x16" href={`${basePath}/icon.png`} />

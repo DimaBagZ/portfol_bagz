@@ -31,9 +31,15 @@ const ContentSection = ({
           className="text-center mb-16"
         >
           {title && (
-            <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">{title}</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4" suppressHydrationWarning>
+              {title}
+            </h2>
           )}
-          {subtitle && <p className="text-xl text-muted max-w-3xl mx-auto">{subtitle}</p>}
+          {subtitle && (
+            <p className="text-xl text-muted max-w-3xl mx-auto" suppressHydrationWarning>
+              {subtitle}
+            </p>
+          )}
         </motion.div>
       )}
       {children}

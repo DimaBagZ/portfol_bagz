@@ -15,6 +15,8 @@ import { motion } from "framer-motion";
 import { getImagePath } from "@/utils/imagePaths";
 import { useTranslations } from "@/hooks/useTranslations";
 import { useProjectContent } from "@/hooks/useProjectContent";
+import { useLanguage } from "@/hooks/useLanguage";
+import TranslatedText from "@/components/ui/TranslatedText";
 
 interface ProjectCardProps {
   project: Project;
@@ -22,20 +24,16 @@ interface ProjectCardProps {
 }
 
 const ProjectCard = ({ project, onViewDetails }: ProjectCardProps) => {
-  const [isHydrated, setIsHydrated] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
   const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const translations = useTranslations();
+  const { isHydrated } = useLanguage();
   const cardText = translations.projects.card;
   const localizedContent = useProjectContent(project);
   const categoryLabel =
     translations.projects.filters.categories[
       project.category as keyof typeof translations.projects.filters.categories
     ] || project.category;
-
-  useEffect(() => {
-    setIsHydrated(true);
-  }, []);
 
   useEffect(() => {
     return () => {
@@ -80,7 +78,10 @@ const ProjectCard = ({ project, onViewDetails }: ProjectCardProps) => {
 
         {project.featured && (
           <div className="absolute top-4 left-4">
-            <span className="bg-primary text-primary-foreground px-2 py-1 rounded-full text-xs font-semibold">
+            <span
+              className="bg-primary text-primary-foreground px-2 py-1 rounded-full text-xs font-semibold"
+              suppressHydrationWarning
+            >
               {cardText.featured}
             </span>
           </div>
@@ -89,7 +90,9 @@ const ProjectCard = ({ project, onViewDetails }: ProjectCardProps) => {
 
       <div className="p-6 flex flex-col flex-grow">
         <div className="flex items-center justify-between mb-2">
-          <h3 className="text-xl font-semibold text-primary">{localizedContent.title}</h3>
+          <h3 className="text-xl font-semibold text-primary" suppressHydrationWarning>
+            {localizedContent.title}
+          </h3>
           <span
             className={`px-2 py-1 rounded-full text-xs font-medium ${
               project.category === "frontend"
@@ -100,12 +103,15 @@ const ProjectCard = ({ project, onViewDetails }: ProjectCardProps) => {
                 ? "bg-accent/20 text-accent"
                 : "bg-warning/20 text-warning"
             }`}
+            suppressHydrationWarning
           >
             {categoryLabel}
           </span>
         </div>
 
-        <p className="text-muted mb-4">{localizedContent.description}</p>
+        <p className="text-muted mb-4" suppressHydrationWarning>
+          {localizedContent.description}
+        </p>
 
         <div className="flex flex-col space-y-3 mt-auto">
           {/* Технологии */}
@@ -127,7 +133,7 @@ const ProjectCard = ({ project, onViewDetails }: ProjectCardProps) => {
               className="w-full flex items-center justify-center space-x-2 bg-primary text-primary-foreground px-4 py-2 rounded-lg hover:bg-accent transition-colors duration-200"
             >
               <Eye size={16} />
-              <span>{cardText.viewDetails}</span>
+              <TranslatedText>{cardText.viewDetails}</TranslatedText>
             </button>
           )}
 
@@ -142,7 +148,9 @@ const ProjectCard = ({ project, onViewDetails }: ProjectCardProps) => {
                   className="flex items-center space-x-2 text-muted hover:text-primary transition-colors duration-200"
                 >
                   <Github size={16} />
-                  <span className="text-sm">{cardText.code}</span>
+                  <span className="text-sm" suppressHydrationWarning>
+                    {cardText.code}
+                  </span>
                 </a>
               )}
               {project.liveUrl && (
@@ -156,7 +164,7 @@ const ProjectCard = ({ project, onViewDetails }: ProjectCardProps) => {
                     onMouseLeave={handleMouseLeave}
                   >
                     <ExternalLink size={16} />
-                    <span className="text-sm">
+                    <span className="text-sm" suppressHydrationWarning>
                       {project.id === "18" ? cardText.site : cardText.demo}
                     </span>
                   </a>
@@ -174,7 +182,7 @@ const ProjectCard = ({ project, onViewDetails }: ProjectCardProps) => {
                           className="text-warning mt-0.5 flex-shrink-0"
                         />
                         <div className="space-y-2">
-                          <p className="text-sm text-muted">
+                          <p className="text-sm text-muted" suppressHydrationWarning>
                             {cardText.serverTooltip}
                           </p>
                           <a
@@ -184,7 +192,7 @@ const ProjectCard = ({ project, onViewDetails }: ProjectCardProps) => {
                             className="inline-flex items-center space-x-2 bg-primary text-primary-foreground px-3 py-1.5 rounded text-xs hover:bg-accent transition-colors duration-200"
                           >
                             <Server size={14} />
-                            <span>{cardText.launchServer}</span>
+                            <span suppressHydrationWarning>{cardText.launchServer}</span>
                           </a>
                         </div>
                       </div>
@@ -200,7 +208,9 @@ const ProjectCard = ({ project, onViewDetails }: ProjectCardProps) => {
                   className="flex items-center space-x-2 text-accent hover:text-primary transition-colors duration-200"
                 >
                   <BookOpen size={16} />
-                  <span className="text-sm">{cardText.storybook}</span>
+                  <span className="text-sm" suppressHydrationWarning>
+                    {cardText.storybook}
+                  </span>
                 </a>
               )}
               {project.serverUrl && (
@@ -211,7 +221,9 @@ const ProjectCard = ({ project, onViewDetails }: ProjectCardProps) => {
                   className="flex items-center space-x-2 text-success hover:text-primary transition-colors duration-200"
                 >
                   <Server size={16} />
-                  <span className="text-sm">{cardText.server}</span>
+                  <span className="text-sm" suppressHydrationWarning>
+                    {cardText.server}
+                  </span>
                 </a>
               )}
               {project.kanbanUrl && (
@@ -222,7 +234,9 @@ const ProjectCard = ({ project, onViewDetails }: ProjectCardProps) => {
                   className="flex items-center space-x-2 text-info hover:text-primary transition-colors duration-200"
                 >
                   <Kanban size={16} />
-                  <span className="text-sm">{cardText.kanban}</span>
+                  <span className="text-sm" suppressHydrationWarning>
+                    {cardText.kanban}
+                  </span>
                 </a>
               )}
             </div>
@@ -237,6 +251,7 @@ const ProjectCard = ({ project, onViewDetails }: ProjectCardProps) => {
                     ? "bg-warning/20 text-warning border border-warning/30"
                     : "bg-muted/20 text-muted-foreground border border-muted/30"
                 }`}
+                suppressHydrationWarning
               >
                 {project.status === "completed"
                   ? cardText.status.completed

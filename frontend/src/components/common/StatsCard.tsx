@@ -46,7 +46,9 @@ const StatsCard = ({ projectStats }: StatsCardProps) => {
 
   return (
     <div className="p-4 bg-muted rounded-lg">
-      <h4 className="text-sm font-semibold text-primary mb-3">{labels.title}</h4>
+      <h4 className="text-sm font-semibold text-primary mb-3" suppressHydrationWarning>
+        {labels.title}
+      </h4>
       <div className="grid grid-cols-2 gap-3">
         {stats.map((stat, index) => {
           const Icon = stat.icon;
@@ -60,7 +62,9 @@ const StatsCard = ({ projectStats }: StatsCardProps) => {
             >
               <Icon size={16} className={`mx-auto mb-1 ${stat.color}`} />
               <div className="text-lg font-bold text-primary">{stat.value}</div>
-              <div className="text-xs text-muted">{stat.label}</div>
+              <div className="text-xs text-muted" suppressHydrationWarning>
+                {stat.label}
+              </div>
             </motion.div>
           );
         })}

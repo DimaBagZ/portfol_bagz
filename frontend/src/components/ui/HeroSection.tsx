@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { ReactNode } from "react";
 import Section from "./Section";
+import { useLanguage } from "@/hooks/useLanguage";
 
 interface HeroSectionProps {
   title: string | ReactNode;
@@ -12,6 +13,8 @@ interface HeroSectionProps {
 }
 
 const HeroSection = ({ title, subtitle, children, className = "" }: HeroSectionProps) => {
+  const { isHydrated } = useLanguage();
+
   return (
     <Section background="primary" className={className}>
       <motion.div
@@ -20,11 +23,21 @@ const HeroSection = ({ title, subtitle, children, className = "" }: HeroSectionP
         transition={{ duration: 0.6 }}
         className="text-center"
       >
-        <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">{title}</h1>
-        {subtitle && (
-          <p className="text-xl text-muted max-w-3xl mx-auto mb-8">{subtitle}</p>
+        {isHydrated ? (
+          <>
+            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6" suppressHydrationWarning>
+              {title}
+            </h1>
+            {subtitle && (
+              <p className="text-xl text-muted max-w-3xl mx-auto mb-8" suppressHydrationWarning>
+                {subtitle}
+              </p>
+            )}
+            {children}
+          </>
+        ) : (
+          <div suppressHydrationWarning style={{ minHeight: "120px" }} />
         )}
-        {children}
       </motion.div>
     </Section>
   );

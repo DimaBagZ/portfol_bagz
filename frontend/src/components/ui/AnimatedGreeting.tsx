@@ -3,9 +3,11 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslations } from "@/hooks/useTranslations";
+import { useLanguage } from "@/hooks/useLanguage";
 
 const AnimatedGreeting = () => {
   const translations = useTranslations();
+  const { isHydrated } = useLanguage();
   const greetings = useMemo(() => translations.greetings, [translations]);
   const [currentGreeting, setCurrentGreeting] = useState(0);
 
@@ -23,18 +25,23 @@ const AnimatedGreeting = () => {
 
   return (
     <div className="h-8 flex items-center justify-center">
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={currentGreeting}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          transition={{ duration: 0.5 }}
-          className="text-2xl md:text-3xl text-muted font-medium"
-        >
-          {greetings[currentGreeting]}
-        </motion.div>
-      </AnimatePresence>
+      {isHydrated ? (
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentGreeting}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.5 }}
+            className="text-2xl md:text-3xl text-muted font-medium"
+            suppressHydrationWarning
+          >
+            {greetings[currentGreeting]}
+          </motion.div>
+        </AnimatePresence>
+      ) : (
+        <div suppressHydrationWarning style={{ minHeight: "32px" }} />
+      )}
     </div>
   );
 };

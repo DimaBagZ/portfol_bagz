@@ -50,6 +50,7 @@ export default function HomePage() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.4 }}
               className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent"
+              suppressHydrationWarning
             >
               {home.hero.name}
             </motion.h1>
@@ -58,6 +59,7 @@ export default function HomePage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.6 }}
               className="text-center text-lg text-muted"
+              suppressHydrationWarning
             >
               <span>{home.hero.position}</span>
             </motion.div>
@@ -78,7 +80,7 @@ export default function HomePage() {
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
           >
             <Button href="/projects" size="lg" className="group">
-              <span className="flex items-center">
+              <span className="flex items-center" suppressHydrationWarning>
                 {home.hero.primaryCta}
                 <motion.div
                   className="ml-2"
@@ -97,7 +99,7 @@ export default function HomePage() {
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
           >
             <Button href="/contact" variant="outline" size="lg" className="group">
-              <span className="flex items-center">
+              <span className="flex items-center" suppressHydrationWarning>
                 <span className="mr-2">💬</span>
                 {home.hero.secondaryCta}
               </span>
@@ -118,6 +120,7 @@ export default function HomePage() {
               className={`px-3 py-1 rounded-full ${
                 index % 2 === 0 ? "bg-primary/10" : "bg-accent/10"
               }`}
+              suppressHydrationWarning
             >
               {tag}
             </span>
@@ -139,8 +142,12 @@ export default function HomePage() {
             transition={{ duration: 0.6, delay: 2.0 }}
             className="text-center mb-12"
           >
-            <h2 className="text-3xl font-bold text-primary mb-4">{home.stats.title}</h2>
-            <p className="text-lg text-muted max-w-2xl mx-auto">{home.stats.description}</p>
+            <h2 className="text-3xl font-bold text-primary mb-4" suppressHydrationWarning>
+              {home.stats.title}
+            </h2>
+            <p className="text-lg text-muted max-w-2xl mx-auto" suppressHydrationWarning>
+              {home.stats.description}
+            </p>
           </motion.div>
           <StatsSection />
         </div>
@@ -153,10 +160,12 @@ export default function HomePage() {
               <div className="bg-blue-100 dark:bg-blue-900/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Monitor className="text-blue-600" size={32} />
               </div>
-              <h3 className="text-xl font-semibold text-primary mb-2">
+              <h3 className="text-xl font-semibold text-primary mb-2" suppressHydrationWarning>
                 {home.services.cards.frontend.title}
               </h3>
-              <p className="text-muted">{home.services.cards.frontend.description}</p>
+              <p className="text-muted" suppressHydrationWarning>
+                {home.services.cards.frontend.description}
+              </p>
             </div>
           </Card>
 
@@ -165,10 +174,12 @@ export default function HomePage() {
               <div className="bg-success/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Database className="text-success" size={32} />
               </div>
-              <h3 className="text-xl font-semibold text-primary mb-2">
+              <h3 className="text-xl font-semibold text-primary mb-2" suppressHydrationWarning>
                 {home.services.cards.backend.title}
               </h3>
-              <p className="text-muted">{home.services.cards.backend.description}</p>
+              <p className="text-muted" suppressHydrationWarning>
+                {home.services.cards.backend.description}
+              </p>
             </div>
           </Card>
 
@@ -177,10 +188,12 @@ export default function HomePage() {
               <div className="bg-accent/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Globe className="text-accent" size={32} />
               </div>
-              <h3 className="text-xl font-semibold text-primary mb-2">
+              <h3 className="text-xl font-semibold text-primary mb-2" suppressHydrationWarning>
                 {home.services.cards.devops.title}
               </h3>
-              <p className="text-muted">{home.services.cards.devops.description}</p>
+              <p className="text-muted" suppressHydrationWarning>
+                {home.services.cards.devops.description}
+              </p>
             </div>
           </Card>
         </div>
@@ -205,7 +218,7 @@ export default function HomePage() {
 
         <div className="text-center mt-12">
           <Button href="/projects" size="lg">
-            {home.featured.viewAll}
+            <span suppressHydrationWarning>{home.featured.viewAll}</span>
             <ArrowRight className="ml-2" size={20} />
           </Button>
         </div>

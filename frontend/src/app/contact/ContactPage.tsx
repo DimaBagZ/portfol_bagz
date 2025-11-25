@@ -3,7 +3,13 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Mail, Phone, MapPin, Send, Github, Twitter } from "lucide-react";
-import { HeroSection, ContentSection, Card, Button } from "@/components/ui";
+import {
+  HeroSection,
+  ContentSection,
+  Card,
+  Button,
+  TranslatedText,
+} from "@/components/ui";
 import { CONTACT_INFO, SOCIAL_LINKS } from "@/config/constants";
 import { validateContactForm, type ContactFormData } from "@/utils/validation";
 import { sendToTelegram } from "@/utils/telegram";
@@ -22,7 +28,7 @@ export default function ContactPage() {
 
   const translations = useTranslations();
   const contactTexts = translations.contact;
-  const { language } = useLanguage();
+  const { language, isHydrated } = useLanguage();
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -130,18 +136,19 @@ export default function ContactPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Contact Form */}
           <Card delay={0.2} className="shadow-lg">
-            <h2 className="text-2xl font-bold text-primary mb-6">
+            <TranslatedText as="h2" className="text-2xl font-bold text-primary mb-6">
               {contactTexts.form.title}
-            </h2>
+            </TranslatedText>
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label
+                <TranslatedText
+                  as="label"
                   htmlFor="name"
                   className="block text-sm font-medium text-muted mb-2"
                 >
                   {contactTexts.form.name}
-                </label>
+                </TranslatedText>
                 <input
                   type="text"
                   id="name"
@@ -150,17 +157,19 @@ export default function ContactPage() {
                   onChange={handleInputChange}
                   required
                   className="w-full px-4 py-3 border border-theme rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent bg-input"
-                  placeholder={contactTexts.form.namePlaceholder}
+                  placeholder={isHydrated ? contactTexts.form.namePlaceholder : ""}
+                  suppressHydrationWarning
                 />
               </div>
 
               <div>
-                <label
+                <TranslatedText
+                  as="label"
                   htmlFor="email"
                   className="block text-sm font-medium text-muted mb-2"
                 >
                   {contactTexts.form.email}
-                </label>
+                </TranslatedText>
                 <input
                   type="email"
                   id="email"
@@ -169,17 +178,19 @@ export default function ContactPage() {
                   onChange={handleInputChange}
                   required
                   className="w-full px-4 py-3 border border-theme rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent bg-input"
-                  placeholder={contactTexts.form.emailPlaceholder}
+                  placeholder={isHydrated ? contactTexts.form.emailPlaceholder : ""}
+                  suppressHydrationWarning
                 />
               </div>
 
               <div>
-                <label
+                <TranslatedText
+                  as="label"
                   htmlFor="subject"
                   className="block text-sm font-medium text-muted mb-2"
                 >
                   {contactTexts.form.subject}
-                </label>
+                </TranslatedText>
                 <input
                   type="text"
                   id="subject"
@@ -188,17 +199,19 @@ export default function ContactPage() {
                   onChange={handleInputChange}
                   required
                   className="w-full px-4 py-3 border border-theme rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent bg-input"
-                  placeholder={contactTexts.form.subjectPlaceholder}
+                  placeholder={isHydrated ? contactTexts.form.subjectPlaceholder : ""}
+                  suppressHydrationWarning
                 />
               </div>
 
               <div>
-                <label
+                <TranslatedText
+                  as="label"
                   htmlFor="message"
                   className="block text-sm font-medium text-muted mb-2"
                 >
                   {contactTexts.form.message}
-                </label>
+                </TranslatedText>
                 <textarea
                   id="message"
                   name="message"
@@ -207,7 +220,8 @@ export default function ContactPage() {
                   required
                   rows={5}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
-                  placeholder={contactTexts.form.messagePlaceholder}
+                  placeholder={isHydrated ? contactTexts.form.messagePlaceholder : ""}
+                  suppressHydrationWarning
                 />
               </div>
 
@@ -215,12 +229,12 @@ export default function ContactPage() {
                 {isSubmitting ? (
                   <>
                     <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary-foreground mr-2"></div>
-                    {contactTexts.form.submitting}
+                    <TranslatedText>{contactTexts.form.submitting}</TranslatedText>
                   </>
                 ) : (
                   <>
                     <Send size={20} className="mr-2" />
-                    {contactTexts.form.submit}
+                    <TranslatedText>{contactTexts.form.submit}</TranslatedText>
                   </>
                 )}
               </Button>
@@ -230,9 +244,9 @@ export default function ContactPage() {
           {/* Contact Info */}
           <Card delay={0.4} className="space-y-8">
             <div>
-              <h2 className="text-2xl font-bold text-primary mb-6">
+              <TranslatedText as="h2" className="text-2xl font-bold text-primary mb-6">
                 {contactTexts.infoTitle}
-              </h2>
+              </TranslatedText>
 
               <div className="space-y-6">
                 {contactInfo.map((info, index) => {
@@ -250,8 +264,12 @@ export default function ContactPage() {
                         <Icon size={24} className="text-primary" />
                       </div>
                       <div>
-                        <h3 className="font-semibold text-primary">{info.title}</h3>
-                        <p className="text-muted">{info.value}</p>
+                        <TranslatedText as="h3" className="font-semibold text-primary">
+                          {info.title}
+                        </TranslatedText>
+                        <TranslatedText as="p" className="text-muted">
+                          {info.value}
+                        </TranslatedText>
                       </div>
                     </motion.a>
                   );
@@ -260,9 +278,9 @@ export default function ContactPage() {
             </div>
 
             <div>
-              <h3 className="text-xl font-bold text-primary mb-4">
+              <TranslatedText as="h3" className="text-xl font-bold text-primary mb-4">
                 {contactTexts.socialTitle}
-              </h3>
+              </TranslatedText>
 
               <div className="flex space-x-4">
                 {socialLinks.map((social) => {
@@ -289,11 +307,15 @@ export default function ContactPage() {
               transition={{ duration: 0.6, delay: 0.8 }}
               className="bg-primary/10 p-6 rounded-lg border border-primary/20"
             >
-              <h3 className="text-lg font-semibold text-primary mb-3">
+              <TranslatedText as="h3" className="text-lg font-semibold text-primary mb-3">
                 {contactTexts.responseTitle}
-              </h3>
-              <p className="text-muted mb-2">{contactTexts.responseText}</p>
-              <p className="text-sm text-muted">{contactTexts.responseSchedule}</p>
+              </TranslatedText>
+              <TranslatedText as="p" className="text-muted mb-2">
+                {contactTexts.responseText}
+              </TranslatedText>
+              <TranslatedText as="p" className="text-sm text-muted">
+                {contactTexts.responseSchedule}
+              </TranslatedText>
             </motion.div>
           </Card>
         </div>

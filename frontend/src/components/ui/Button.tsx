@@ -53,7 +53,7 @@ const Button = ({
     // Если есть target или rel, используем обычную ссылку
     if (target || rel) {
       return (
-        <a href={href} target={target} rel={rel} className="inline-block">
+        <a href={href} target={target} rel={rel} className="inline-block" suppressHydrationWarning>
           <motion.div
             className={classes}
             whileHover={{ scale: 1.02 }}
@@ -67,7 +67,7 @@ const Button = ({
 
     // Иначе используем Next.js Link для внутренней навигации
     return (
-      <Link href={href} className="inline-block">
+      <Link href={href} className="inline-block" suppressHydrationWarning>
         <motion.div
           className={classes}
           whileHover={{ scale: 1.02 }}
@@ -87,6 +87,7 @@ const Button = ({
       disabled={disabled}
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
+      suppressHydrationWarning
     >
       {children}
     </motion.button>

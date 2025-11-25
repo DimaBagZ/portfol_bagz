@@ -17,6 +17,7 @@ import { projects } from "@/data/projects";
 import Link from "next/link";
 import { useTranslations } from "@/hooks/useTranslations";
 import { useExperienceContent } from "@/hooks/useExperienceContent";
+import { useProjectContent } from "@/hooks/useProjectContent";
 
 interface ExperienceModalProps {
   experience: WorkExperience | null;
@@ -24,6 +25,93 @@ interface ExperienceModalProps {
   onClose: () => void;
   onViewProject?: (project: Project) => void;
 }
+
+interface RelatedProjectCardProps {
+  project: Project;
+  index: number;
+  projectStatusText: {
+    completed: string;
+    progress: string;
+    planned: string;
+  };
+  modalTexts: {
+    viewProject: string;
+  };
+  onViewProject?: (project: Project) => void;
+  onClose: () => void;
+}
+
+const RelatedProjectCard = ({
+  project,
+  index,
+  projectStatusText,
+  modalTexts,
+  onViewProject,
+  onClose,
+}: RelatedProjectCardProps) => {
+  const localizedProject = useProjectContent(project);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.1 }}
+      className="bg-card border border-theme rounded-lg p-4 hover:shadow-md transition-shadow duration-200"
+    >
+      <div className="flex items-start justify-between mb-2">
+        <h4 className="font-semibold text-primary text-sm">
+          {localizedProject.title || project.title}
+        </h4>
+        <span className="text-xs text-muted bg-muted px-2 py-1 rounded">
+          {project.status === "completed"
+            ? projectStatusText.completed
+            : project.status === "in-progress"
+            ? projectStatusText.progress
+            : projectStatusText.planned}
+        </span>
+      </div>
+      <p className="text-xs text-muted mb-3 line-clamp-2">
+        {localizedProject.description || project.description}
+      </p>
+      <div className="flex flex-wrap gap-1 mb-3">
+        {project.technologies.slice(0, 3).map((tech) => (
+          <span
+            key={tech}
+            className="px-2 py-1 bg-primary/10 text-primary rounded text-xs"
+          >
+            {tech}
+          </span>
+        ))}
+        {project.technologies.length > 3 && (
+          <span className="px-2 py-1 bg-muted text-muted rounded text-xs">
+            +{project.technologies.length - 3}
+          </span>
+        )}
+      </div>
+      {onViewProject ? (
+        <button
+          onClick={() => {
+            onViewProject(project);
+            onClose();
+          }}
+          className="inline-flex items-center text-xs text-primary hover:text-accent transition-colors"
+        >
+          <ExternalLink size={12} className="mr-1" />
+          {modalTexts.viewProject}
+        </button>
+      ) : (
+        <Link
+          href={`/projects#${project.id}`}
+          className="inline-flex items-center text-xs text-primary hover:text-accent transition-colors"
+          onClick={onClose}
+        >
+          <ExternalLink size={12} className="mr-1" />
+          {modalTexts.viewProject}
+        </Link>
+      )}
+    </motion.div>
+  );
+};
 
 const ExperienceModal = ({
   experience,
@@ -188,65 +276,15 @@ const ExperienceModal = ({
                 if (!project) return null;
 
                 return (
-                  <motion.div
+                  <RelatedProjectCard
                     key={projectId}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    className="bg-card border border-theme rounded-lg p-4 hover:shadow-md transition-shadow duration-200"
-                  >
-                    <div className="flex items-start justify-between mb-2">
-                      <h4 className="font-semibold text-primary text-sm">
-                        {project.title}
-                      </h4>
-                      <span className="text-xs text-muted bg-muted px-2 py-1 rounded">
-                        {project.status === "completed"
-                          ? projectStatusText.completed
-                          : project.status === "in-progress"
-                          ? projectStatusText.progress
-                          : projectStatusText.planned}
-                      </span>
-                    </div>
-                    <p className="text-xs text-muted mb-3 line-clamp-2">
-                      {project.description}
-                    </p>
-                    <div className="flex flex-wrap gap-1 mb-3">
-                      {project.technologies.slice(0, 3).map((tech) => (
-                        <span
-                          key={tech}
-                          className="px-2 py-1 bg-primary/10 text-primary rounded text-xs"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                      {project.technologies.length > 3 && (
-                        <span className="px-2 py-1 bg-muted text-muted rounded text-xs">
-                          +{project.technologies.length - 3}
-                        </span>
-                      )}
-                    </div>
-                    {onViewProject ? (
-                      <button
-                        onClick={() => {
-                          onViewProject(project);
-                          onClose();
-                        }}
-                        className="inline-flex items-center text-xs text-primary hover:text-accent transition-colors"
-                      >
-                        <ExternalLink size={12} className="mr-1" />
-                        {modalTexts.viewProject}
-                      </button>
-                    ) : (
-                      <Link
-                        href={`/projects#${project.id}`}
-                        className="inline-flex items-center text-xs text-primary hover:text-accent transition-colors"
-                        onClick={onClose}
-                      >
-                        <ExternalLink size={12} className="mr-1" />
-                        {modalTexts.viewProject}
-                      </Link>
-                    )}
-                  </motion.div>
+                    project={project}
+                    index={index}
+                    projectStatusText={projectStatusText}
+                    modalTexts={modalTexts}
+                    onViewProject={onViewProject}
+                    onClose={onClose}
+                  />
                 );
               })}
             </div>

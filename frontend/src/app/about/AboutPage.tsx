@@ -3,7 +3,13 @@
 import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { Code, Globe, Users, Award, Bot, Brain, Languages } from "lucide-react";
-import { HeroSection, ContentSection, Card, StatsGrid } from "@/components/ui";
+import {
+  HeroSection,
+  ContentSection,
+  Card,
+  StatsGrid,
+  TranslatedText,
+} from "@/components/ui";
 import { ExperienceCard, ExperienceModal } from "@/components/features/experience";
 import { ProjectModal } from "@/components/features/projects";
 import { workExperience } from "@/data/experience";
@@ -34,18 +40,12 @@ export default function AboutPage() {
   // Рассчитываем реальные данные
   const workExp = useMemo(() => calculateWorkExperience(workExperience), []);
   const projectStats = useMemo(() => calculateProjectStats(projects), []);
-  const programmingLanguages = useMemo(
-    () => calculateProgrammingLanguages(skills),
-    []
-  );
+  const programmingLanguages = useMemo(() => calculateProgrammingLanguages(skills), []);
   const aiIntegrations = useMemo(() => calculateAIIntegrations(projects), []);
   const botProjects = useMemo(() => calculateBotProjects(projects), []);
 
   // Подсчитываем коммерческие проекты (featured проекты)
-  const commercialProjects = useMemo(
-    () => projects.filter((p) => p.featured).length,
-    []
-  );
+  const commercialProjects = useMemo(() => projects.filter((p) => p.featured).length, []);
 
   const handleViewExperience = (experience: WorkExperience) => {
     setSelectedExperience(experience);
@@ -144,29 +144,35 @@ export default function AboutPage() {
 
   return (
     <div className="min-h-screen">
-      <HeroSection
-        title={translations.header.nav.about}
-        subtitle={about.heroSubtitle}
-      />
+      <HeroSection title={translations.header.nav.about} subtitle={about.heroSubtitle} />
 
       <ContentSection>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Story */}
           <Card delay={0.2}>
-            <h2 className="text-3xl font-bold text-primary mb-6">{about.storyTitle}</h2>
+            <TranslatedText as="h2" className="text-3xl font-bold text-primary mb-6">
+              {about.storyTitle}
+            </TranslatedText>
             <div className="space-y-4 text-muted">
               {about.storyParagraphs.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
+                <TranslatedText key={paragraph} as="p">
+                  {paragraph}
+                </TranslatedText>
               ))}
             </div>
           </Card>
 
           {/* Achievements */}
           <Card delay={0.4} className="flex flex-col">
-            <h2 className="text-3xl font-bold text-primary mb-2 md:mb-4">
+            <TranslatedText
+              as="h2"
+              className="text-3xl font-bold text-primary mb-2 md:mb-4"
+            >
               {about.achievementsTitle}
-            </h2>
-            <p className="text-sm text-muted mb-4">{translations.achievements.interactiveHint}</p>
+            </TranslatedText>
+            <TranslatedText as="p" className="text-sm text-muted mb-4">
+              {translations.achievements.interactiveHint}
+            </TranslatedText>
             <div className="flex-1">
               <StatsGrid stats={achievements} columns={4} />
             </div>

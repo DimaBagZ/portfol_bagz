@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { LucideIcon } from "lucide-react";
 import AnimatedCounter from "./AnimatedCounter";
+import TranslatedText from "./TranslatedText";
 
 interface StatItem {
   label: string;
@@ -70,9 +71,9 @@ const StatsGrid = ({ stats, columns = 4, className = "" }: StatsGridProps) => {
                 `${stat.value}${stat.suffix || ""}`
               )}
             </div>
-            <div className="text-xs md:text-sm text-muted leading-tight break-words hyphens-auto">
+            <TranslatedText className="text-xs md:text-sm text-muted leading-tight break-words hyphens-auto">
               {stat.label}
-            </div>
+            </TranslatedText>
 
             <AnimatePresence>
               {hasDetails && isActive && (
@@ -87,7 +88,7 @@ const StatsGrid = ({ stats, columns = 4, className = "" }: StatsGridProps) => {
                     {stat.details!.map((item) => (
                       <div key={item} className="flex items-start gap-2">
                         <span className="mt-1 h-1.5 w-1.5 rounded-full bg-primary flex-shrink-0" />
-                        <span>{item}</span>
+                        <TranslatedText>{item}</TranslatedText>
                       </div>
                     ))}
                   </div>

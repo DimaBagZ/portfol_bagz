@@ -59,7 +59,9 @@ const StatsSection = () => {
           <div className={`text-3xl font-bold ${stat.color} mb-2`}>
             <AnimatedCounter end={stat.value} suffix={stat.suffix} duration={2} />
           </div>
-          <div className="text-sm text-muted">{stat.label}</div>
+          <div className="text-sm text-muted" suppressHydrationWarning>
+            {stat.label}
+          </div>
         </motion.div>
       ))}
     </motion.div>

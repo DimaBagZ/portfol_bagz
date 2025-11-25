@@ -19,6 +19,8 @@ export interface TranslationMap {
   };
   sidebar: {
     profile: {
+      firstName: string;
+      fullName: string;
       role: string;
       ageLabel: string;
       location: string;
@@ -300,6 +302,8 @@ export const translations: Record<Language, TranslationMap> = {
     },
     sidebar: {
       profile: {
+        firstName: "Дмитрий",
+        fullName: "Дмитрий Багинский",
         role: "Fullstack разработчик",
         ageLabel: "{years} лет",
         location: "Москва, Россия",
@@ -636,6 +640,8 @@ export const translations: Record<Language, TranslationMap> = {
     },
     sidebar: {
       profile: {
+        firstName: "Дмитро",
+        fullName: "Дмитро Багінський",
         role: "Fullstack розробник",
         ageLabel: "{years} років",
         location: "Москва, Росія",
@@ -967,6 +973,8 @@ export const translations: Record<Language, TranslationMap> = {
     },
     sidebar: {
       profile: {
+        firstName: "Dmitry",
+        fullName: "Dmitry Baginskij",
         role: "Fullstack Developer",
         ageLabel: "{years} y.o.",
         location: "Moscow, Russia",

@@ -6,3 +6,4 @@ export { default as ImageGallery } from './ImageGallery';
 export { default as Modal } from './Modal';
 export { default as Section } from './Section';
 export { default as StatsGrid } from './StatsGrid';
+export { default as TranslatedText } from './TranslatedText';

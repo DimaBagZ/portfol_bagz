@@ -32,6 +32,7 @@ const Header = () => {
                 key={item.key}
                 href={item.href}
                 className="text-muted hover:text-primary transition-colors duration-200"
+                suppressHydrationWarning
               >
                 {translations.header.nav[item.key]}
               </Link>
@@ -44,6 +45,7 @@ const Header = () => {
                   ? translations.header.buttons.expandSidebar
                   : translations.header.buttons.collapseSidebar
               }
+              suppressHydrationWarning
             >
               {isCollapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
             </button>
@@ -58,6 +60,7 @@ const Header = () => {
               className="p-2 rounded-md text-muted hover:text-primary hover:bg-muted"
               onClick={toggleSidebar}
               title={translations.header.buttons.openProfile}
+              suppressHydrationWarning
             >
               <User size={24} />
             </button>
@@ -83,6 +86,7 @@ const Header = () => {
                   href={item.href}
                   className="block px-3 py-2 text-muted hover:text-primary hover:bg-muted rounded-md transition-colors duration-200"
                   onClick={() => setIsMenuOpen(false)}
+                  suppressHydrationWarning
                 >
                   {translations.header.nav[item.key]}
                 </Link>

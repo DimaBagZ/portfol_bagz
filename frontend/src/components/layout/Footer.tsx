@@ -20,10 +20,12 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Brand */}
           <div>
-            <h3 className="text-2xl font-bold mb-4 text-primary">
+            <h3 className="text-2xl font-bold mb-4 text-primary" suppressHydrationWarning>
               {translations.header.logo}
             </h3>
-            <p className="text-muted mb-4">{footer.brandDescription}</p>
+            <p className="text-muted mb-4" suppressHydrationWarning>
+              {footer.brandDescription}
+            </p>
             <div className="flex space-x-4">
               {socialLinks.map((social) => {
                 const Icon = social.icon;
@@ -44,7 +46,10 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-lg font-semibold mb-4 text-primary">
+            <h4
+              className="text-lg font-semibold mb-4 text-primary"
+              suppressHydrationWarning
+            >
               {footer.quickLinksTitle}
             </h4>
             <ul className="space-y-2">
@@ -52,6 +57,7 @@ const Footer = () => {
                 <Link
                   href="/"
                   className="text-muted hover:text-primary transition-colors duration-200"
+                  suppressHydrationWarning
                 >
                   {footer.quickLinks.home}
                 </Link>
@@ -60,6 +66,7 @@ const Footer = () => {
                 <Link
                   href="/about"
                   className="text-muted hover:text-primary transition-colors duration-200"
+                  suppressHydrationWarning
                 >
                   {footer.quickLinks.about}
                 </Link>
@@ -68,6 +75,7 @@ const Footer = () => {
                 <Link
                   href="/projects"
                   className="text-muted hover:text-primary transition-colors duration-200"
+                  suppressHydrationWarning
                 >
                   {footer.quickLinks.projects}
                 </Link>
@@ -76,6 +84,7 @@ const Footer = () => {
                 <Link
                   href="/contact"
                   className="text-muted hover:text-primary transition-colors duration-200"
+                  suppressHydrationWarning
                 >
                   {footer.quickLinks.contact}
                 </Link>
@@ -85,7 +94,10 @@ const Footer = () => {
 
           {/* Contact Info */}
           <div>
-            <h4 className="text-lg font-semibold mb-4 text-primary">
+            <h4
+              className="text-lg font-semibold mb-4 text-primary"
+              suppressHydrationWarning
+            >
               {footer.contactTitle}
             </h4>
             <div className="space-y-2 text-muted">
@@ -102,13 +114,13 @@ const Footer = () => {
                   @DimaBagz
                 </a>
               </p>
-              <p>📍 {footer.location}</p>
+              <p suppressHydrationWarning>📍 {footer.location}</p>
             </div>
           </div>
         </div>
 
         <div className="border-t border-theme mt-8 pt-8 text-center text-muted">
-          <p>
+          <p suppressHydrationWarning>
             &copy; {currentYear} Дмитрий Багинский. {footer.rights}
           </p>
         </div>

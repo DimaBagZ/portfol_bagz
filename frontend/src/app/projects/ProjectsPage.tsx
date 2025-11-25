@@ -50,7 +50,7 @@ export default function ProjectsPage() {
           <div className="flex flex-col sm:flex-row items-center justify-between">
             <div className="flex items-center mb-4 sm:mb-0">
               <Filter size={20} className="text-muted mr-2" />
-              <span className="text-muted font-medium">
+              <span className="text-muted font-medium" suppressHydrationWarning>
                 {projectsText.filters.categoriesTitle}:
               </span>
             </div>
@@ -73,7 +73,7 @@ export default function ProjectsPage() {
           <div className="flex flex-col sm:flex-row items-center justify-between">
             <div className="flex items-center mb-4 sm:mb-0">
               <Filter size={20} className="text-muted mr-2" />
-              <span className="text-muted font-medium">
+              <span className="text-muted font-medium" suppressHydrationWarning>
                 {projectsText.filters.statusesTitle}:
               </span>
             </div>
@@ -101,7 +101,7 @@ export default function ProjectsPage() {
           transition={{ duration: 0.6, delay: 0.4 }}
           className="mb-8"
         >
-          <p className="text-muted text-center">
+          <p className="text-muted text-center" suppressHydrationWarning>
             {projectsText.results
               .replace("{{shown}}", filteredProjects.length.toString())
               .replace("{{total}}", projects.length.toString())}
@@ -131,8 +131,12 @@ export default function ProjectsPage() {
             <div className="text-muted mb-4">
               <ExternalLink size={64} className="mx-auto" />
             </div>
-            <h3 className="text-xl font-semibold text-muted mb-2">{projectsText.empty.title}</h3>
-            <p className="text-muted">{projectsText.empty.description}</p>
+            <h3 className="text-xl font-semibold text-muted mb-2" suppressHydrationWarning>
+              {projectsText.empty.title}
+            </h3>
+            <p className="text-muted" suppressHydrationWarning>
+              {projectsText.empty.description}
+            </p>
           </motion.div>
         )}
       </ContentSection>

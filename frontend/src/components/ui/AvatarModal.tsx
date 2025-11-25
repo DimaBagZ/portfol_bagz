@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import { getImagePath } from "@/utils/imagePaths";
+import { useTranslations } from "@/hooks/useTranslations";
 
 interface AvatarModalProps {
   isOpen: boolean;
@@ -10,6 +11,8 @@ interface AvatarModalProps {
 }
 
 const AvatarModal = ({ isOpen, onClose }: AvatarModalProps) => {
+  const translations = useTranslations();
+  const profile = translations.sidebar.profile;
   return (
     <AnimatePresence>
       {isOpen && (
@@ -40,14 +43,14 @@ const AvatarModal = ({ isOpen, onClose }: AvatarModalProps) => {
             <div className="relative rounded-lg overflow-hidden shadow-2xl">
               <img
                 src={getImagePath("/images/avatar/avatar.png")}
-                alt="Дмитрий Багинский - увеличенное фото"
+                alt={`${profile.fullName} - увеличенное фото`}
                 className="w-full h-auto max-h-[80vh] object-contain"
               />
 
               {/* Информация о фото */}
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
-                <h3 className="text-white font-semibold text-lg">Дмитрий Багинский</h3>
-                <p className="text-white/80 text-sm">Fullstack Developer</p>
+                <h3 className="text-white font-semibold text-lg">{profile.fullName}</h3>
+                <p className="text-white/80 text-sm">{profile.role}</p>
               </div>
             </div>
           </motion.div>
