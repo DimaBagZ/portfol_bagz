@@ -39,5 +39,6 @@ export interface WorkExperience {
   responsibilities: string[];
   companyLogo?: string;
   companyUrl?: string;
+  diplomaUrl?: string; // URL к PDF диплому
   relatedProjects?: string[]; // IDs проектов, связанных с этой работой
 }

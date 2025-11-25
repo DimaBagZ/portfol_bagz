@@ -18,6 +18,8 @@ import { Modal, Button, ImageGallery } from "@/components/ui";
 import { Project } from "@/types";
 import { FeatureBlock } from "./FeatureBlock";
 import { featureBlocksConfig, filterFeaturesByCategory } from "./featureBlocksConfig";
+import { useTranslations } from "@/hooks/useTranslations";
+import { useProjectContent } from "@/hooks/useProjectContent";
 
 interface ProjectModalProps {
   project: Project | null;
@@ -28,30 +30,46 @@ interface ProjectModalProps {
 const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
   if (!project) return null;
 
-  // Функция для форматирования длительности проекта
+  const translations = useTranslations();
+  const modalTexts = translations.projects.modal;
+  const statusTexts = translations.projects.card.status;
+  const categoryLabel =
+    translations.projects.filters.categories[
+      project.category as keyof typeof translations.projects.filters.categories
+    ] || project.category;
+  const localizedProject = useProjectContent(project);
+
   const formatDuration = (duration: string | undefined) => {
+    const durationTexts = modalTexts.stats.duration;
     if (!duration || duration === "") {
-      return { value: "Не указано", label: "" };
+      return { value: "—", label: durationTexts.label };
     }
 
     const numDuration = parseFloat(duration);
     if (isNaN(numDuration) || numDuration < 1) {
-      return { value: "Менее месяца", label: "" };
+      return { value: "<1", label: durationTexts.label };
+    }
+
+    let unit = durationTexts.many;
+    if (numDuration === 1) {
+      unit = durationTexts.singular;
+    } else if (durationTexts.few && numDuration < 5) {
+      unit = durationTexts.few;
     }
 
     return {
       value: numDuration.toString(),
-      label: numDuration === 1 ? "месяц" : numDuration < 5 ? "месяца" : "месяцев",
+      label: unit,
     };
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="xl" title={project.title}>
+    <Modal isOpen={isOpen} onClose={onClose} size="xl" title={localizedProject.title}>
       <div className="p-6 space-y-6">
         {/* Project Screenshots Gallery */}
         <ImageGallery
           images={project.screenshots || []}
-          alt={`${project.title} screenshots`}
+          alt={`${localizedProject.title} screenshots`}
         />
 
         {/* Project Info */}
@@ -59,12 +77,17 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
           {/* Description */}
           <div className="space-y-4">
             <div>
-              <h3 className="text-lg font-semibold text-primary mb-2">Описание</h3>
-              <p className="text-muted leading-relaxed">{project.description}</p>
+              <h3 className="text-lg font-semibold text-primary mb-2">
+                {modalTexts.description}
+              </h3>
+              <p className="text-muted leading-relaxed">{localizedProject.description}</p>
             </div>
+            {localizedProject.longDescription && (
+              <p className="text-muted leading-relaxed">{localizedProject.longDescription}</p>
+            )}
 
-            {/* Features - Special layout for EVE Corp Manager, default for others */}
-            {project.features && project.features.length > 0 && (
+            {/* Features - Special layout for certain projects */}
+            {localizedProject.features && localizedProject.features.length > 0 && (
               <div>
                 {project &&
                 (project.id === "20" ||
@@ -73,15 +96,14 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
                   project.id === "1" ||
                   project.id === "3" ||
                   project.id === "5") ? (
-                  // Special grouped layout for EVE Corp Manager
                   <>
                     <h3 className="text-lg font-semibold text-primary mb-4">
-                      Особенности проекта
+                      {modalTexts.advancedFeaturesTitle}
                     </h3>
                     <div className="grid grid-cols-1 gap-6">
                       {Object.entries(featureBlocksConfig).map(([key, config], index) => {
                         const filteredFeatures = filterFeaturesByCategory(
-                          project.features || [],
+                          localizedProject.features || [],
                           config.keywords
                         );
                         return (
@@ -97,13 +119,12 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
                     </div>
                   </>
                 ) : (
-                  // Default layout for all other projects
                   <>
                     <h3 className="text-lg font-semibold text-primary mb-2">
-                      Особенности
+                      {modalTexts.featuresTitle}
                     </h3>
                     <ul className="space-y-2">
-                      {project.features.map((feature, index) => (
+                      {localizedProject.features!.map((feature, index) => (
                         <li key={index} className="flex items-start">
                           <div className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0" />
                           <span className="text-muted">{feature}</span>
@@ -120,7 +141,7 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
           <div className="space-y-4">
             {/* Status */}
             <div className="flex items-center justify-between p-4 bg-card rounded-lg border border-theme">
-              <span className="text-muted">Статус</span>
+              <span className="text-muted">{modalTexts.status}</span>
               <span
                 className={`px-3 py-1 rounded-full text-sm font-medium ${
                   project.status === "completed"
@@ -131,26 +152,28 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
                 }`}
               >
                 {project.status === "completed"
-                  ? "Завершен"
+                  ? statusTexts.completed
                   : project.status === "in-progress"
-                  ? "В разработке"
-                  : "Планируется"}
+                  ? statusTexts.progress
+                  : statusTexts.planned}
               </span>
             </div>
 
             {/* Category */}
             <div className="flex items-center justify-between p-4 bg-card rounded-lg border border-theme">
-              <span className="text-muted">Категория</span>
+              <span className="text-muted">{modalTexts.category}</span>
               <span className="text-primary font-medium capitalize">
-                {project.category}
+                {categoryLabel}
               </span>
             </div>
 
             {/* Technologies */}
             <div>
-              <h3 className="text-lg font-semibold text-primary mb-3">Технологии</h3>
+              <h3 className="text-lg font-semibold text-primary mb-3">
+                {modalTexts.technologies}
+              </h3>
               <div className="flex flex-wrap gap-2">
-                {project.technologies.map((tech) => (
+                {(localizedProject.technologies ?? project.technologies).map((tech) => (
                   <span
                     key={tech}
                     className="px-3 py-1 bg-primary/20 text-primary rounded-full text-sm"
@@ -175,7 +198,7 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
             <div className="text-2xl font-bold text-primary mb-1">
               {new Date(project.createdAt).getFullYear()}
             </div>
-            <div className="text-sm text-muted">Год создания</div>
+            <div className="text-sm text-muted">{modalTexts.stats.year}</div>
           </motion.div>
 
           <motion.div
@@ -203,7 +226,7 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
             <div className="text-2xl font-bold text-primary mb-1">
               {project.teamSize || "1"}
             </div>
-            <div className="text-sm text-muted">участников</div>
+            <div className="text-sm text-muted">{modalTexts.stats.team}</div>
           </motion.div>
 
           <motion.div
@@ -216,7 +239,7 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
             <div className="text-2xl font-bold text-primary mb-1">
               {project.technologies.length}
             </div>
-            <div className="text-sm text-muted">технологий</div>
+            <div className="text-sm text-muted">{modalTexts.stats.technologies}</div>
           </motion.div>
         </div>
 
@@ -231,7 +254,7 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
               rel="noopener noreferrer"
             >
               <Github size={20} className="mr-2" />
-              Посмотреть код
+              {modalTexts.buttons.viewCode}
             </Button>
           )}
 
@@ -244,7 +267,9 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
                 rel="noopener noreferrer"
               >
                 <ExternalLink size={20} className="mr-2" />
-                {project.id === "18" ? "Открыть сайт" : "Открыть проект"}
+                {project.id === "18"
+                  ? modalTexts.buttons.openSite
+                  : modalTexts.buttons.openProject}
               </Button>
 
               {/* Кнопка запуска сервера */}
@@ -256,7 +281,9 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
                   className="flex items-center space-x-2 bg-warning/10 border border-warning/20 rounded-lg px-3 py-2 hover:bg-warning/20 transition-colors duration-200 cursor-pointer"
                 >
                   <Server size={16} className="text-warning flex-shrink-0" />
-                  <span className="text-sm text-warning">⚠️ Запустить сервер</span>
+                  <span className="text-sm text-warning">
+                    {modalTexts.buttons.launchServer}
+                  </span>
                 </a>
               )}
             </div>
@@ -271,7 +298,7 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
               rel="noopener noreferrer"
             >
               <BookOpen size={20} className="mr-2" />
-              Storybook
+              {translations.projects.card.storybook}
             </Button>
           )}
 
@@ -284,7 +311,7 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
               rel="noopener noreferrer"
             >
               <Kanban size={20} className="mr-2" />
-              Канбан доска
+              {translations.projects.card.kanban}
             </Button>
           )}
         </div>

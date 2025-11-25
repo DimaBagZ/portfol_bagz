@@ -1,36 +1,25 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useState } from "react";
-
-const greetings = [
-  "Привет! Меня зовут",
-  "Добро пожаловать! Я",
-  "Рад видеть вас! Это",
-  "Отлично! Меня зовут",
-  "Приветствую! Я",
-  "Здравствуйте! Меня зовут",
-  "Добро пожаловать на мой сайт! Я",
-  "Приветствую вас! Это",
-  "Отлично, что вы здесь! Я",
-  "Добро пожаловать в мое портфолио! Я",
-  "Привет! Добро пожаловать! Я",
-  "Здравствуйте! Добро пожаловать! Я",
-  "Приветствую! Добро пожаловать! Я",
-  "Отлично! Добро пожаловать! Я",
-  "Привет! Рад видеть вас! Я",
-];
+import { useEffect, useMemo, useState } from "react";
+import { useTranslations } from "@/hooks/useTranslations";
 
 const AnimatedGreeting = () => {
+  const translations = useTranslations();
+  const greetings = useMemo(() => translations.greetings, [translations]);
   const [currentGreeting, setCurrentGreeting] = useState(0);
+
+  useEffect(() => {
+    setCurrentGreeting(0);
+  }, [greetings]);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentGreeting((prev) => (prev + 1) % greetings.length);
-    }, 4000); // Увеличили время до 4 секунд
+    }, 4000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [greetings]);
 
   return (
     <div className="h-8 flex items-center justify-center">

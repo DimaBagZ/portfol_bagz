@@ -4,7 +4,9 @@ import "@/styles/globals.css";
 import { Sidebar, LayoutHeader, LayoutFooter, MainContent } from "@/components";
 import { SidebarProvider } from "@/contexts/SidebarContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 import { createMetadata, createStructuredData } from "@/lib/seo";
+import type { Language } from "@/locales/translations";
 
 const inter = Inter({ subsets: ["latin", "cyrillic"] });
 
@@ -109,14 +111,16 @@ export default function RootLayout({
         />
       </head>
       <body className={`${inter.className} antialiased`}>
-        <ThemeProvider>
-          <SidebarProvider>
-            <Sidebar />
-            <LayoutHeader />
-            <MainContent>{children}</MainContent>
-            <LayoutFooter />
-          </SidebarProvider>
-        </ThemeProvider>
+        <LanguageProvider>
+          <ThemeProvider>
+            <SidebarProvider>
+              <Sidebar />
+              <LayoutHeader />
+              <MainContent>{children}</MainContent>
+              <LayoutFooter />
+            </SidebarProvider>
+          </ThemeProvider>
+        </LanguageProvider>
       </body>
     </html>
   );

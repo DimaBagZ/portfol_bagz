@@ -24,6 +24,18 @@ export const skills: Skill[] = [
   { name: "Socket.io", level: 4, category: "backend" },
   { name: "JWT", level: 5, category: "backend" },
   { name: "AWS S3", level: 3, category: "backend" },
+  { name: "Python 3.11+", level: 4, category: "backend" },
+  { name: "FastAPI", level: 4, category: "backend" },
+  { name: "LangChain", level: 4, category: "backend" },
+  { name: "LlamaIndex", level: 3, category: "backend" },
+  { name: "OpenAI API", level: 4, category: "backend" },
+  { name: "Claude API", level: 3, category: "backend" },
+  { name: "Qdrant", level: 4, category: "backend" },
+  { name: "spaCy", level: 3, category: "backend" },
+  { name: "NLTK", level: 3, category: "backend" },
+  { name: "BullMQ", level: 4, category: "backend" },
+  { name: "Telegram API", level: 4, category: "backend" },
+  { name: "WhatsApp API", level: 3, category: "backend" },
 
   // Mobile
   { name: "React Native", level: 4, category: "mobile" },
@@ -42,10 +54,13 @@ export const skills: Skill[] = [
   { name: "Jest", level: 3, category: "tools" },
   { name: "Cypress", level: 2, category: "tools" },
   { name: "Figma", level: 3, category: "tools" },
+  { name: "Prometheus", level: 4, category: "tools" },
+  { name: "Grafana", level: 4, category: "tools" },
 
   // Languages
   { name: "JavaScript", level: 5, category: "languages" },
   { name: "TypeScript", level: 5, category: "languages" },
+  { name: "Python", level: 4, category: "languages" },
   { name: "HTML5", level: 5, category: "languages" },
   { name: "CSS3", level: 5, category: "languages" },
 ];

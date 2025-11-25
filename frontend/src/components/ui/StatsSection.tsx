@@ -6,33 +6,35 @@ import AnimatedCounter from "./AnimatedCounter";
 import { projects } from "@/data/projects";
 import { workExperience } from "@/data/experience";
 import { calculateWorkExperience, calculateProjectStats } from "@/utils/calculations";
+import { useTranslations } from "@/hooks/useTranslations";
 
 const StatsSection = () => {
+  const translations = useTranslations();
   // Рассчитываем реальные данные
   const workExp = useMemo(() => calculateWorkExperience(workExperience), []);
   const projectStats = useMemo(() => calculateProjectStats(projects), []);
 
   const stats = [
     {
-      label: "Года опыта",
+      label: translations.home.stats.items.experience,
       value: workExp,
       suffix: "+",
       color: "text-primary",
     },
     {
-      label: "Проектов",
+      label: translations.home.stats.items.projects,
       value: projectStats.total,
       suffix: "",
       color: "text-accent",
     },
     {
-      label: "Технологий",
+      label: translations.home.stats.items.technologies,
       value: projectStats.uniqueTechnologies.length,
       suffix: "+",
       color: "text-primary",
     },
     {
-      label: "Завершено",
+      label: translations.home.stats.items.completed,
       value: projectStats.completed,
       suffix: "",
       color: "text-accent",

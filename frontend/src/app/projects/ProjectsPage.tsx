@@ -6,6 +6,7 @@ import { ExternalLink, Filter } from "lucide-react";
 import { ProjectCard, ProjectModal } from "@/components/features/projects";
 import { HeroSection, ContentSection, Button, StatsGrid } from "@/components/ui";
 import { useProjects } from "@/hooks/useProjects";
+import { useTranslations } from "@/hooks/useTranslations";
 import { Project } from "@/types";
 
 export default function ProjectsPage() {
@@ -15,6 +16,8 @@ export default function ProjectsPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { categories, statuses, projectStats, getProjectsByCategoryAndStatus, projects } =
     useProjects();
+  const translations = useTranslations();
+  const projectsText = translations.projects;
 
   const handleViewProject = (project: Project) => {
     setSelectedProject(project);
@@ -33,10 +36,7 @@ export default function ProjectsPage() {
 
   return (
     <div className="min-h-screen">
-      <HeroSection
-        title="Мои проекты"
-        subtitle="Коллекция проектов, которые я создал за время своей работы. Каждый проект представляет собой уникальное решение с использованием современных технологий."
-      />
+      <HeroSection title={projectsText.pageTitle} subtitle={projectsText.pageSubtitle} />
 
       {/* Filter Section */}
       <ContentSection background="card" padding="sm">
@@ -50,7 +50,9 @@ export default function ProjectsPage() {
           <div className="flex flex-col sm:flex-row items-center justify-between">
             <div className="flex items-center mb-4 sm:mb-0">
               <Filter size={20} className="text-muted mr-2" />
-              <span className="text-muted font-medium">Категории:</span>
+              <span className="text-muted font-medium">
+                {projectsText.filters.categoriesTitle}:
+              </span>
             </div>
 
             <div className="flex flex-wrap gap-2">
@@ -71,7 +73,9 @@ export default function ProjectsPage() {
           <div className="flex flex-col sm:flex-row items-center justify-between">
             <div className="flex items-center mb-4 sm:mb-0">
               <Filter size={20} className="text-muted mr-2" />
-              <span className="text-muted font-medium">Статус:</span>
+              <span className="text-muted font-medium">
+                {projectsText.filters.statusesTitle}:
+              </span>
             </div>
 
             <div className="flex flex-wrap gap-2">
@@ -98,7 +102,9 @@ export default function ProjectsPage() {
           className="mb-8"
         >
           <p className="text-muted text-center">
-            Показано {filteredProjects.length} из {projects.length} проектов
+            {projectsText.results
+              .replace("{{shown}}", filteredProjects.length.toString())
+              .replace("{{total}}", projects.length.toString())}
           </p>
         </motion.div>
 
@@ -125,13 +131,13 @@ export default function ProjectsPage() {
             <div className="text-muted mb-4">
               <ExternalLink size={64} className="mx-auto" />
             </div>
-            <h3 className="text-xl font-semibold text-muted mb-2">Проекты не найдены</h3>
-            <p className="text-muted">В выбранной категории пока нет проектов</p>
+            <h3 className="text-xl font-semibold text-muted mb-2">{projectsText.empty.title}</h3>
+            <p className="text-muted">{projectsText.empty.description}</p>
           </motion.div>
         )}
       </ContentSection>
 
-      <ContentSection title="Статистика проектов" background="card">
+      <ContentSection title={projectsText.statsTitle} background="card">
         <StatsGrid stats={projectStats} />
       </ContentSection>
 

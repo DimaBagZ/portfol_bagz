@@ -1,14 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
-import { Code, Globe, Users, Award } from "lucide-react";
+import { Code, Globe, Users, Award, Bot, Brain, Languages } from "lucide-react";
 import { HeroSection, ContentSection, Card, StatsGrid } from "@/components/ui";
 import { ExperienceCard, ExperienceModal } from "@/components/features/experience";
 import { ProjectModal } from "@/components/features/projects";
 import { workExperience } from "@/data/experience";
 import { projects } from "@/data/projects";
+import { skills } from "@/data/skills";
+import { useTranslations } from "@/hooks/useTranslations";
 import { WorkExperience, Project } from "@/types";
+import {
+  calculateWorkExperience,
+  calculateProjectStats,
+  calculateProgrammingLanguages,
+  calculateAIIntegrations,
+  calculateBotProjects,
+} from "@/utils/calculations";
 
 export default function AboutPage() {
   const [selectedExperience, setSelectedExperience] = useState<WorkExperience | null>(
@@ -17,6 +26,26 @@ export default function AboutPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
+
+  const translations = useTranslations();
+  const about = translations.about;
+  const achievementsLabels = translations.achievements.cards;
+
+  // Рассчитываем реальные данные
+  const workExp = useMemo(() => calculateWorkExperience(workExperience), []);
+  const projectStats = useMemo(() => calculateProjectStats(projects), []);
+  const programmingLanguages = useMemo(
+    () => calculateProgrammingLanguages(skills),
+    []
+  );
+  const aiIntegrations = useMemo(() => calculateAIIntegrations(projects), []);
+  const botProjects = useMemo(() => calculateBotProjects(projects), []);
+
+  // Подсчитываем коммерческие проекты (featured проекты)
+  const commercialProjects = useMemo(
+    () => projects.filter((p) => p.featured).length,
+    []
+  );
 
   const handleViewExperience = (experience: WorkExperience) => {
     setSelectedExperience(experience);
@@ -39,61 +68,115 @@ export default function AboutPage() {
   };
 
   const achievements = [
-    { icon: Code, label: "Проектов в портфолио", value: "20+", color: "text-primary" },
-    { icon: Users, label: "Коммерческих проектов", value: "6", color: "text-success" },
-    { icon: Award, label: "Лет в разработке", value: "2+", color: "text-accent" },
-    { icon: Globe, label: "Технологий освоено", value: "25+", color: "text-warning" },
-    { icon: Code, label: "Backend кода в команде", value: "30%", color: "text-primary" },
-    { icon: Users, label: "CI/CD pipeline", value: "100%", color: "text-success" },
+    {
+      icon: Code,
+      label: achievementsLabels.portfolio.label,
+      value: projectStats.total,
+      suffix: "+",
+      color: "text-primary",
+      useCounter: true,
+      details: achievementsLabels.portfolio.details,
+    },
+    {
+      icon: Users,
+      label: achievementsLabels.commercial.label,
+      value: commercialProjects,
+      suffix: "",
+      color: "text-success",
+      useCounter: true,
+      details: achievementsLabels.commercial.details,
+    },
+    {
+      icon: Award,
+      label: achievementsLabels.experience.label,
+      value: workExp,
+      suffix: "+",
+      color: "text-accent",
+      useCounter: true,
+      details: achievementsLabels.experience.details,
+    },
+    {
+      icon: Globe,
+      label: achievementsLabels.technologies.label,
+      value: projectStats.uniqueTechnologies.length,
+      suffix: "+",
+      color: "text-warning",
+      useCounter: true,
+      details: achievementsLabels.technologies.details,
+    },
+    {
+      icon: Languages,
+      label: achievementsLabels.languages.label,
+      value: programmingLanguages,
+      suffix: "",
+      color: "text-primary",
+      useCounter: true,
+      details: achievementsLabels.languages.details,
+    },
+    {
+      icon: Brain,
+      label: achievementsLabels.ai.label,
+      value: aiIntegrations,
+      suffix: "+",
+      color: "text-success",
+      useCounter: true,
+      details: achievementsLabels.ai.details,
+    },
+    {
+      icon: Bot,
+      label: achievementsLabels.bots.label,
+      value: botProjects,
+      suffix: "",
+      color: "text-accent",
+      useCounter: true,
+      details: achievementsLabels.bots.details,
+    },
+    {
+      icon: Code,
+      label: achievementsLabels.backendShare.label,
+      value: "30%",
+      suffix: "",
+      color: "text-primary",
+      useCounter: false,
+      details: achievementsLabels.backendShare.details,
+    },
   ];
 
   return (
     <div className="min-h-screen">
       <HeroSection
-        title="О себе"
-        subtitle="Fullstack разработчик с опытом создания современных веб-приложений. Специализируюсь на React, Next.js, Node.js, NestJS и React Native."
+        title={translations.header.nav.about}
+        subtitle={about.heroSubtitle}
       />
 
       <ContentSection>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Story */}
           <Card delay={0.2}>
-            <h2 className="text-3xl font-bold text-primary mb-6">Моя история</h2>
+            <h2 className="text-3xl font-bold text-primary mb-6">{about.storyTitle}</h2>
             <div className="space-y-4 text-muted">
-              <p>
-                Начал свой путь в программировании в 2023 году, изучая fullstack
-                разработку в Яндекс.Практикум. С самого начала меня привлекала возможность
-                создавать полноценные приложения от идеи до развертывания.
-              </p>
-              <p>
-                С 2024 года работаю как freelance fullstack разработчик, создавая
-                коммерческие проекты для малого бизнеса. Специализируюсь на React,
-                Next.js, Node.js, NestJS и React Native.
-              </p>
-              <p>
-                Участвовал в командной разработке для Яндекса, работая над проектами
-                ProCharity и SkillSwapAPI. Получил опыт работы в Agile/Scrum методологии с
-                тим-лидами и фич-лидами.
-              </p>
-              <p>
-                Считаю, что хороший код - это не только функциональность, но и читаемость,
-                масштабируемость и производительность. Люблю изучать новые технологии и
-                применять их в реальных проектах.
-              </p>
+              {about.storyParagraphs.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
             </div>
           </Card>
 
           {/* Achievements */}
-          <Card delay={0.4}>
-            <h2 className="text-3xl font-bold text-primary mb-6">Достижения</h2>
-            <StatsGrid stats={achievements} columns={3} />
+          <Card delay={0.4} className="flex flex-col">
+            <h2 className="text-3xl font-bold text-primary mb-2 md:mb-4">
+              {about.achievementsTitle}
+            </h2>
+            <p className="text-sm text-muted mb-4">{translations.achievements.interactiveHint}</p>
+            <div className="flex-1">
+              <StatsGrid stats={achievements} columns={4} />
+            </div>
           </Card>
         </div>
       </ContentSection>
 
       <ContentSection
-        title="Опыт работы"
-        subtitle="Мой профессиональный путь в разработке"
+        title={about.experienceTitle}
+        subtitle={about.experienceSubtitle}
         background="card"
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

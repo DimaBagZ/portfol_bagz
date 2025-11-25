@@ -1,10 +1,29 @@
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { projects } from "@/data/projects";
 import { PROJECT_CATEGORIES, PROJECT_STATUSES } from "@/config/constants";
 import { featuredProjectsIds } from "@/config/featuredProjects";
+import { useTranslations } from "@/hooks/useTranslations";
 
 // Хук для работы с проектами
 export const useProjects = () => {
+  const translations = useTranslations();
+
+  const getTranslation = useCallback(
+    (path: string) => {
+      const keys = path.replace(/^\./, "").split(".");
+      let current: any = translations;
+      for (const key of keys) {
+        if (current && typeof current === "object" && key in current) {
+          current = current[key];
+        } else {
+          return path;
+        }
+      }
+      return typeof current === "string" ? current : path;
+    },
+    [translations]
+  );
+
   const featuredProjects = useMemo(() => {
     // Получаем проекты в указанном порядке по ID
     const orderedProjects = featuredProjectsIds
@@ -17,27 +36,45 @@ export const useProjects = () => {
   const projectStats = useMemo(
     () => [
       {
-        label: "Всего проектов",
+        label: translations.projects.overviewStats.total,
         value: projects.length,
         color: "text-primary",
       },
       {
-        label: "Избранных",
+        label: translations.projects.overviewStats.featured,
         value: projects.filter((p) => p.featured).length,
         color: "text-success",
       },
       {
-        label: "С демо",
+        label: translations.projects.overviewStats.demo,
         value: projects.filter((p) => p.liveUrl).length,
         color: "text-accent",
       },
       {
-        label: "Технологий",
+        label: translations.projects.overviewStats.technologies,
         value: new Set(projects.flatMap((p) => p.technologies)).size,
         color: "text-warning",
       },
     ],
-    []
+    [translations]
+  );
+
+  const categories = useMemo(
+    () =>
+      PROJECT_CATEGORIES.map((category) => ({
+        id: category.id,
+        label: getTranslation(category.labelKey),
+      })),
+    [getTranslation]
+  );
+
+  const statuses = useMemo(
+    () =>
+      PROJECT_STATUSES.map((status) => ({
+        id: status.id,
+        label: getTranslation(status.labelKey),
+      })),
+    [getTranslation]
   );
 
   const getProjectsByCategory = (category: string) => {
@@ -82,8 +119,8 @@ export const useProjects = () => {
     projects,
     featuredProjects,
     projectStats,
-    categories: PROJECT_CATEGORIES,
-    statuses: PROJECT_STATUSES,
+    categories,
+    statuses,
     getProjectsByCategory,
     getProjectsByStatus,
     getProjectsByCategoryAndStatus,

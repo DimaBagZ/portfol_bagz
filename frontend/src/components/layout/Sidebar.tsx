@@ -24,17 +24,13 @@ import { projects } from "@/data/projects";
 import { StatsCard } from "@/components/common";
 import { useSidebar } from "@/contexts/SidebarContext";
 import { getImagePath } from "@/utils/imagePaths";
-import {
-  calculateAge,
-  calculateWorkExperience,
-  calculateProjectStats,
-  getAgeWord,
-  getExperienceWord,
-} from "@/utils/calculations";
+import { calculateAge, calculateWorkExperience, calculateProjectStats } from "@/utils/calculations";
+import { useTranslations } from "@/hooks/useTranslations";
 
 const Sidebar = () => {
   const { isCollapsed, isMobile, isHydrated, toggleSidebar } = useSidebar();
   const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
+  const translations = useTranslations();
 
   // Вычисляемые значения для упрощения условий
   const isCompactMode = isCollapsed && !isMobile;
@@ -70,13 +66,36 @@ const Sidebar = () => {
     },
   ];
 
-  const skillCategories = {
-    frontend: { label: "Frontend", icon: Monitor, color: "text-blue-600" },
-    backend: { label: "Backend", icon: Database, color: "text-green-600" },
-    mobile: { label: "Mobile", icon: Smartphone, color: "text-purple-600" },
-    tools: { label: "DevOps & Tools", icon: Globe, color: "text-orange-600" },
-    languages: { label: "Languages", icon: Code, color: "text-red-600" },
-  };
+  const skillCategories = useMemo(
+    () => ({
+      frontend: {
+        label: translations.sidebar.skills.categories.frontend,
+        icon: Monitor,
+        color: "text-blue-600",
+      },
+      backend: {
+        label: translations.sidebar.skills.categories.backend,
+        icon: Database,
+        color: "text-green-600",
+      },
+      mobile: {
+        label: translations.sidebar.skills.categories.mobile,
+        icon: Smartphone,
+        color: "text-purple-600",
+      },
+      tools: {
+        label: translations.sidebar.skills.categories.tools,
+        icon: Globe,
+        color: "text-orange-600",
+      },
+      languages: {
+        label: translations.sidebar.skills.categories.languages,
+        icon: Code,
+        color: "text-red-600",
+      },
+    }),
+    [translations]
+  );
 
   const groupedSkills = skills.reduce((acc, skill) => {
     if (!acc[skill.category]) {
@@ -135,8 +154,8 @@ const Sidebar = () => {
                   }
                   title={
                     isCompactMode
-                      ? "Нажмите для открытия профиля"
-                      : "Нажмите для увеличения фото"
+                      ? translations.sidebar.profile.compactAvatarTooltip
+                      : translations.sidebar.profile.expandedAvatarTooltip
                   }
                   suppressHydrationWarning
                 >
@@ -172,15 +191,20 @@ const Sidebar = () => {
                         suppressHydrationWarning
                       >
                         <h2 className="text-xl font-bold text-primary mb-1">
-                          Дмитрий Багинский
+                          Дмитрий
                         </h2>
-                        <p className="text-sm text-muted mb-1">Fullstack Developer</p>
+                        <p className="text-sm text-muted mb-1">
+                          {translations.sidebar.profile.role}
+                        </p>
                         <p className="text-xs text-muted mb-2">
-                          {age} {getAgeWord(age)}
+                          {translations.sidebar.profile.ageLabel.replace(
+                            "{years}",
+                            age.toString()
+                          )}
                         </p>
                         <div className="flex items-center justify-center text-xs text-muted mb-3">
                           <MapPin size={12} className="mr-1" />
-                          Москва, Россия
+                          {translations.sidebar.profile.location}
                         </div>
                       </motion.div>
                     )}
@@ -245,10 +269,12 @@ const Sidebar = () => {
                   >
                     {/* Stats Card */}
                     <div className="mb-6">
-                      <StatsCard projectStats={projectStats} workExperience={workExp} />
+                      <StatsCard projectStats={projectStats} />
                     </div>
 
-                    <h3 className="text-lg font-semibold text-primary mb-4">Навыки</h3>
+                    <h3 className="text-lg font-semibold text-primary mb-4">
+                      {translations.sidebar.skills.title}
+                    </h3>
 
                     {Object.entries(groupedSkills).map(([category, categorySkills]) => {
                       const categoryInfo =
@@ -314,9 +340,10 @@ const Sidebar = () => {
                       <div
                         key={category}
                         className="flex flex-col items-center"
-                        title={`${categoryInfo.label}: ${
-                          categorySkills.length
-                        } навыков, средний уровень ${avgLevel.toFixed(1)}/5`}
+                        title={translations.sidebar.skills.tooltip
+                          .replace("{category}", categoryInfo.label)
+                          .replace("{count}", categorySkills.length.toString())
+                          .replace("{avg}", avgLevel.toFixed(1))}
                       >
                         <Icon size={18} className={`${categoryInfo.color} mb-1`} />
                         <div className="w-1 h-6 bg-muted rounded-full">
@@ -355,13 +382,21 @@ const Sidebar = () => {
                   >
                     <div className="flex items-center justify-center text-xs text-muted mb-2">
                       <Calendar size={12} className="mr-1" />
-                      Опыт: {workExp}+ {getExperienceWord(workExp)}
+                      {translations.sidebar.footer.experience.replace(
+                        "{years}",
+                        workExp.toString()
+                      )}
                     </div>
                     <div className="flex items-center justify-center text-xs text-muted mb-2">
                       <Code size={12} className="mr-1" />
-                      Проектов: {projectStats.total}
+                      {translations.sidebar.footer.projects.replace(
+                        "{count}",
+                        projectStats.total.toString()
+                      )}
                     </div>
-                    <p className="text-xs text-muted">© 2025 Дмитрий Багинский</p>
+                    <p className="text-xs text-muted">
+                      {translations.sidebar.footer.copyright}
+                    </p>
                   </motion.div>
                 )}
               </AnimatePresence>

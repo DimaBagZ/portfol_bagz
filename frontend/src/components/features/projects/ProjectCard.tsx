@@ -13,6 +13,8 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { getImagePath } from "@/utils/imagePaths";
+import { useTranslations } from "@/hooks/useTranslations";
+import { useProjectContent } from "@/hooks/useProjectContent";
 
 interface ProjectCardProps {
   project: Project;
@@ -23,6 +25,13 @@ const ProjectCard = ({ project, onViewDetails }: ProjectCardProps) => {
   const [isHydrated, setIsHydrated] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
   const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const translations = useTranslations();
+  const cardText = translations.projects.card;
+  const localizedContent = useProjectContent(project);
+  const categoryLabel =
+    translations.projects.filters.categories[
+      project.category as keyof typeof translations.projects.filters.categories
+    ] || project.category;
 
   useEffect(() => {
     setIsHydrated(true);
@@ -61,7 +70,7 @@ const ProjectCard = ({ project, onViewDetails }: ProjectCardProps) => {
         {isHydrated && project.image ? (
           <img
             src={getImagePath(project.image)}
-            alt={project.title}
+            alt={localizedContent.title}
             className="w-full h-full object-cover"
           />
         ) : (
@@ -72,7 +81,7 @@ const ProjectCard = ({ project, onViewDetails }: ProjectCardProps) => {
         {project.featured && (
           <div className="absolute top-4 left-4">
             <span className="bg-primary text-primary-foreground px-2 py-1 rounded-full text-xs font-semibold">
-              Featured
+              {cardText.featured}
             </span>
           </div>
         )}
@@ -80,7 +89,7 @@ const ProjectCard = ({ project, onViewDetails }: ProjectCardProps) => {
 
       <div className="p-6 flex flex-col flex-grow">
         <div className="flex items-center justify-between mb-2">
-          <h3 className="text-xl font-semibold text-primary">{project.title}</h3>
+          <h3 className="text-xl font-semibold text-primary">{localizedContent.title}</h3>
           <span
             className={`px-2 py-1 rounded-full text-xs font-medium ${
               project.category === "frontend"
@@ -92,11 +101,11 @@ const ProjectCard = ({ project, onViewDetails }: ProjectCardProps) => {
                 : "bg-warning/20 text-warning"
             }`}
           >
-            {project.category}
+            {categoryLabel}
           </span>
         </div>
 
-        <p className="text-muted mb-4">{project.description}</p>
+        <p className="text-muted mb-4">{localizedContent.description}</p>
 
         <div className="flex flex-col space-y-3 mt-auto">
           {/* Технологии */}
@@ -118,7 +127,7 @@ const ProjectCard = ({ project, onViewDetails }: ProjectCardProps) => {
               className="w-full flex items-center justify-center space-x-2 bg-primary text-primary-foreground px-4 py-2 rounded-lg hover:bg-accent transition-colors duration-200"
             >
               <Eye size={16} />
-              <span>Подробнее</span>
+              <span>{cardText.viewDetails}</span>
             </button>
           )}
 
@@ -133,7 +142,7 @@ const ProjectCard = ({ project, onViewDetails }: ProjectCardProps) => {
                   className="flex items-center space-x-2 text-muted hover:text-primary transition-colors duration-200"
                 >
                   <Github size={16} />
-                  <span className="text-sm">Код</span>
+                  <span className="text-sm">{cardText.code}</span>
                 </a>
               )}
               {project.liveUrl && (
@@ -148,7 +157,7 @@ const ProjectCard = ({ project, onViewDetails }: ProjectCardProps) => {
                   >
                     <ExternalLink size={16} />
                     <span className="text-sm">
-                      {project.id === "18" ? "Сайт" : "Демо"}
+                      {project.id === "18" ? cardText.site : cardText.demo}
                     </span>
                   </a>
 
@@ -166,7 +175,7 @@ const ProjectCard = ({ project, onViewDetails }: ProjectCardProps) => {
                         />
                         <div className="space-y-2">
                           <p className="text-sm text-muted">
-                            Перед запуском демо необходимо запустить сервер
+                            {cardText.serverTooltip}
                           </p>
                           <a
                             href={project.serverUrl}
@@ -175,7 +184,7 @@ const ProjectCard = ({ project, onViewDetails }: ProjectCardProps) => {
                             className="inline-flex items-center space-x-2 bg-primary text-primary-foreground px-3 py-1.5 rounded text-xs hover:bg-accent transition-colors duration-200"
                           >
                             <Server size={14} />
-                            <span>Запустить сервер</span>
+                            <span>{cardText.launchServer}</span>
                           </a>
                         </div>
                       </div>
@@ -191,7 +200,7 @@ const ProjectCard = ({ project, onViewDetails }: ProjectCardProps) => {
                   className="flex items-center space-x-2 text-accent hover:text-primary transition-colors duration-200"
                 >
                   <BookOpen size={16} />
-                  <span className="text-sm">Storybook</span>
+                  <span className="text-sm">{cardText.storybook}</span>
                 </a>
               )}
               {project.serverUrl && (
@@ -202,7 +211,7 @@ const ProjectCard = ({ project, onViewDetails }: ProjectCardProps) => {
                   className="flex items-center space-x-2 text-success hover:text-primary transition-colors duration-200"
                 >
                   <Server size={16} />
-                  <span className="text-sm">Сервер</span>
+                  <span className="text-sm">{cardText.server}</span>
                 </a>
               )}
               {project.kanbanUrl && (
@@ -213,7 +222,7 @@ const ProjectCard = ({ project, onViewDetails }: ProjectCardProps) => {
                   className="flex items-center space-x-2 text-info hover:text-primary transition-colors duration-200"
                 >
                   <Kanban size={16} />
-                  <span className="text-sm">Канбан</span>
+                  <span className="text-sm">{cardText.kanban}</span>
                 </a>
               )}
             </div>
@@ -230,10 +239,10 @@ const ProjectCard = ({ project, onViewDetails }: ProjectCardProps) => {
                 }`}
               >
                 {project.status === "completed"
-                  ? "Завершен"
+                  ? cardText.status.completed
                   : project.status === "in-progress"
-                  ? "В разработке"
-                  : "Планируется"}
+                  ? cardText.status.progress
+                  : cardText.status.planned}
               </span>
             </div>
           </div>

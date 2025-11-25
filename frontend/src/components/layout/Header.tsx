@@ -5,11 +5,14 @@ import Link from "next/link";
 import { Menu, X, User, ChevronLeft, ChevronRight } from "lucide-react";
 import { useSidebar } from "@/contexts/SidebarContext";
 import { ThemeToggle } from "@/components/features/theme";
+import { LanguageSwitcher } from "@/components/features/language";
 import { NAVIGATION } from "@/config/constants";
+import { useTranslations } from "@/hooks/useTranslations";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { isMobile, isHydrated, isCollapsed, toggleSidebar } = useSidebar();
+  const translations = useTranslations();
 
   const navigation = NAVIGATION;
 
@@ -19,27 +22,32 @@ const Header = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link href="/" className="text-2xl font-bold text-primary">
-            Портфолио-BAGZ
+            DB.dev
           </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-8 items-center">
             {navigation.map((item) => (
               <Link
-                key={item.name}
+                key={item.key}
                 href={item.href}
                 className="text-muted hover:text-primary transition-colors duration-200"
               >
-                {item.name}
+                {translations.header.nav[item.key]}
               </Link>
             ))}
             <button
               className="p-2 rounded-md text-muted hover:text-primary hover:bg-muted transition-colors duration-200"
               onClick={toggleSidebar}
-              title={isCollapsed ? "Развернуть сайдбар" : "Свернуть сайдбар"}
+              title={
+                isCollapsed
+                  ? translations.header.buttons.expandSidebar
+                  : translations.header.buttons.collapseSidebar
+              }
             >
               {isCollapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
             </button>
+            <LanguageSwitcher />
             <ThemeToggle />
           </nav>
 
@@ -49,7 +57,7 @@ const Header = () => {
             <button
               className="p-2 rounded-md text-muted hover:text-primary hover:bg-muted"
               onClick={toggleSidebar}
-              title="Открыть профиль"
+              title={translations.header.buttons.openProfile}
             >
               <User size={24} />
             </button>
@@ -65,15 +73,18 @@ const Header = () => {
         {/* Mobile Navigation */}
         {isMenuOpen && (
           <div className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-card border-t border-theme">
+            <div className="px-2 pt-2 pb-3 space-y-3 sm:px-3 bg-card border-t border-theme">
+              <div className="px-3">
+                <LanguageSwitcher />
+              </div>
               {navigation.map((item) => (
                 <Link
-                  key={item.name}
+                  key={item.key}
                   href={item.href}
                   className="block px-3 py-2 text-muted hover:text-primary hover:bg-muted rounded-md transition-colors duration-200"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  {item.name}
+                  {translations.header.nav[item.key]}
                 </Link>
               ))}
             </div>

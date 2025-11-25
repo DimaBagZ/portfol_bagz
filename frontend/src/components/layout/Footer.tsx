@@ -1,9 +1,12 @@
 import { memo } from "react";
 import Link from "next/link";
 import { Github, Send, Mail } from "lucide-react";
+import { useTranslations } from "@/hooks/useTranslations";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const translations = useTranslations();
+  const footer = translations.footer;
 
   const socialLinks = [
     { name: "GitHub", href: "https://github.com/DimaBagZ", icon: Github },
@@ -17,10 +20,10 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Brand */}
           <div>
-            <h3 className="text-2xl font-bold mb-4 text-primary">Портфолио-BAGZ</h3>
-            <p className="text-muted mb-4">
-              Fullstack разработчик, создающий современные веб-приложения
-            </p>
+            <h3 className="text-2xl font-bold mb-4 text-primary">
+              {translations.header.logo}
+            </h3>
+            <p className="text-muted mb-4">{footer.brandDescription}</p>
             <div className="flex space-x-4">
               {socialLinks.map((social) => {
                 const Icon = social.icon;
@@ -41,14 +44,16 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-lg font-semibold mb-4 text-primary">Быстрые ссылки</h4>
+            <h4 className="text-lg font-semibold mb-4 text-primary">
+              {footer.quickLinksTitle}
+            </h4>
             <ul className="space-y-2">
               <li>
                 <Link
                   href="/"
                   className="text-muted hover:text-primary transition-colors duration-200"
                 >
-                  Главная
+                  {footer.quickLinks.home}
                 </Link>
               </li>
               <li>
@@ -56,7 +61,7 @@ const Footer = () => {
                   href="/about"
                   className="text-muted hover:text-primary transition-colors duration-200"
                 >
-                  О себе
+                  {footer.quickLinks.about}
                 </Link>
               </li>
               <li>
@@ -64,7 +69,7 @@ const Footer = () => {
                   href="/projects"
                   className="text-muted hover:text-primary transition-colors duration-200"
                 >
-                  Проекты
+                  {footer.quickLinks.projects}
                 </Link>
               </li>
               <li>
@@ -72,7 +77,7 @@ const Footer = () => {
                   href="/contact"
                   className="text-muted hover:text-primary transition-colors duration-200"
                 >
-                  Контакты
+                  {footer.quickLinks.contact}
                 </Link>
               </li>
             </ul>
@@ -80,18 +85,32 @@ const Footer = () => {
 
           {/* Contact Info */}
           <div>
-            <h4 className="text-lg font-semibold mb-4 text-primary">Контакты</h4>
+            <h4 className="text-lg font-semibold mb-4 text-primary">
+              {footer.contactTitle}
+            </h4>
             <div className="space-y-2 text-muted">
               <p>📧 DimaBagZ@yandex.ru</p>
               <p>📱 +7 (999) 700-84-70</p>
-              <p>✈️ <a href="https://t.me/DimaBagz" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">@DimaBagz</a></p>
-              <p>📍 Москва, Россия</p>
+              <p>
+                ✈️{" "}
+                <a
+                  href="https://t.me/DimaBagz"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-primary transition-colors"
+                >
+                  @DimaBagz
+                </a>
+              </p>
+              <p>📍 {footer.location}</p>
             </div>
           </div>
         </div>
 
         <div className="border-t border-theme mt-8 pt-8 text-center text-muted">
-          <p>&copy; {currentYear} Дмитрий Багинский. Все права защищены.</p>
+          <p>
+            &copy; {currentYear} Дмитрий Багинский. {footer.rights}
+          </p>
         </div>
       </div>
     </footer>

@@ -163,3 +163,68 @@ export const calculateProjectStats = (
     categories: uniqueCategories,
   };
 };
+
+/**
+ * Подсчитывает количество языков программирования
+ * @param skills - массив навыков
+ * @returns количество языков программирования
+ */
+export const calculateProgrammingLanguages = (
+  skills: Array<{ category: string }>
+): number => {
+  return skills.filter((skill) => skill.category === "languages").length;
+};
+
+/**
+ * Подсчитывает количество AI интеграций в проектах
+ * @param projects - массив проектов
+ * @returns количество проектов с AI интеграциями
+ */
+export const calculateAIIntegrations = (
+  projects: Array<{ technologies: string[] }>
+): number => {
+  const aiKeywords = [
+    "OpenAI API",
+    "Claude API",
+    "LangChain",
+    "LlamaIndex",
+    "Qdrant",
+    "spaCy",
+    "NLTK",
+    "FastAPI",
+    "Python",
+  ];
+
+  return projects.filter((project) =>
+    project.technologies.some((tech) =>
+      aiKeywords.some((keyword) =>
+        tech.toLowerCase().includes(keyword.toLowerCase())
+      )
+    )
+  ).length;
+};
+
+/**
+ * Подсчитывает количество проектов с ботами
+ * @param projects - массив проектов
+ * @returns количество проектов с ботами
+ */
+export const calculateBotProjects = (
+  projects: Array<{ technologies: string[]; features?: string[] }>
+): number => {
+  const botKeywords = ["Telegram API", "WhatsApp API", "Telegram Bot", "Bot"];
+
+  return projects.filter((project) => {
+    const hasInTechnologies = project.technologies.some((tech) =>
+      botKeywords.some((keyword) =>
+        tech.toLowerCase().includes(keyword.toLowerCase())
+      )
+    );
+    const hasInFeatures = project.features?.some((feature) =>
+      botKeywords.some((keyword) =>
+        feature.toLowerCase().includes(keyword.toLowerCase())
+      )
+    );
+    return hasInTechnologies || hasInFeatures;
+  }).length;
+};

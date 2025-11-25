@@ -1,7 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { TrendingUp, Code, Users, Award, Clock, CheckCircle } from "lucide-react";
+import { Code, Award, Clock, CheckCircle } from "lucide-react";
+import { useTranslations } from "@/hooks/useTranslations";
 
 interface StatsCardProps {
   projectStats?: {
@@ -11,32 +12,33 @@ interface StatsCardProps {
     planned: number;
     uniqueTechnologies: string[];
   };
-  workExperience?: number;
 }
 
-const StatsCard = ({ projectStats, workExperience }: StatsCardProps) => {
+const StatsCard = ({ projectStats }: StatsCardProps) => {
+  const translations = useTranslations();
+  const labels = translations.sidebar.statsCard;
   const stats = [
     {
-      label: "Всего проектов",
+      label: labels.total,
       value: `${projectStats?.total || 0}`,
       icon: Code,
       color: "text-primary",
     },
     {
-      label: "Завершено",
+      label: labels.completed,
       value: `${projectStats?.completed || 0}`,
       icon: CheckCircle,
       color: "text-success",
     },
     {
-      label: "В разработке",
+      label: labels.inProgress,
       value: `${projectStats?.inProgress || 0}`,
       icon: Clock,
       color: "text-warning",
     },
     {
-      label: "Технологий",
-      value: `${projectStats?.uniqueTechnologies.length || 0}`,
+      label: labels.technologies,
+      value: `${projectStats?.uniqueTechnologies?.length || 0}`,
       icon: Award,
       color: "text-accent",
     },
@@ -44,7 +46,7 @@ const StatsCard = ({ projectStats, workExperience }: StatsCardProps) => {
 
   return (
     <div className="p-4 bg-muted rounded-lg">
-      <h4 className="text-sm font-semibold text-primary mb-3">Статистика</h4>
+      <h4 className="text-sm font-semibold text-primary mb-3">{labels.title}</h4>
       <div className="grid grid-cols-2 gap-3">
         {stats.map((stat, index) => {
           const Icon = stat.icon;

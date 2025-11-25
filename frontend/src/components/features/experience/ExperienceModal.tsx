@@ -9,11 +9,14 @@ import {
   Award,
   Code,
   Briefcase,
+  FileText,
 } from "lucide-react";
 import { Modal, Button } from "@/components/ui";
 import { WorkExperience, Project } from "@/types";
 import { projects } from "@/data/projects";
 import Link from "next/link";
+import { useTranslations } from "@/hooks/useTranslations";
+import { useExperienceContent } from "@/hooks/useExperienceContent";
 
 interface ExperienceModalProps {
   experience: WorkExperience | null;
@@ -29,46 +32,77 @@ const ExperienceModal = ({
   onViewProject,
 }: ExperienceModalProps) => {
   if (!experience) return null;
+  const translations = useTranslations();
+  const modalTexts = translations.experience.modal;
+  const projectStatusText = translations.projects.card.status;
+  const localizedExperience = useExperienceContent(experience);
+  const {
+    position,
+    company,
+    description,
+    achievements,
+    responsibilities,
+    period,
+    location,
+  } = localizedExperience;
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="xl" title={experience.position}>
+    <Modal isOpen={isOpen} onClose={onClose} size="xl" title={position}>
       <div className="p-6 space-y-6">
         {/* Company Header */}
         <div className="flex items-start justify-between">
           <div className="flex-1">
-            <h2 className="text-2xl font-bold text-primary mb-2">{experience.company}</h2>
+            <h2 className="text-2xl font-bold text-primary mb-2">{company}</h2>
             <div className="flex flex-wrap gap-4 text-muted text-sm">
               <div className="flex items-center">
                 <Calendar size={16} className="mr-2" />
-                {experience.period}
+                {period}
               </div>
               <div className="flex items-center">
                 <MapPin size={16} className="mr-2" />
-                {experience.location}
+                {location}
               </div>
             </div>
           </div>
-          {experience.companyUrl && (
-            <Button
-              href={experience.companyUrl}
-              variant="outline"
-              size="sm"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <ExternalLink size={16} className="mr-2" />
-              Сайт компании
-            </Button>
-          )}
+          <div className="flex items-center gap-2">
+            {experience.diplomaUrl && (
+              <Button
+                href={
+                  process.env.NODE_ENV === "production"
+                    ? `/portfol_bagz${experience.diplomaUrl}`
+                    : experience.diplomaUrl
+                }
+                variant="outline"
+                size="sm"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FileText size={16} className="mr-2" />
+                {modalTexts.diplomaButton}
+              </Button>
+            )}
+            {experience.companyUrl && (
+              <Button
+                href={experience.companyUrl}
+                variant="outline"
+                size="sm"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <ExternalLink size={16} className="mr-2" />
+                {modalTexts.companyButton}
+              </Button>
+            )}
+          </div>
         </div>
 
         {/* Description */}
         <div>
           <h3 className="text-lg font-semibold text-primary mb-3 flex items-center">
             <Briefcase size={20} className="mr-2" />
-            Описание работы
+            {modalTexts.description}
           </h3>
-          <p className="text-muted leading-relaxed">{experience.description}</p>
+          <p className="text-muted leading-relaxed">{description}</p>
         </div>
 
         {/* Main Content Grid */}
@@ -77,10 +111,10 @@ const ExperienceModal = ({
           <div>
             <h3 className="text-lg font-semibold text-primary mb-3 flex items-center">
               <Users size={20} className="mr-2" />
-              Обязанности
+              {modalTexts.responsibilities}
             </h3>
             <ul className="space-y-2">
-              {experience.responsibilities.map((responsibility, index) => (
+              {responsibilities.map((responsibility, index) => (
                 <motion.li
                   key={index}
                   initial={{ opacity: 0, x: -20 }}
@@ -99,10 +133,10 @@ const ExperienceModal = ({
           <div>
             <h3 className="text-lg font-semibold text-primary mb-3 flex items-center">
               <Award size={20} className="mr-2" />
-              Достижения
+              {modalTexts.achievements}
             </h3>
             <ul className="space-y-2">
-              {experience.achievements.map((achievement, index) => (
+              {achievements.map((achievement, index) => (
                 <motion.li
                   key={index}
                   initial={{ opacity: 0, x: -20 }}
@@ -122,7 +156,7 @@ const ExperienceModal = ({
         <div>
           <h3 className="text-lg font-semibold text-primary mb-3 flex items-center">
             <Code size={20} className="mr-2" />
-            Используемые технологии
+            {modalTexts.technologies}
           </h3>
           <div className="flex flex-wrap gap-2">
             {experience.technologies.map((tech, index) => (
@@ -144,7 +178,7 @@ const ExperienceModal = ({
           <div>
             <h3 className="text-lg font-semibold text-primary mb-3 flex items-center">
               <Briefcase size={20} className="mr-2" />
-              Связанные проекты
+              {modalTexts.relatedProjects}
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {experience.relatedProjects.map((projectId, index) => {
@@ -165,10 +199,10 @@ const ExperienceModal = ({
                       </h4>
                       <span className="text-xs text-muted bg-muted px-2 py-1 rounded">
                         {project.status === "completed"
-                          ? "Завершен"
+                          ? projectStatusText.completed
                           : project.status === "in-progress"
-                          ? "В разработке"
-                          : "Планируется"}
+                          ? projectStatusText.progress
+                          : projectStatusText.planned}
                       </span>
                     </div>
                     <p className="text-xs text-muted mb-3 line-clamp-2">
@@ -198,7 +232,7 @@ const ExperienceModal = ({
                         className="inline-flex items-center text-xs text-primary hover:text-accent transition-colors"
                       >
                         <ExternalLink size={12} className="mr-1" />
-                        Посмотреть проект
+                        {modalTexts.viewProject}
                       </button>
                     ) : (
                       <Link
@@ -207,7 +241,7 @@ const ExperienceModal = ({
                         onClick={onClose}
                       >
                         <ExternalLink size={12} className="mr-1" />
-                        Посмотреть проект
+                        {modalTexts.viewProject}
                       </Link>
                     )}
                   </motion.div>
@@ -229,7 +263,7 @@ const ExperienceModal = ({
             <div className="text-2xl font-bold text-primary mb-1">
               {experience.period.split(" - ")[0]}
             </div>
-            <div className="text-sm text-muted">Начало работы</div>
+            <div className="text-sm text-muted">{modalTexts.stats.start}</div>
           </motion.div>
 
           <motion.div
@@ -242,7 +276,7 @@ const ExperienceModal = ({
             <div className="text-2xl font-bold text-primary mb-1">
               {experience.technologies.length}
             </div>
-            <div className="text-sm text-muted">технологий</div>
+            <div className="text-sm text-muted">{modalTexts.stats.technologies}</div>
           </motion.div>
 
           <motion.div
@@ -255,7 +289,7 @@ const ExperienceModal = ({
             <div className="text-2xl font-bold text-primary mb-1">
               {experience.achievements.length}
             </div>
-            <div className="text-sm text-muted">достижений</div>
+            <div className="text-sm text-muted">{modalTexts.stats.achievements}</div>
           </motion.div>
 
           <motion.div
@@ -268,7 +302,7 @@ const ExperienceModal = ({
             <div className="text-2xl font-bold text-primary mb-1">
               {experience.responsibilities.length}
             </div>
-            <div className="text-sm text-muted">обязанностей</div>
+            <div className="text-sm text-muted">{modalTexts.stats.responsibilities}</div>
           </motion.div>
         </div>
       </div>

@@ -1,3 +1,5 @@
+import type { Language } from "@/locales/translations";
+
 // Основные константы приложения
 export const APP_CONFIG = {
   name: "Bagiskij",
@@ -18,27 +20,27 @@ export const APP_CONFIG = {
 
 // Навигация
 export const NAVIGATION = [
-  { name: "Главная", href: "/" },
-  { name: "О себе", href: "/about" },
-  { name: "Проекты", href: "/projects" },
-  { name: "Контакты", href: "/contact" },
+  { key: "home", href: "/" },
+  { key: "about", href: "/about" },
+  { key: "projects", href: "/projects" },
+  { key: "contact", href: "/contact" },
 ] as const;
 
 // Категории проектов
 export const PROJECT_CATEGORIES = [
-  { id: "all", label: "Все проекты" },
-  { id: "frontend", label: "Frontend" },
-  { id: "backend", label: "Backend" },
-  { id: "fullstack", label: "Fullstack" },
-  { id: "mobile", label: "Mobile" },
+  { id: "all", labelKey: "projects.filters.categories.all" },
+  { id: "frontend", labelKey: "projects.filters.categories.frontend" },
+  { id: "backend", labelKey: "projects.filters.categories.backend" },
+  { id: "fullstack", labelKey: "projects.filters.categories.fullstack" },
+  { id: "mobile", labelKey: "projects.filters.categories.mobile" },
 ] as const;
 
 // Статусы проектов
 export const PROJECT_STATUSES = [
-  { id: "all", label: "Все статусы" },
-  { id: "completed", label: "Завершенные" },
-  { id: "in-progress", label: "В разработке" },
-  { id: "planned", label: "Планируемые" },
+  { id: "all", labelKey: "projects.filters.statuses.all" },
+  { id: "completed", labelKey: "projects.filters.statuses.completed" },
+  { id: "in-progress", labelKey: "projects.filters.statuses.in-progress" },
+  { id: "planned", labelKey: "projects.filters.statuses.planned" },
 ] as const;
 
 // Социальные сети
@@ -64,29 +66,35 @@ export const SOCIAL_LINKS = [
 ] as const;
 
 // Контактная информация
-export const CONTACT_INFO = [
+type ContactValue = string | Record<Language, string>;
+
+export const CONTACT_INFO: Array<{
+  id: "email" | "phone" | "location";
+  value: ContactValue;
+  href: string;
+  icon: "Mail" | "Phone" | "MapPin";
+}> = [
   {
-    title: "Email",
+    id: "email",
     value: "DimaBagZ@yandex.ru",
     href: "mailto:DimaBagZ@yandex.ru",
     icon: "Mail",
   },
   {
-    title: "Телефон",
+    id: "phone",
     value: "+7 (999) 700-84-70",
     href: "tel:+79997008470",
     icon: "Phone",
   },
   {
-    title: "Местоположение",
-    value: "Москва, Россия",
+    id: "location",
+    value: {
+      ru: "Москва, Россия",
+      uk: "Москва, Росія",
+      en: "Moscow, Russia",
+    },
     href: "#",
     icon: "MapPin",
   },
-] as const;
+];
 
-// Время ответа
-export const RESPONSE_TIME = {
-  text: "Обычно отвечаю в течение 24 часов",
-  schedule: "Рабочие дни: Пн-Пт, 9:00-18:00 (МСК)",
-} as const;
