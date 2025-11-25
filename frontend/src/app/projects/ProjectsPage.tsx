@@ -63,7 +63,7 @@ export default function ProjectsPage() {
                   variant={selectedCategory === category.id ? "primary" : "outline"}
                   size="sm"
                 >
-                  {category.label}
+                  <TranslatedText>{category.label}</TranslatedText>
                 </Button>
               ))}
             </div>
@@ -86,7 +86,7 @@ export default function ProjectsPage() {
                   variant={selectedStatus === status.id ? "primary" : "outline"}
                   size="sm"
                 >
-                  {status.label}
+                  <TranslatedText>{status.label}</TranslatedText>
                 </Button>
               ))}
             </div>

@@ -14,6 +14,7 @@ import {
   Kanban,
 } from "lucide-react";
 import { Modal, Button, ImageGallery } from "@/components/ui";
+import TranslatedText from "@/components/ui/TranslatedText";
 import { Project } from "@/types";
 import { FeatureBlock } from "./FeatureBlock";
 import { featureBlocksConfig, filterFeaturesByCategory } from "./featureBlocksConfig";
@@ -64,7 +65,12 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="xl" title={localizedProject.title}>
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      size="xl"
+      title={<TranslatedText>{localizedProject.title}</TranslatedText>}
+    >
       <div className="p-6 space-y-6">
         {/* Project Screenshots Gallery */}
         <ImageGallery
@@ -127,7 +133,7 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
                       {localizedProject.features!.map((feature, index) => (
                         <li key={index} className="flex items-start">
                           <div className="w-2 h-2 bg-primary rounded-full mt-2 mr-3 flex-shrink-0" />
-                          <span className="text-muted">{feature}</span>
+                          <TranslatedText className="text-muted">{feature}</TranslatedText>
                         </li>
                       ))}
                     </ul>
@@ -142,7 +148,8 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
             {/* Status */}
             <div className="flex items-center justify-between p-4 bg-card rounded-lg border border-theme">
               <span className="text-muted">{modalTexts.status}</span>
-              <span
+              <TranslatedText
+                as="span"
                 className={`px-3 py-1 rounded-full text-sm font-medium ${
                   project.status === "completed"
                     ? "bg-success/20 text-success"
@@ -156,15 +163,15 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
                   : project.status === "in-progress"
                   ? statusTexts.progress
                   : statusTexts.planned}
-              </span>
+              </TranslatedText>
             </div>
 
             {/* Category */}
             <div className="flex items-center justify-between p-4 bg-card rounded-lg border border-theme">
-              <span className="text-muted">{modalTexts.category}</span>
-              <span className="text-primary font-medium capitalize">
+              <TranslatedText className="text-muted">{modalTexts.category}</TranslatedText>
+              <TranslatedText className="text-primary font-medium capitalize">
                 {categoryLabel}
-              </span>
+              </TranslatedText>
             </div>
 
             {/* Technologies */}

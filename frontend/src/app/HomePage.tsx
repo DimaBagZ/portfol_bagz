@@ -218,7 +218,7 @@ export default function HomePage() {
 
         <div className="text-center mt-12">
           <Button href="/projects" size="lg">
-            <span suppressHydrationWarning>{home.featured.viewAll}</span>
+            <TranslatedText>{home.featured.viewAll}</TranslatedText>
             <ArrowRight className="ml-2" size={20} />
           </Button>
         </div>

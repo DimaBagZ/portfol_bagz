@@ -8,7 +8,7 @@ interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   children: ReactNode;
-  title?: string;
+  title?: string | ReactNode;
   size?: "sm" | "md" | "lg" | "xl";
 }
 
@@ -77,7 +77,9 @@ const Modal = ({ isOpen, onClose, children, title, size = "lg" }: ModalProps) =>
             {/* Header */}
             {title && (
               <div className="flex items-center justify-between p-6 border-b border-theme">
-                <h2 className="text-2xl font-bold text-primary">{title}</h2>
+                <h2 className="text-2xl font-bold text-primary" suppressHydrationWarning>
+                  {title}
+                </h2>
                 <button
                   onClick={onClose}
                   className="p-2 rounded-lg text-muted hover:text-primary hover:bg-muted transition-colors duration-200"
