@@ -3,8 +3,6 @@
  * Отвечает за получение и валидацию переменных окружения
  */
 
-import type { TelegramConfigData } from "./types";
-
 /**
  * Класс для управления конфигурацией Telegram бота
  * Соблюдает принцип Single Responsibility - только конфигурация

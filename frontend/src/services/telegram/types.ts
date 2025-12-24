@@ -63,10 +63,9 @@ export interface SendMessageRequest {
 
 /**
  * Запрос на получение информации о боте
+ * getMe не требует параметров, поэтому используем Record<string, never>
  */
-export interface GetMeRequest {
-  // Пустой интерфейс, так как getMe не требует параметров
-}
+export type GetMeRequest = Record<string, never>;
 
 // ============================================================================
 // Ответы от Telegram API
