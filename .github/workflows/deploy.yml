@@ -24,6 +24,9 @@ jobs:
           npm ci
 
       - name: Build
+        env:
+          # Для статического экспорта на GitHub Pages
+          STATIC_EXPORT: "true"
         run: |
           cd frontend
           npm run build

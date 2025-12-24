@@ -13,6 +13,7 @@ import {
   Smartphone,
   Monitor,
   Send,
+  Linkedin,
 } from "lucide-react";
 import AvatarModal from "@/components/ui/AvatarModal";
 import { skills } from "@/data/skills";
@@ -56,6 +57,12 @@ const Sidebar = () => {
       href: "https://t.me/DimaBagz",
       icon: Send,
       color: "hover:text-blue-600",
+    },
+    {
+      name: "LinkedIn",
+      href: "https://www.linkedin.com/in/дмитрий-багинский-39a63738b",
+      icon: Linkedin,
+      color: "hover:text-blue-700",
     },
     {
       name: "Email",

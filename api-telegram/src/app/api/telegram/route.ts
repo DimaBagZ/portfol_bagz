@@ -1,5 +1,6 @@
 /**
  * API роут для работы с Telegram Bot API
+ * Отдельный проект для гибридного деплоя (GitHub Pages + Vercel API)
  * Использует сервисный слой для отправки сообщений и проверки соединения
  */
 
@@ -97,7 +98,6 @@ async function handleCheck(
   service: TelegramService
 ): Promise<NextResponse<TelegramApiRouteResponse>> {
   // Оптимизация: делаем только один запрос getMe() вместо двух
-  // (checkConnection() внутри вызывает getMe(), поэтому избегаем дублирования)
   const botInfo = await service.getMe();
 
   if (botInfo.success) {

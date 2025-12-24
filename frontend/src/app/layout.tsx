@@ -26,7 +26,7 @@ export const metadata: Metadata = createMetadata({
     "фронтенд разработка",
     "бэкенд разработка",
     "портфолио разработчика",
-    "freelance разработчик",
+    "предприниматель",
     "веб-приложения",
     "JavaScript",
     "HTML",

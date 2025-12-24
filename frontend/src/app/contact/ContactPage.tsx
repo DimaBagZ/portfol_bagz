@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, Phone, MapPin, Send, Github, Twitter } from "lucide-react";
+import { Mail, Phone, MapPin, Send, Github, Twitter, Linkedin } from "lucide-react";
 import {
   HeroSection,
   ContentSection,
@@ -52,14 +52,14 @@ export default function ContactPage() {
 
     try {
       // Отправка в Telegram
-      const success = await sendToTelegram({
+      const result = await sendToTelegram({
         name: formData.name,
         email: formData.email,
         subject: formData.subject,
         message: formData.message,
       });
 
-      if (success) {
+      if (result.success) {
         alert(contactTexts.notifications.success);
         setFormData({ name: "", email: "", subject: "", message: "" });
       } else {
@@ -123,6 +123,8 @@ export default function ContactPage() {
         ? Github
         : social.icon === "Send"
         ? Send
+        : social.icon === "Linkedin"
+        ? Linkedin
         : social.icon === "Mail"
         ? Mail
         : Twitter,

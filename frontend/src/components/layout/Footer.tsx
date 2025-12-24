@@ -1,6 +1,6 @@
 import { memo } from "react";
 import Link from "next/link";
-import { Github, Send, Mail } from "lucide-react";
+import { Github, Send, Mail, Linkedin } from "lucide-react";
 import { useTranslations } from "@/hooks/useTranslations";
 import TranslatedText from "@/components/ui/TranslatedText";
 
@@ -12,6 +12,7 @@ const Footer = () => {
   const socialLinks = [
     { name: "GitHub", href: "https://github.com/DimaBagZ", icon: Github },
     { name: "Telegram", href: "https://t.me/DimaBagz", icon: Send },
+    { name: "LinkedIn", href: "https://www.linkedin.com/in/дмитрий-багинский-39a63738b", icon: Linkedin },
     { name: "Email", href: "mailto:DimaBagZ@yandex.ru", icon: Mail },
   ];
 

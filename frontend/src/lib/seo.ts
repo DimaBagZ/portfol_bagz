@@ -103,7 +103,7 @@ export function createStructuredData() {
     ],
     worksFor: {
       '@type': 'Organization',
-      name: 'Freelance',
+      name: 'Freelance / Contracts',
     },
   };
 }

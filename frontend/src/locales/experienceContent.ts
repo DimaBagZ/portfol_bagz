@@ -15,7 +15,7 @@ type ExperienceContentMap = Record<Language, Record<string, ExperienceContent>>;
 export const experienceContent: ExperienceContentMap = {
   ru: {
     "1": {
-      company: "Freelance",
+      company: "Фриланс / Контракты",
       position: "Fullstack-разработчик",
       period: "Октябрь 2022 — настоящее время",
       location: "Удаленно",
@@ -132,7 +132,7 @@ export const experienceContent: ExperienceContentMap = {
   },
   uk: {
     "1": {
-      company: "Freelance",
+      company: "Фріланс / Контракти",
       position: "Fullstack-розробник",
       period: "Жовтень 2022 — дотепер",
       location: "Віддалено",
@@ -242,7 +242,7 @@ export const experienceContent: ExperienceContentMap = {
   },
   en: {
     "1": {
-      company: "Freelance",
+      company: "Freelance / Contracts",
       position: "Fullstack Developer",
       period: "October 2022 — Present",
       location: "Remote",

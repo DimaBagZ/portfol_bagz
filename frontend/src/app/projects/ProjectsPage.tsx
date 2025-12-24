@@ -4,7 +4,13 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { ExternalLink, Filter } from "lucide-react";
 import { ProjectCard, ProjectModal } from "@/components/features/projects";
-import { HeroSection, ContentSection, Button, StatsGrid, TranslatedText } from "@/components/ui";
+import {
+  HeroSection,
+  ContentSection,
+  Button,
+  StatsGrid,
+  TranslatedText,
+} from "@/components/ui";
 import { useProjects } from "@/hooks/useProjects";
 import { useTranslations } from "@/hooks/useTranslations";
 import { Project } from "@/types";

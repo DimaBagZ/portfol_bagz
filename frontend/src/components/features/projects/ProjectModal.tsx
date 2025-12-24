@@ -101,7 +101,8 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
                   project.id === "14" ||
                   project.id === "1" ||
                   project.id === "3" ||
-                  project.id === "5") ? (
+                  project.id === "5" ||
+                  project.id === "21") ? (
                   <>
                     <h3 className="text-lg font-semibold text-primary mb-4">
                       {modalTexts.advancedFeaturesTitle}

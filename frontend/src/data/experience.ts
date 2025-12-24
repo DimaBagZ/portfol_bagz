@@ -3,7 +3,7 @@ import { WorkExperience } from "@/types";
 export const workExperience: WorkExperience[] = [
   {
     id: "1",
-    company: "Freelance",
+    company: "Фриланс / Контракты",
     position: "Fullstack Developer",
     period: "October 2022 — Present",
     location: "Remote",
@@ -49,7 +49,8 @@ export const workExperience: WorkExperience[] = [
       "13", // Список мероприятий
       "3", // SkillSwap-Frontend
       "5", // EVE Corp Live Chat
-    ], // Коммерческие проекты Freelance
+      "21", // Крестики-нолики
+    ], // Коммерческие проекты
   },
   {
     id: "2",

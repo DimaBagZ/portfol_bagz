@@ -58,6 +58,12 @@ export const SOCIAL_LINKS = [
     color: "hover:text-blue-600",
   },
   {
+    name: "LinkedIn",
+    href: "https://www.linkedin.com/in/дмитрий-багинский-39a63738b",
+    icon: "Linkedin",
+    color: "hover:text-blue-700",
+  },
+  {
     name: "Email",
     href: "mailto:DimaBagZ@yandex.ru",
     icon: "Mail",
