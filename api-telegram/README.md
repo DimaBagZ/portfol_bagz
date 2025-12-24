@@ -9,14 +9,19 @@
 
 ### 1. Деплой на Vercel
 
+⚠️ Создайте отдельный проект на Vercel для API!
+
 1. Перейдите на https://vercel.com
-2. Нажмите "Add New Project"
-3. Импортируйте этот репозиторий (или создайте новый из этой папки)
-4. Настройте:
-   - **Root Directory:** `api-telegram` (или корень, если отдельный репозиторий)
+2. Нажмите **"Add New Project"**
+3. Выберите репозиторий
+4. Настройте Root Directory:
+   - В настройках проекта найдите **"Root Directory"**
+   - Установите: **`api-telegram`**
+5. Остальные настройки (автоматически):
    - **Framework Preset:** Next.js
    - **Build Command:** `npm run build`
    - **Output Directory:** `.next`
+   - **Install Command:** `npm ci`
 
 ### 2. Переменные окружения
 
@@ -26,6 +31,8 @@
 TELEGRAM_BOT_TOKEN=your_bot_token
 TELEGRAM_CHAT_ID=your_chat_id
 ```
+
+Выберите окружения: Production, Preview, Development
 
 ### 3. Получите URL API
 
@@ -40,7 +47,3 @@ NEXT_PUBLIC_API_URL=https://your-api.vercel.app
 ```
 
 ---
-
-##  Связь с основным проектом
-
-Основной проект должен использовать этот API через переменную `NEXT_PUBLIC_API_URL`.
