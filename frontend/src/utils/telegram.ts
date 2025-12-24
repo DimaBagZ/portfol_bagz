@@ -18,7 +18,9 @@ import type {
  */
 const getApiUrl = (): string => {
   if (typeof window !== "undefined" && process.env.NEXT_PUBLIC_API_URL) {
-    return process.env.NEXT_PUBLIC_API_URL;
+    // Убираем слеш в конце, если есть, чтобы избежать двойных слешей
+    const url = process.env.NEXT_PUBLIC_API_URL.trim().replace(/\/+$/, "");
+    return url;
   }
   return "/api";
 };
@@ -43,7 +45,9 @@ export const sendToTelegram = async (
 ): Promise<TelegramSendResult> => {
   try {
     const apiUrl = getApiUrl();
-    const response = await fetch(`${apiUrl}/telegram`, {
+    // Для внешнего API путь должен быть /api/telegram, для локального - /api/telegram
+    const endpoint = apiUrl.startsWith("http") ? `${apiUrl}/api/telegram` : `${apiUrl}/telegram`;
+    const response = await fetch(endpoint, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -98,7 +102,9 @@ export const sendToTelegram = async (
 export const checkTelegramConnection = async (): Promise<boolean> => {
   try {
     const apiUrl = getApiUrl();
-    const response = await fetch(`${apiUrl}/telegram`, {
+    // Для внешнего API путь должен быть /api/telegram, для локального - /api/telegram
+    const endpoint = apiUrl.startsWith("http") ? `${apiUrl}/api/telegram` : `${apiUrl}/telegram`;
+    const response = await fetch(endpoint, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
