@@ -27,6 +27,8 @@ jobs:
         env:
           # Для статического экспорта на GitHub Pages
           STATIC_EXPORT: "true"
+          # URL внешнего API (api-telegram на Vercel)
+          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
         run: |
           cd frontend
           npm run build
