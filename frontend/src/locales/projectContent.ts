@@ -94,10 +94,11 @@ export const projectContent: ProjectContentMap = {
       title: "DB.dev Portfolio",
       description: "Современное портфолио fullstack разработчика",
       longDescription:
-        "Сайт на Next.js 15, React 19 и Tailwind. Темы, анимации, фильтры проектов, модальные окна, интеграция с GitHub и статический экспорт.",
+        "Сайт на Next.js 16.1.1, React 19.1.4 и Tailwind. Темы, анимации, фильтры проектов, модальные окна, интеграция с GitHub и статический экспорт. Все уязвимости безопасности устранены (CVE-2025-66478).",
       features: [
-        "Next.js 15 с App Router и Turbopack",
-        "React 19 с современными хуками",
+        "Next.js 16.1.1 с App Router и Turbopack",
+        "React 19.1.4 с современными хуками",
+        "Устранены все уязвимости безопасности (CVE-2025-66478)",
         "TypeScript для полной типизации",
         "Tailwind CSS для стилизации",
         "Framer Motion для анимаций",
@@ -583,10 +584,11 @@ export const projectContent: ProjectContentMap = {
       title: "DB.dev Portfolio",
       description: "Сучасне портфоліо fullstack-розробника",
       longDescription:
-        "Сайт Next.js 15 + React 19 із анімаціями, темами, фільтрами проєктів, модальними вікнами та інтеграцією з GitHub.",
+        "Сайт Next.js 16.1.1 + React 19.1.4 із анімаціями, темами, фільтрами проєктів, модальними вікнами та інтеграцією з GitHub. Усі вразливості безпеки усунені (CVE-2025-66478).",
       features: [
-        "Next.js 15 з App Router та Turbopack",
-        "React 19 з сучасними хуками",
+        "Next.js 16.1.1 з App Router та Turbopack",
+        "React 19.1.4 з сучасними хуками",
+        "Усунуті всі вразливості безпеки (CVE-2025-66478)",
         "TypeScript для повної типізації",
         "Tailwind CSS для стилізації",
         "Framer Motion для анімацій",
@@ -1070,10 +1072,11 @@ export const projectContent: ProjectContentMap = {
       title: "DB.dev Portfolio",
       description: "Modern fullstack portfolio with animations and filters",
       longDescription:
-        "Next.js 15 + React 19 site with Tailwind, Framer Motion, dark/light themes, project filters, modals, GitHub integration, and static export for GitHub Pages.",
+        "Next.js 16.1.1 + React 19.1.4 site with Tailwind, Framer Motion, dark/light themes, project filters, modals, GitHub integration, and static export for GitHub Pages. All security vulnerabilities fixed (CVE-2025-66478).",
       features: [
-        "Next.js 15 with App Router and Turbopack",
-        "React 19 with modern hooks",
+        "Next.js 16.1.1 with App Router and Turbopack",
+        "React 19.1.4 with modern hooks",
+        "All security vulnerabilities fixed (CVE-2025-66478)",
         "TypeScript for full typing",
         "Tailwind CSS for styling",
         "Framer Motion for animations",

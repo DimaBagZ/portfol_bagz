@@ -154,7 +154,7 @@ export const projects: Project[] = [
     description:
       "Современное портфолио fullstack разработчика с интерактивными элементами",
     longDescription:
-      "Портфолио-BAGZ — это современное веб-приложение портфолио для fullstack разработчика Багинского Дмитрия Игоревича. Проект демонстрирует навыки в Next.js 15, React 19, TypeScript, Tailwind CSS и Framer Motion. Включает адаптивный дизайн, темную/светлую тему, интерактивные анимации, модальные окна, систему фильтрации проектов и современную архитектуру компонентов. Поддерживает статический экспорт для GitHub Pages с оптимизацией изображений и SEO.",
+      "Портфолио-BAGZ — это современное веб-приложение портфолио для fullstack разработчика Багинского Дмитрия Игоревича. Проект демонстрирует навыки в Next.js 16.1.1, React 19.1.4, TypeScript, Tailwind CSS и Framer Motion. Включает адаптивный дизайн, темную/светлую тему, интерактивные анимации, модальные окна, систему фильтрации проектов и современную архитектуру компонентов. Поддерживает статический экспорт для GitHub Pages с оптимизацией изображений и SEO. Все уязвимости безопасности устранены (CVE-2025-66478).",
     image: "/images/projects/portfolio-bagz/main.png",
     screenshots: [
       "/images/projects/portfolio-bagz/main.png",
@@ -163,8 +163,8 @@ export const projects: Project[] = [
       "/images/projects/portfolio-bagz/mobile.png",
     ],
     technologies: [
-      "Next.js 15",
-      "React 19",
+      "Next.js 16.1.1",
+      "React 19.1.4",
       "TypeScript",
       "Tailwind CSS",
       "Framer Motion",
@@ -175,6 +175,7 @@ export const projects: Project[] = [
       "Responsive Design",
       "Dark/Light Theme",
       "SEO Optimization",
+      "Security Updates",
     ],
     githubUrl: "https://github.com/DimaBagZ/portfol_bagz",
     liveUrl: "https://dimabagz.github.io/portfol_bagz/",
@@ -183,8 +184,9 @@ export const projects: Project[] = [
     createdAt: "2025-06-01",
     status: "completed",
     features: [
-      "Next.js 15 с App Router и Turbopack",
-      "React 19 с современными хуками",
+      "Next.js 16.1.1 с App Router и Turbopack",
+      "React 19.1.4 с современными хуками",
+      "Устранены все уязвимости безопасности (CVE-2025-66478)",
       "TypeScript для полной типизации",
       "Tailwind CSS для стилизации",
       "Framer Motion для анимаций",
