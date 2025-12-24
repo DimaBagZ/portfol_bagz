@@ -5,6 +5,9 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
+
+// Отключаем trailingSlash для этого роута, чтобы избежать редиректов при CORS preflight
+export const runtime = "nodejs";
 import {
   TelegramConfig,
   MessageFormatter,
@@ -211,8 +214,17 @@ function getClientIdentifier(request: NextRequest): string {
  * @returns HTTP ответ с CORS заголовками
  */
 export async function OPTIONS(request: NextRequest): Promise<NextResponse> {
-  const headers = getCorsHeaders(request.headers.get("origin"));
-  return new NextResponse(null, { status: 204, headers });
+  const origin = request.headers.get("origin");
+  const headers = getCorsHeaders(origin);
+  
+  // Важно: возвращаем 204 без тела и с правильными заголовками
+  return new NextResponse(null, { 
+    status: 204,
+    headers: {
+      ...headers,
+      "Content-Length": "0",
+    }
+  });
 }
 
 /**

@@ -6,7 +6,8 @@ import type { NextConfig } from "next";
  */
 const nextConfig: NextConfig = {
   // НЕ используем output: "export" - нужны API роуты
-  trailingSlash: true,
+  // trailingSlash отключен для API роутов, чтобы избежать редиректов при CORS preflight
+  trailingSlash: false,
 };
 
 export default nextConfig;
