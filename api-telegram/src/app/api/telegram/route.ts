@@ -56,61 +56,106 @@ function isValidAction(action: unknown): action is TelegramApiAction {
 }
 
 /**
+ * Создает CORS заголовки для ответа
+ * @param origin - origin запроса
+ * @returns Объект с CORS заголовками
+ */
+function getCorsHeaders(origin: string | null): Record<string, string> {
+  const allowedOrigins = [
+    "https://dimabagz.github.io",
+    "http://localhost:3000",
+    "http://localhost:3001",
+  ];
+  
+  const allowedOrigin = origin && allowedOrigins.includes(origin) ? origin : allowedOrigins[0];
+  
+  return {
+    "Access-Control-Allow-Origin": allowedOrigin,
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+    "Access-Control-Max-Age": "86400",
+  };
+}
+
+/**
  * Создает ответ об ошибке
  * @param error - сообщение об ошибке
  * @param details - детали ошибки
  * @param status - HTTP статус код
+ * @param request - HTTP запрос для CORS заголовков
  * @returns Ответ NextResponse
  */
 function createErrorResponse(
   error: string,
   details?: string,
-  status: number = 500
+  status: number = 500,
+  request?: NextRequest
 ): NextResponse<TelegramApiRouteResponse> {
+  const headers = request ? getCorsHeaders(request.headers.get("origin")) : {};
+  
   return NextResponse.json(
     {
       success: false,
       error,
       ...(details && { details }),
     },
-    { status }
+    { 
+      status,
+      headers,
+    }
   );
 }
 
 /**
  * Создает успешный ответ
  * @param data - данные для ответа
+ * @param request - HTTP запрос для CORS заголовков
  * @returns Ответ NextResponse
  */
-function createSuccessResponse(data: unknown): NextResponse<TelegramApiRouteResponse> {
-  return NextResponse.json({
-    success: true,
-    data,
-  });
+function createSuccessResponse(
+  data: unknown,
+  request?: NextRequest
+): NextResponse<TelegramApiRouteResponse> {
+  const headers = request ? getCorsHeaders(request.headers.get("origin")) : {};
+  
+  return NextResponse.json(
+    {
+      success: true,
+      data,
+    },
+    { headers }
+  );
 }
 
 /**
  * Обрабатывает действие "check" - проверка соединения
  * @param service - сервис Telegram
+ * @param request - HTTP запрос для CORS заголовков
  * @returns Ответ NextResponse
  */
 async function handleCheck(
-  service: TelegramService
+  service: TelegramService,
+  request: NextRequest
 ): Promise<NextResponse<TelegramApiRouteResponse>> {
   // Оптимизация: делаем только один запрос getMe() вместо двух
   const botInfo = await service.getMe();
 
   if (botInfo.success) {
-    return createSuccessResponse({
-      connected: true,
-      bot: botInfo.data,
-    });
+    return createSuccessResponse(
+      {
+        connected: true,
+        bot: botInfo.data,
+      },
+      request
+    );
   }
 
   return createErrorResponse(
     "Не удалось подключиться к Telegram API",
     botInfo.error.message ||
-      "Проверьте правильность токена и chat ID, а также интернет-соединение"
+      "Проверьте правильность токена и chat ID, а также интернет-соединение",
+    500,
+    request
   );
 }
 
@@ -118,22 +163,32 @@ async function handleCheck(
  * Обрабатывает действие "send" - отправка сообщения
  * @param service - сервис Telegram
  * @param data - данные сообщения
+ * @param request - HTTP запрос для CORS заголовков
  * @returns Ответ NextResponse
  */
 async function handleSend(
   service: TelegramService,
-  data: TelegramMessageData
+  data: TelegramMessageData,
+  request: NextRequest
 ): Promise<NextResponse<TelegramApiRouteResponse>> {
   const result = await service.sendMessage(data);
 
   if (result.success) {
-    return createSuccessResponse({
-      messageId: result.data.message_id,
-      sentAt: new Date(result.data.date * 1000).toISOString(),
-    });
+    return createSuccessResponse(
+      {
+        messageId: result.data.message_id,
+        sentAt: new Date(result.data.date * 1000).toISOString(),
+      },
+      request
+    );
   }
 
-  return createErrorResponse(result.error.message, `Код ошибки: ${result.error.code}`);
+  return createErrorResponse(
+    result.error.message,
+    `Код ошибки: ${result.error.code}`,
+    500,
+    request
+  );
 }
 
 /**
@@ -148,6 +203,16 @@ function getClientIdentifier(request: NextRequest): string {
   const ip = forwardedFor?.split(",")[0] || realIp || "unknown";
 
   return ip.trim();
+}
+
+/**
+ * OPTIONS обработчик для CORS preflight запросов
+ * @param request - HTTP запрос
+ * @returns HTTP ответ с CORS заголовками
+ */
+export async function OPTIONS(request: NextRequest): Promise<NextResponse> {
+  const headers = getCorsHeaders(request.headers.get("origin"));
+  return new NextResponse(null, { status: 204, headers });
 }
 
 /**
@@ -169,7 +234,8 @@ export async function POST(
         `Пожалуйста, подождите ${Math.ceil(
           resetTime / 1000
         )} секунд перед следующим запросом. Лимит: 10 запросов в минуту.`,
-        429
+        429,
+        request
       );
     }
 
@@ -178,7 +244,7 @@ export async function POST(
     try {
       body = await request.json();
     } catch {
-      return createErrorResponse("Неверный формат JSON в теле запроса", undefined, 400);
+      return createErrorResponse("Неверный формат JSON в теле запроса", undefined, 400, request);
     }
 
     const { action, data } = body;
@@ -188,7 +254,8 @@ export async function POST(
       return createErrorResponse(
         "Неизвестное или отсутствующее действие",
         'Действие должно быть "check" или "send"',
-        400
+        400,
+        request
       );
     }
 
@@ -198,7 +265,8 @@ export async function POST(
       return createErrorResponse(
         "Конфигурация Telegram не настроена",
         "Установите TELEGRAM_BOT_TOKEN и TELEGRAM_CHAT_ID в переменных окружения",
-        500
+        500,
+        request
       );
     }
 
@@ -209,7 +277,7 @@ export async function POST(
     // 6. Обработка действий
     switch (action) {
       case "check": {
-        return await handleCheck(service);
+        return await handleCheck(service, request);
       }
 
       case "send": {
@@ -218,16 +286,17 @@ export async function POST(
           return createErrorResponse(
             "Неверные данные сообщения",
             "Проверьте, что все поля заполнены корректно: имя (мин. 2 символа), email (валидный формат), тема (мин. 3 символа), сообщение (10-1000 символов)",
-            400
+            400,
+            request
           );
         }
 
-        return await handleSend(service, data);
+        return await handleSend(service, data, request);
       }
 
       default: {
         // Этот случай не должен произойти из-за валидации выше
-        return createErrorResponse("Неизвестное действие", undefined, 400);
+        return createErrorResponse("Неизвестное действие", undefined, 400, request);
       }
     }
   } catch (error) {
@@ -236,6 +305,6 @@ export async function POST(
     const errorMessage =
       error instanceof Error ? error.message : "Внутренняя ошибка сервера";
 
-    return createErrorResponse(errorMessage, undefined, 500);
+    return createErrorResponse(errorMessage, undefined, 500, request);
   }
 }
