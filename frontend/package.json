@@ -7,7 +7,7 @@
     "build": "next build --turbopack",
     "postbuild": "node scripts/generate-static-icons.mjs",
     "start": "next start",
-    "lint": "eslint",
+    "lint": "cross-env ESLINT_USE_FLAT_CONFIG=false eslint . --ext .ts,.tsx,.js,.jsx",
     "export": "next build && next export"
   },
   "dependencies": {
@@ -18,13 +18,15 @@
     "react-dom": "^19.1.4"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3",
+    "@eslint/compat": "^1.4.1",
+    "@eslint/eslintrc": "^3.3.3",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "^16.1.1",
+    "cross-env": "^10.1.0",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "^15.1.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

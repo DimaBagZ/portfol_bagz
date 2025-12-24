@@ -67,7 +67,6 @@ export const YANDEX_METRICA_ID = process.env.NEXT_PUBLIC_YANDEX_METRICA_ID || ""
 export const initYandexMetrica = () => {
   if (typeof window !== "undefined" && YANDEX_METRICA_ID) {
     (function (
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       m: any,
       e: Document,
       t: string,

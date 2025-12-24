@@ -89,3 +89,7 @@ jspm_packages/
 
 # Reports and documentation
 reports_by_bags/
+
+# TypeScript build info
+*.tsbuildinfo
+tsconfig.tsbuildinfo
