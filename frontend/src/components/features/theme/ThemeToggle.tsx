@@ -1,45 +1,64 @@
 "use client";
 
-import { Sun, Moon } from "lucide-react";
+import { Moon, Sun } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
 import { useTheme } from "@/contexts/ThemeContext";
 
 const ThemeToggle = () => {
   const { theme, isHydrated, toggleTheme } = useTheme();
+  const reduceMotion = useReducedMotion();
+  const isDark = theme === "dark";
 
-  // Показываем кнопку только после гидратации
   if (!isHydrated) {
-    return (
-      <div className="relative p-2 rounded-lg bg-muted">
-        <div className="w-6 h-6" />
-      </div>
-    );
+    return <div className="theme-toggle theme-toggle--skeleton" aria-hidden="true" />;
   }
 
   return (
-    <button
+    <motion.button
+      type="button"
       onClick={toggleTheme}
-      className="relative p-2 rounded-lg bg-muted hover:bg-accent transition-colors duration-200 group"
-      aria-label={`Переключить на ${theme === "light" ? "темную" : "светлую"} тему`}
+      className="theme-toggle"
+      aria-label={`Переключить на ${isDark ? "светлую" : "тёмную"} тему`}
+      aria-pressed={isDark}
+      whileTap={reduceMotion ? undefined : { scale: 0.96 }}
+      transition={{ type: "spring", stiffness: 420, damping: 28 }}
     >
-      <div className="relative w-6 h-6">
-        <Sun
-          size={20}
-          className={`absolute inset-0 transition-all duration-300 ${
-            theme === "light"
-              ? "opacity-100 rotate-0 scale-100"
-              : "opacity-0 rotate-90 scale-75"
-          } text-primary`}
-        />
-        <Moon
-          size={20}
-          className={`absolute inset-0 transition-all duration-300 ${
-            theme === "dark"
-              ? "opacity-100 rotate-0 scale-100"
-              : "opacity-0 -rotate-90 scale-75"
-          } text-primary`}
-        />
-      </div>
-    </button>
+      <span className="theme-toggle__track" aria-hidden="true">
+        <span className="theme-toggle__grid" />
+        <span className="theme-toggle__glow" />
+
+        <motion.span
+          className="theme-toggle__thumb"
+          transition={
+            reduceMotion
+              ? { duration: 0 }
+              : { type: "spring", stiffness: 380, damping: 28, mass: 0.7 }
+          }
+          animate={{ x: isDark ? 22 : 0 }}
+        >
+          <motion.span
+            className="theme-toggle__icon"
+            key={theme}
+            initial={reduceMotion ? false : { opacity: 0, rotate: -40, scale: 0.7 }}
+            animate={{ opacity: 1, rotate: 0, scale: 1 }}
+            transition={
+              reduceMotion
+                ? { duration: 0 }
+                : { type: "spring", stiffness: 420, damping: 22 }
+            }
+          >
+            {isDark ? <Moon size={14} strokeWidth={2.25} /> : <Sun size={14} strokeWidth={2.25} />}
+          </motion.span>
+        </motion.span>
+
+        <span className="theme-toggle__hint theme-toggle__hint--sun">
+          <Sun size={12} strokeWidth={2} />
+        </span>
+        <span className="theme-toggle__hint theme-toggle__hint--moon">
+          <Moon size={12} strokeWidth={2} />
+        </span>
+      </span>
+    </motion.button>
   );
 };
 

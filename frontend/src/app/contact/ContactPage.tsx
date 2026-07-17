@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, Phone, MapPin, Send, Github, Twitter, Linkedin } from "lucide-react";
+import { Mail, Phone, MapPin, Send, Github, Linkedin } from "lucide-react";
 import {
   HeroSection,
   ContentSection,
@@ -10,6 +10,7 @@ import {
   Button,
   TranslatedText,
 } from "@/components/ui";
+import XLogo from "@/components/icons/XLogo";
 import { CONTACT_INFO, SOCIAL_LINKS } from "@/config/constants";
 import { validateContactForm, type ContactFormData } from "@/utils/validation";
 import { sendToTelegram } from "@/utils/telegram";
@@ -116,18 +117,17 @@ export default function ContactPage() {
     };
   });
 
+  const socialIconMap = {
+    Github,
+    Send,
+    Linkedin,
+    X: XLogo,
+    Mail,
+  } as const;
+
   const socialLinks = SOCIAL_LINKS.map((social) => ({
     ...social,
-    icon:
-      social.icon === "Github"
-        ? Github
-        : social.icon === "Send"
-        ? Send
-        : social.icon === "Linkedin"
-        ? Linkedin
-        : social.icon === "Mail"
-        ? Mail
-        : Twitter,
+    icon: socialIconMap[social.icon],
   }));
 
   return (
@@ -244,81 +244,78 @@ export default function ContactPage() {
           </Card>
 
           {/* Contact Info */}
-          <Card delay={0.4} className="space-y-8">
-            <div>
-              <TranslatedText as="h2" className="text-2xl font-bold text-primary mb-6">
-                {contactTexts.infoTitle}
-              </TranslatedText>
+          <Card delay={0.4}>
+            <div className="space-y-8">
+              <div>
+                <TranslatedText as="h2" className="text-2xl font-bold text-primary mb-6">
+                  {contactTexts.infoTitle}
+                </TranslatedText>
 
-              <div className="space-y-6">
-                {contactInfo.map((info, index) => {
-                  const Icon = info.icon;
-                  return (
-                    <motion.a
-                      key={info.title}
-                      href={info.href}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
-                      className="flex items-center p-4 bg-card rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 border border-theme"
-                    >
-                      <div className="bg-primary/20 p-3 rounded-lg mr-4">
-                        <Icon size={24} className="text-primary" />
-                      </div>
-                      <div>
-                        <TranslatedText as="h3" className="font-semibold text-primary">
-                          {info.title}
-                        </TranslatedText>
-                        <TranslatedText as="p" className="text-muted">
-                          {info.value}
-                        </TranslatedText>
-                      </div>
-                    </motion.a>
-                  );
-                })}
+                <div className="space-y-6">
+                  {contactInfo.map((info, index) => {
+                    const Icon = info.icon;
+                    return (
+                      <motion.a
+                        key={info.title}
+                        href={info.href}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
+                        className="flex items-center p-4 bg-card rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 border border-theme"
+                      >
+                        <div className="bg-primary/20 p-3 rounded-lg mr-4">
+                          <Icon size={24} className="text-primary" />
+                        </div>
+                        <div>
+                          <TranslatedText as="h3" className="font-semibold text-primary">
+                            {info.title}
+                          </TranslatedText>
+                          <TranslatedText as="p" className="text-muted">
+                            {info.value}
+                          </TranslatedText>
+                        </div>
+                      </motion.a>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div>
+                <TranslatedText as="h3" className="text-xl font-bold text-primary mb-4">
+                  {contactTexts.socialTitle}
+                </TranslatedText>
+
+                <div className="flex space-x-4">
+                  {socialLinks.map((social) => {
+                    const Icon = social.icon;
+                    return (
+                      <a
+                        key={social.name}
+                        href={social.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`p-3 bg-card rounded-lg shadow-md hover:shadow-lg transition-all duration-200 border border-theme ${social.color}`}
+                        title={social.name}
+                      >
+                        <Icon size={24} />
+                      </a>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="w-full p-4 rounded-lg border border-theme bg-card">
+                <TranslatedText as="h3" className="text-lg font-semibold text-primary mb-3">
+                  {contactTexts.responseTitle}
+                </TranslatedText>
+                <TranslatedText as="p" className="text-muted mb-2">
+                  {contactTexts.responseText}
+                </TranslatedText>
+                <TranslatedText as="p" className="text-sm text-muted">
+                  {contactTexts.responseSchedule}
+                </TranslatedText>
               </div>
             </div>
-
-            <div>
-              <TranslatedText as="h3" className="text-xl font-bold text-primary mb-4">
-                {contactTexts.socialTitle}
-              </TranslatedText>
-
-              <div className="flex space-x-4">
-                {socialLinks.map((social) => {
-                  const Icon = social.icon;
-                  return (
-                    <a
-                      key={social.name}
-                      href={social.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`p-3 bg-card rounded-lg shadow-md hover:shadow-lg transition-all duration-200 border border-theme ${social.color}`}
-                      title={social.name}
-                    >
-                      <Icon size={24} />
-                    </a>
-                  );
-                })}
-              </div>
-            </div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.8 }}
-              className="bg-primary/10 p-6 rounded-lg border border-primary/20"
-            >
-              <TranslatedText as="h3" className="text-lg font-semibold text-primary mb-3">
-                {contactTexts.responseTitle}
-              </TranslatedText>
-              <TranslatedText as="p" className="text-muted mb-2">
-                {contactTexts.responseText}
-              </TranslatedText>
-              <TranslatedText as="p" className="text-sm text-muted">
-                {contactTexts.responseSchedule}
-              </TranslatedText>
-            </motion.div>
           </Card>
         </div>
       </ContentSection>

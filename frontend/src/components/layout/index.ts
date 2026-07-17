@@ -4,3 +4,4 @@ export { default as Sidebar } from './Sidebar';
 export { default as LayoutHeader } from './LayoutHeader';
 export { default as LayoutFooter } from './LayoutFooter';
 export { default as MainContent } from './MainContent';
+export { default as SiteBackground } from './SiteBackground';

@@ -12,7 +12,7 @@ const MainContent = ({ children }: MainContentProps) => {
 
   return (
     <div
-      className="transition-all duration-300 min-h-screen pt-16"
+      className="relative transition-all duration-300 min-h-screen pt-16"
       style={{
         // В десктопной версии сайдбар всегда открывается поверх контента
         // В мобильной версии контент занимает всю ширину

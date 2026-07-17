@@ -15,6 +15,7 @@ import {
   Send,
   Linkedin,
 } from "lucide-react";
+import XLogo from "@/components/icons/XLogo";
 import AvatarModal from "@/components/ui/AvatarModal";
 import { skills } from "@/data/skills";
 import { workExperience } from "@/data/experience";
@@ -44,6 +45,7 @@ const Sidebar = () => {
   const age = useMemo(() => calculateAge(birthDate), []);
   const workExp = useMemo(() => calculateWorkExperience(workExperience), []);
   const projectStats = useMemo(() => calculateProjectStats(projects), []);
+  const currentYear = new Date().getFullYear();
 
   const socialLinks = [
     {
@@ -63,6 +65,12 @@ const Sidebar = () => {
       href: "https://www.linkedin.com/in/дмитрий-багинский-39a63738b",
       icon: Linkedin,
       color: "hover:text-blue-700",
+    },
+    {
+      name: "X",
+      href: "https://x.com/DimaBagZ",
+      icon: XLogo,
+      color: "hover:text-foreground",
     },
     {
       name: "Email",
@@ -408,8 +416,8 @@ const Sidebar = () => {
                         projectStats.total.toString()
                       )}
                     </div>
-                    <p className="text-xs text-muted">
-                      {translations.sidebar.footer.copyright}
+                    <p className="text-xs text-muted" suppressHydrationWarning>
+                      © {currentYear} {translations.sidebar.footer.copyrightName}
                     </p>
                   </motion.div>
                 )}

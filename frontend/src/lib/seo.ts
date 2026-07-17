@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 
 // SEO константы
 export const SEO_CONFIG = {
-  title: 'Портфолио разработчика | Fullstack Developer',
+  title: 'Портфолио | Fullstack Software Engineer',
   description: 'Портфолио fullstack разработчика с опытом работы с React, Next.js, Node.js, Nest.js и другими современными технологиями.',
   keywords: [
     'разработчик',
@@ -82,14 +82,15 @@ export function createStructuredData() {
     '@context': 'https://schema.org',
     '@type': 'Person',
     name: 'Bagiskij Developer',
-    jobTitle: 'Fullstack Developer',
+    jobTitle: 'Fullstack Software Engineer',
     description: SEO_CONFIG.description,
     url: SEO_CONFIG.url,
     image: SEO_CONFIG.image,
     sameAs: [
-      'https://github.com/your-username',
-      'https://linkedin.com/in/your-profile',
-      'https://twitter.com/your-username',
+      'https://github.com/DimaBagZ',
+      'https://www.linkedin.com/in/дмитрий-багинский-39a63738b',
+      'https://x.com/DimaBagZ',
+      'https://t.me/DimaBagz',
     ],
     knowsAbout: [
       'React',

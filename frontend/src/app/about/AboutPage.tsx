@@ -2,7 +2,16 @@
 
 import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
-import { Code, Globe, Users, Award, Bot, Brain, Languages } from "lucide-react";
+import {
+  Code,
+  Globe,
+  Users,
+  Award,
+  Brain,
+  Languages,
+  Smartphone,
+  Plug,
+} from "lucide-react";
 import {
   HeroSection,
   ContentSection,
@@ -22,7 +31,8 @@ import {
   calculateProjectStats,
   calculateProgrammingLanguages,
   calculateAIIntegrations,
-  calculateBotProjects,
+  calculateMobileProjects,
+  calculateIntegrationProjects,
 } from "@/utils/calculations";
 
 export default function AboutPage() {
@@ -37,15 +47,20 @@ export default function AboutPage() {
   const about = translations.about;
   const achievementsLabels = translations.achievements.cards;
 
-  // Рассчитываем реальные данные
   const workExp = useMemo(() => calculateWorkExperience(workExperience), []);
   const projectStats = useMemo(() => calculateProjectStats(projects), []);
   const programmingLanguages = useMemo(() => calculateProgrammingLanguages(skills), []);
   const aiIntegrations = useMemo(() => calculateAIIntegrations(projects), []);
-  const botProjects = useMemo(() => calculateBotProjects(projects), []);
+  const mobileProjects = useMemo(() => calculateMobileProjects(projects), []);
+  const integrationProjects = useMemo(
+    () => calculateIntegrationProjects(projects),
+    []
+  );
 
-  // Подсчитываем коммерческие проекты (featured проекты)
-  const commercialProjects = useMemo(() => projects.filter((p) => p.featured).length, []);
+  const commercialProjects = useMemo(
+    () => projects.filter((p) => p.featured || p.isNda).length,
+    []
+  );
 
   const handleViewExperience = (experience: WorkExperience) => {
     setSelectedExperience(experience);
@@ -114,41 +129,44 @@ export default function AboutPage() {
       details: achievementsLabels.languages.details,
     },
     {
+      icon: Smartphone,
+      label: achievementsLabels.mobile.label,
+      value: mobileProjects,
+      suffix: "",
+      color: "text-accent",
+      useCounter: true,
+      details: achievementsLabels.mobile.details,
+    },
+    {
+      icon: Plug,
+      label: achievementsLabels.integrations.label,
+      value: integrationProjects,
+      suffix: "",
+      color: "text-success",
+      useCounter: true,
+      details: achievementsLabels.integrations.details,
+    },
+    {
       icon: Brain,
       label: achievementsLabels.ai.label,
       value: aiIntegrations,
       suffix: "+",
-      color: "text-success",
+      color: "text-warning",
       useCounter: true,
       details: achievementsLabels.ai.details,
-    },
-    {
-      icon: Bot,
-      label: achievementsLabels.bots.label,
-      value: botProjects,
-      suffix: "",
-      color: "text-accent",
-      useCounter: true,
-      details: achievementsLabels.bots.details,
-    },
-    {
-      icon: Code,
-      label: achievementsLabels.backendShare.label,
-      value: "30%",
-      suffix: "",
-      color: "text-primary",
-      useCounter: false,
-      details: achievementsLabels.backendShare.details,
     },
   ];
 
   return (
     <div className="min-h-screen">
-      <HeroSection title={translations.header.nav.about} subtitle={about.heroSubtitle} />
+      <HeroSection
+        title={translations.header.nav.about}
+        subtitle={about.heroSubtitle}
+        className="!bg-transparent"
+      />
 
       <ContentSection>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Story */}
           <Card delay={0.2}>
             <TranslatedText as="h2" className="text-3xl font-bold text-primary mb-6">
               {about.storyTitle}
@@ -162,8 +180,7 @@ export default function AboutPage() {
             </div>
           </Card>
 
-          {/* Achievements */}
-          <Card delay={0.4} className="flex flex-col">
+          <Card delay={0.4} className="ui-card--overflow flex flex-col">
             <TranslatedText
               as="h2"
               className="text-3xl font-bold text-primary mb-2 md:mb-4"
@@ -185,13 +202,14 @@ export default function AboutPage() {
         subtitle={about.experienceSubtitle}
         background="card"
       >
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
           {workExperience.map((experience, index) => (
             <motion.div
               key={experience.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="h-full"
             >
               <ExperienceCard
                 experience={experience}
@@ -202,7 +220,6 @@ export default function AboutPage() {
         </div>
       </ContentSection>
 
-      {/* Модальное окно опыта работы */}
       <ExperienceModal
         experience={selectedExperience}
         isOpen={isModalOpen}
@@ -210,7 +227,6 @@ export default function AboutPage() {
         onViewProject={handleViewProject}
       />
 
-      {/* Модальное окно проекта */}
       <ProjectModal
         project={selectedProject}
         isOpen={isProjectModalOpen}

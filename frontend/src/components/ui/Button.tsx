@@ -1,7 +1,7 @@
 "use client";
 
 import { ReactNode } from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 
 interface ButtonProps {
@@ -29,52 +29,54 @@ const Button = ({
   target,
   rel,
 }: ButtonProps) => {
-  const baseClasses =
-    "inline-flex items-center justify-center font-medium rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2";
+  const reduceMotion = useReducedMotion();
 
-  const variantClasses = {
-    primary:
-      "bg-primary text-primary-foreground hover:bg-accent disabled:opacity-50 disabled:cursor-not-allowed",
-    secondary:
-      "bg-secondary text-secondary-foreground hover:bg-secondary/80 disabled:opacity-50 disabled:cursor-not-allowed",
-    outline:
-      "border border-primary text-primary hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed",
+  const classes = [
+    "ui-btn",
+    `ui-btn--${variant}`,
+    `ui-btn--${size}`,
+    disabled ? "is-disabled" : "",
+    className,
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  const motionProps = {
+    whileHover: reduceMotion || disabled ? undefined : { scale: 1.02, y: -1 },
+    whileTap: reduceMotion || disabled ? undefined : { scale: 0.98 },
+    transition: { type: "spring" as const, stiffness: 420, damping: 28 },
   };
 
-  const sizeClasses = {
-    sm: "px-4 py-2 text-sm",
-    md: "px-6 py-3 text-base",
-    lg: "px-8 py-4 text-lg",
-  };
-
-  const classes = `${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${className}`;
+  const content = (
+    <>
+      <span className="ui-btn__grid" aria-hidden="true" />
+      <span className="ui-btn__glow" aria-hidden="true" />
+      <span className="ui-btn__label">{children}</span>
+    </>
+  );
 
   if (href) {
-    // Если есть target или rel, используем обычную ссылку
     if (target || rel) {
       return (
-        <a href={href} target={target} rel={rel} className="inline-block" suppressHydrationWarning>
-          <motion.div
-            className={classes}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            {children}
-          </motion.div>
+        <a
+          href={href}
+          target={target}
+          rel={rel}
+          className="ui-btn-wrap"
+          suppressHydrationWarning
+        >
+          <motion.span className={classes} {...motionProps}>
+            {content}
+          </motion.span>
         </a>
       );
     }
 
-    // Иначе используем Next.js Link для внутренней навигации
     return (
-      <Link href={href} className="inline-block" suppressHydrationWarning>
-        <motion.div
-          className={classes}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-        >
-          {children}
-        </motion.div>
+      <Link href={href} className="ui-btn-wrap" suppressHydrationWarning>
+        <motion.span className={classes} {...motionProps}>
+          {content}
+        </motion.span>
       </Link>
     );
   }
@@ -85,11 +87,10 @@ const Button = ({
       className={classes}
       onClick={onClick}
       disabled={disabled}
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
       suppressHydrationWarning
+      {...motionProps}
     >
-      {children}
+      {content}
     </motion.button>
   );
 };

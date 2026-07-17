@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Database, Globe, Monitor } from "lucide-react";
+import { ArrowRight, Database, Globe, Monitor, Smartphone } from "lucide-react";
 import { ProjectCard, ProjectModal } from "@/components/features/projects";
 import { HeroSection, ContentSection, Card, Button, TranslatedText } from "@/components/ui";
 import StatsSection from "@/components/ui/StatsSection";
@@ -31,6 +31,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen">
       <HeroSection
+        backgroundImage="/images/backgrounds/portfolio-hero-fullstack.webp"
         title={
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -49,7 +50,7 @@ export default function HomePage() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent"
+              className="hero-name text-4xl md:text-6xl font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent"
               suppressHydrationWarning
             >
               {home.hero.name}
@@ -58,7 +59,7 @@ export default function HomePage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.6 }}
-              className="text-center text-lg text-muted"
+              className="text-center text-lg text-foreground/80"
               suppressHydrationWarning
             >
               <span>{home.hero.position}</span>
@@ -66,7 +67,7 @@ export default function HomePage() {
           </motion.div>
         }
         subtitle={home.hero.subtitle}
-        className="bg-gradient-to-br from-primary/10 via-accent/5 to-primary/10"
+        className="[&_.text-muted]:text-foreground/75"
       >
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -107,21 +108,15 @@ export default function HomePage() {
           </motion.div>
         </motion.div>
 
-        {/* Дополнительная информация */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.4 }}
-          className="mt-8 flex flex-wrap justify-center gap-4 text-sm text-muted"
+          className="mt-10 flex flex-wrap justify-center gap-3"
         >
-          {home.hero.tags.map((tag, index) => (
-            <span
-              key={tag}
-              className={`px-3 py-1 rounded-full ${
-                index % 2 === 0 ? "bg-primary/10" : "bg-accent/10"
-              }`}
-              suppressHydrationWarning
-            >
+          {home.hero.tags.map((tag) => (
+            <span key={tag} className="tech-badge" suppressHydrationWarning>
+              <span className="tech-badge__dot" aria-hidden="true" />
               {tag}
             </span>
           ))}
@@ -133,7 +128,7 @@ export default function HomePage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 1.8 }}
-        className="py-16 bg-gradient-to-r from-primary/5 to-accent/5"
+        className="py-16 bg-section-stats"
       >
         <div className="max-w-7xl mx-auto px-4">
           <motion.div
@@ -154,44 +149,58 @@ export default function HomePage() {
       </motion.div>
 
       <ContentSection title={home.services.title} subtitle={home.services.subtitle} background="card">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <Card delay={0}>
-            <div className="text-center">
-              <div className="bg-blue-100 dark:bg-blue-900/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Monitor className="text-blue-600" size={32} />
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 lg:gap-7">
+          <Card delay={0} className="ui-card--service">
+            <div className="service-card">
+              <div className="service-card__icon">
+                <Monitor size={30} strokeWidth={1.75} />
               </div>
-              <TranslatedText as="h3" className="text-xl font-semibold text-primary mb-2">
+              <TranslatedText as="h3" className="service-card__title">
                 {home.services.cards.frontend.title}
               </TranslatedText>
-              <TranslatedText as="p" className="text-muted">
+              <TranslatedText as="p" className="service-card__text">
                 {home.services.cards.frontend.description}
               </TranslatedText>
             </div>
           </Card>
 
-          <Card delay={0.2}>
-            <div className="text-center">
-              <div className="bg-success/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Database className="text-success" size={32} />
+          <Card delay={0.1} className="ui-card--service">
+            <div className="service-card">
+              <div className="service-card__icon">
+                <Database size={30} strokeWidth={1.75} />
               </div>
-              <TranslatedText as="h3" className="text-xl font-semibold text-primary mb-2">
+              <TranslatedText as="h3" className="service-card__title">
                 {home.services.cards.backend.title}
               </TranslatedText>
-              <TranslatedText as="p" className="text-muted">
+              <TranslatedText as="p" className="service-card__text">
                 {home.services.cards.backend.description}
               </TranslatedText>
             </div>
           </Card>
 
-          <Card delay={0.4}>
-            <div className="text-center">
-              <div className="bg-accent/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Globe className="text-accent" size={32} />
+          <Card delay={0.2} className="ui-card--service">
+            <div className="service-card">
+              <div className="service-card__icon">
+                <Smartphone size={30} strokeWidth={1.75} />
               </div>
-              <TranslatedText as="h3" className="text-xl font-semibold text-primary mb-2">
+              <TranslatedText as="h3" className="service-card__title">
+                {home.services.cards.mobile.title}
+              </TranslatedText>
+              <TranslatedText as="p" className="service-card__text">
+                {home.services.cards.mobile.description}
+              </TranslatedText>
+            </div>
+          </Card>
+
+          <Card delay={0.3} className="ui-card--service">
+            <div className="service-card">
+              <div className="service-card__icon">
+                <Globe size={30} strokeWidth={1.75} />
+              </div>
+              <TranslatedText as="h3" className="service-card__title">
                 {home.services.cards.devops.title}
               </TranslatedText>
-              <TranslatedText as="p" className="text-muted">
+              <TranslatedText as="p" className="service-card__text">
                 {home.services.cards.devops.description}
               </TranslatedText>
             </div>

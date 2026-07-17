@@ -78,12 +78,12 @@ export const VALIDATION_RULES = {
 
 // Константы для социальных сетей
 export const SOCIAL_LINKS = {
-  github: 'https://github.com/your-username',
-  linkedin: 'https://linkedin.com/in/your-profile',
-  twitter: 'https://twitter.com/your-username',
+  github: 'https://github.com/DimaBagZ',
+  linkedin: 'https://www.linkedin.com/in/дмитрий-багинский-39a63738b',
+  twitter: 'https://x.com/DimaBagZ',
   telegram: 'https://t.me/DimaBagz',
-  email: 'mailto:your-email@example.com',
-  phone: 'tel:+7XXXXXXXXXX',
+  email: 'mailto:DimaBagZ@yandex.ru',
+  phone: 'tel:+79997008470',
 };
 
 // Константы для контактов

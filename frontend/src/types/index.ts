@@ -8,9 +8,13 @@ export interface Project {
   technologies: string[];
   githubUrl?: string;
   liveUrl?: string;
+  /** Публичное демо-видео / лендинг-ролик */
+  videoUrl?: string;
   storybookUrl?: string;
   serverUrl?: string;
   kanbanUrl?: string;
+  /** Закрытый коммерческий кейс: код/демо только по запросу */
+  isNda?: boolean;
   category: "frontend" | "backend" | "fullstack" | "mobile";
   categories?: string[];
   featured: boolean;

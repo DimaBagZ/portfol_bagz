@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "@/styles/globals.css";
-import { Sidebar, LayoutHeader, LayoutFooter, MainContent } from "@/components";
+import { Sidebar, LayoutHeader, LayoutFooter, MainContent, SiteBackground } from "@/components";
 import { SidebarProvider } from "@/contexts/SidebarContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { LanguageProvider } from "@/contexts/LanguageContext";
@@ -10,9 +10,9 @@ import { createMetadata, createStructuredData } from "@/lib/seo";
 const inter = Inter({ subsets: ["latin", "cyrillic"] });
 
 export const metadata: Metadata = createMetadata({
-  title: "Bagiskij - Fullstack Developer | Портфолио разработчика",
+  title: "Bagiskij - Fullstack Software Engineer | Портфолио",
   description:
-    "Портфолио fullstack разработчика с 3+ годами опыта. Специализируюсь на React, Next.js, Node.js, Nest.js, TypeScript. Создаю современные веб-приложения от идеи до развертывания.",
+    "Портфолио Fullstack Software Engineer с 3+ годами опыта. React, Next.js, Node.js, NestJS, TypeScript, Python, AI. Продукты от идеи до продакшена.",
   // Иконки задаются вручную в head с учетом basePath
   keywords: [
     "разработчик",
@@ -43,9 +43,9 @@ export const metadata: Metadata = createMetadata({
     "CI/CD",
   ],
   openGraph: {
-    title: "Bagiskij - Fullstack Developer | Портфолио",
+    title: "Bagiskij - Fullstack Software Engineer | Портфолио",
     description:
-      "Портфолио fullstack разработчика с 3+ годами опыта. Специализируюсь на React, Next.js, Node.js, Nest.js, TypeScript.",
+      "Портфолио Fullstack Software Engineer с 3+ годами опыта. React, Next.js, Node.js, NestJS, TypeScript, Python, AI.",
     type: "website",
     locale: "ru_RU",
     siteName: "Portfolio Bagiskij",
@@ -54,15 +54,15 @@ export const metadata: Metadata = createMetadata({
         url: "/images/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Bagiskij - Fullstack Developer Portfolio",
+        alt: "Bagiskij - Fullstack Software Engineer Portfolio",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Bagiskij - Fullstack Developer | Портфолио",
+    title: "Bagiskij - Fullstack Software Engineer | Портфолио",
     description:
-      "Портфолио fullstack разработчика с 3+ годами опыта. Специализируюсь на React, Next.js, Node.js, Nest.js, TypeScript.",
+      "Портфолио Fullstack Software Engineer с 3+ годами опыта. React, Next.js, Node.js, NestJS, TypeScript, Python, AI.",
     images: ["/images/og-image.jpg"],
   },
   robots: {
@@ -113,6 +113,7 @@ export default function RootLayout({
         <LanguageProvider>
           <ThemeProvider>
             <SidebarProvider>
+              <SiteBackground />
               <Sidebar />
               <LayoutHeader />
               <MainContent>{children}</MainContent>

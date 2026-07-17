@@ -9,7 +9,7 @@ const LayoutFooter = () => {
 
   return (
     <div
-      className="transition-all duration-300"
+      className="relative transition-all duration-300"
       style={{
         marginLeft: isMobile ? "0px" : isCollapsed ? "80px" : "320px",
       }}

@@ -8,6 +8,7 @@ export interface TranslationMap {
     nav: {
       home: string;
       about: string;
+      skills: string;
       projects: string;
       contact: string;
     };
@@ -48,7 +49,7 @@ export interface TranslationMap {
     footer: {
       experience: string;
       projects: string;
-      copyright: string;
+      copyrightName: string;
     };
   };
   home: {
@@ -82,6 +83,10 @@ export interface TranslationMap {
           title: string;
           description: string;
         };
+        mobile: {
+          title: string;
+          description: string;
+        };
         devops: {
           title: string;
           description: string;
@@ -101,6 +106,21 @@ export interface TranslationMap {
     achievementsTitle: string;
     experienceTitle: string;
     experienceSubtitle: string;
+  };
+  skillsPage: {
+    pageTitle: string;
+    pageSubtitle: string;
+    sidebarNote: string;
+    ctaProjects: string;
+    ctaContact: string;
+    groups: Record<
+      "product" | "web" | "backend" | "mobile" | "devops" | "ai",
+      {
+        title: string;
+        description: string;
+        highlights: string[];
+      }
+    >;
   };
   achievements: {
     interactiveHint: string;
@@ -125,15 +145,15 @@ export interface TranslationMap {
         label: string;
         details: string[];
       };
+      mobile: {
+        label: string;
+        details: string[];
+      };
+      integrations: {
+        label: string;
+        details: string[];
+      };
       ai: {
-        label: string;
-        details: string[];
-      };
-      bots: {
-        label: string;
-        details: string[];
-      };
-      backendShare: {
         label: string;
         details: string[];
       };
@@ -193,6 +213,8 @@ export interface TranslationMap {
       storybook: string;
       server: string;
       kanban: string;
+      nda: string;
+      onRequest: string;
       status: {
         completed: string;
         progress: string;
@@ -225,7 +247,9 @@ export interface TranslationMap {
         openProject: string;
         openSite: string;
         launchServer: string;
+        requestAccess: string;
       };
+      ndaNote: string;
     };
   };
   contact: {
@@ -266,6 +290,7 @@ export interface TranslationMap {
     quickLinks: {
       home: string;
       about: string;
+      skills: string;
       projects: string;
       contact: string;
     };
@@ -291,6 +316,7 @@ export const translations: Record<Language, TranslationMap> = {
       nav: {
         home: "Главная",
         about: "О себе",
+        skills: "Стек",
         projects: "Проекты",
         contact: "Контакты",
       },
@@ -304,7 +330,7 @@ export const translations: Record<Language, TranslationMap> = {
       profile: {
         firstName: "Дмитрий",
         fullName: "Дмитрий Багинский",
-        role: "Fullstack разработчик",
+        role: "Fullstack Software Engineer",
         ageLabel: "{years} лет",
         location: "Москва, Россия",
         compactAvatarTooltip: "Нажмите, чтобы открыть профиль",
@@ -331,22 +357,22 @@ export const translations: Record<Language, TranslationMap> = {
       footer: {
         experience: "Опыт: {years}+ лет",
         projects: "Проектов: {count}",
-        copyright: "© 2025 Дмитрий Багинский",
+        copyrightName: "Дмитрий Багинский",
       },
     },
     home: {
       hero: {
-        position: "Fullstack Developer",
+        position: "Fullstack Software Engineer",
         name: "Дмитрий",
         subtitle:
-          "Создаю современные веб-приложения с использованием React, Next.js, Node.js, Nest.js и React Native",
+          "Проектирую и собираю современные продукты end-to-end: React, Next.js, Node.js, NestJS, Python, AI и React Native",
         primaryCta: "Посмотреть проекты",
         secondaryCta: "Связаться со мной",
-        tags: ["Frontend", "Backend", "Fullstack", "Mobile"],
+        tags: ["Frontend", "Backend", "Mobile", "AI/LLM", "DevOps", "Architecture"],
       },
       stats: {
         title: "В цифрах",
-        description: "Результаты моей работы в области веб-разработки",
+        description: "Результаты работы fullstack software engineer",
         items: {
           experience: "Года опыта",
           projects: "Проектов",
@@ -357,22 +383,27 @@ export const translations: Record<Language, TranslationMap> = {
       services: {
         title: "О моей работе",
         subtitle:
-          "Специализируюсь на создании современных веб-приложений с использованием передовых технологий. Опыт работы с полным стеком разработки позволяет создавать масштабируемые и производительные решения.",
+          "Веду продукт как fullstack software engineer: от архитектуры и API до UI, мобильных клиентов на React Native/Expo, AI-интеграций и стабильного деплоя.",
         cards: {
           frontend: {
-            title: "Frontend",
+            title: "Frontend & UX",
             description:
-              "Создаю интуитивные пользовательские интерфейсы с современными фреймворками",
+              "Собираю быстрые интерфейсы на React/Next.js: дизайн-система, анимации, доступность и адаптив под реальные сценарии пользователей.",
           },
           backend: {
-            title: "Backend",
+            title: "Backend & Data",
             description:
-              "Разрабатываю надежные API и серверную логику для высоконагруженных систем",
+              "Проектирую API и доменную логику на NestJS/Node/Python: БД, очереди, auth, интеграции и устойчивость под нагрузкой.",
+          },
+          mobile: {
+            title: "Mobile · React Native",
+            description:
+              "Делаю кроссплатформенные приложения на React Native, в основном через Expo — один кодбаз под iOS и Android, с нативной ощупью и удобным релизным циклом.",
           },
           devops: {
-            title: "DevOps",
+            title: "DevOps & Delivery",
             description:
-              "Настраиваю инфраструктуру и процессы развертывания для стабильной работы",
+              "Настраиваю CI/CD, контейнеры и мониторинг, чтобы релизы были предсказуемыми, а системы — наблюдаемыми в проде.",
           },
         },
       },
@@ -384,18 +415,92 @@ export const translations: Record<Language, TranslationMap> = {
     },
     about: {
       heroSubtitle:
-        "Fullstack разработчик с опытом создания современных веб-приложений. Специализируюсь на React, Next.js, Node.js, NestJS, Python, AI интеграциях и React Native.",
+        "Fullstack Software Engineer с опытом создания современных продуктов. Специализируюсь на React, Next.js, Node.js, NestJS, Python, AI-интеграциях и React Native.",
       storyTitle: "Моя история",
       storyParagraphs: [
         "Мой путь в программировании начался в октябре 2022 года с самостоятельного изучения фронтенда и бэкенда. Это был период глубокого погружения в веб-разработку, когда я осваивал основы HTML, CSS, JavaScript, а затем переходил к более сложным технологиям. С самого начала меня привлекала возможность создавать полноценные приложения от идеи до развертывания.",
         "В 2023 году продолжил обучение fullstack разработке в Яндекс.Практикум, где систематизировал знания и получил опыт командной работы. Специализируюсь на React, Next.js, Node.js, NestJS, Python, FastAPI и React Native.",
         "Активно развиваюсь в области AI и машинного обучения, интегрируя языковые модели (OpenAI API, Claude API) в свои проекты. Работаю с LangChain, LlamaIndex, Qdrant для векторных баз данных, а также использую spaCy и NLTK для обработки естественного языка.",
         "Участвовал в командной разработке для Яндекса, работая над проектами ProCharity и SkillSwapAPI. Получил опыт работы в Agile/Scrum методологии с тим-лидами и фич-лидами. Настроил мониторинг систем с помощью Prometheus + Grafana и интегрировал API Telegram и WhatsApp для коммуникации.",
+        "Как Fullstack Software Engineer работаю над коммерческими продуктами компаний: от ТЗ и согласований с бизнесом, дизайном и копирайтерами до архитектуры, web и мобильных клиентов iOS/Android, WordPress, интеграций ERP/CRM и платежей (в том числе с белорусской компанией — их платежи, 1С и адаптация под законодательство РБ), деплоя в прод и поддержки после релиза. Активно участвую в митингах с клиентами и владельцами бизнеса — расширяю функционал под их запросы, делаю кастомные интеграции и настраиваю внешние сервисы и разные AI-модели. UI — строго по Figma и брендбуку.",
         "Считаю, что хороший код — это не только функциональность, но и читаемость, масштабируемость и производительность. Люблю изучать новые технологии и применять их в реальных проектах, особенно в области AI и автоматизации.",
       ],
       achievementsTitle: "Достижения",
       experienceTitle: "Опыт работы",
       experienceSubtitle: "Мой профессиональный путь в разработке",
+    },
+    skillsPage: {
+      pageTitle: "Skills & Stack",
+      pageSubtitle:
+        "Краткое саммари навыков, важных для бизнеса: от ТЗ и архитектуры до web, mobile, интеграций и стабильного продакшена.",
+      sidebarNote:
+        "Здесь — витрина для бизнеса. Полный список технологий и уровней смотрите в сайдбаре слева.",
+      ctaProjects: "Смотреть проекты",
+      ctaContact: "Обсудить задачу",
+      groups: {
+        product: {
+          title: "Продукт и архитектура",
+          description: "Веду продукт end-to-end: от гипотезы и ТЗ до релиза и поддержки.",
+          highlights: [
+            "Участие в ТЗ и корректировках с бизнесом, дизайном и копирайтерами",
+            "Митинги с клиентами и владельцами бизнеса: запросы → доработки и кастомные интеграции",
+            "Архитектура monorepo: shared-пакеты, API, web и mobile клиенты",
+            "Работа строго по Figma / брендбуку без «самодеятельности» в UI",
+            "Поддержка после релиза: инциденты, улучшения, стабильность",
+          ],
+        },
+        web: {
+          title: "Web-платформы",
+          description: "Клиентские кабинеты, админки и адаптивные продуктовые интерфейсы.",
+          highlights: [
+            "Next.js App Router + React + TypeScript",
+            "Fabric.js: модальный графический редактор креативов / маркировки",
+            "Multi-tenant кабинеты, маппинг SKU и настройки интеграций",
+            "Сложные формы, роли, личные кабинеты и admin-панели",
+            "UX под desktop / tablet / mobile в одном продукте",
+          ],
+        },
+        backend: {
+          title: "Backend и интеграции",
+          description: "API, данные, очереди и связка с ERP/CRM/платежами.",
+          highlights: [
+            "NestJS + PostgreSQL + Prisma, Redis, NATS и фоновые очереди",
+            "Интеграции с 1С, CRM, платёжными провайдерами (в т.ч. РБ) и внешними API",
+            "Коннекторы Shopify / WooCommerce / PrestaShop и маркетплейсов",
+            "Grammy / Telegram sync, Sharp, event-driven потоки (RxJS)",
+            "WordPress / WooCommerce: сайт продукта, плагины и синхронизация с платформой",
+            "Адаптация продуктов под законодательство РБ",
+          ],
+        },
+        mobile: {
+          title: "Mobile delivery",
+          description: "Нативные клиенты iOS/Android и путь до сторов.",
+          highlights: [
+            "React Native + Expo: один код для iOS и Android",
+            "EAS Build / Submit, push-уведомления, secure storage",
+            "Паритет ключевых сценариев с web-версией продукта",
+          ],
+        },
+        devops: {
+          title: "Инфраструктура и поставка",
+          description: "Чтобы продукт жил в проде, а не только на демо.",
+          highlights: [
+            "Docker, CI/CD (GitHub Actions / SourceCraft), окружения и миграции",
+            "Stage/preprod (Dokku) и prod (Yandex Cloud Kubernetes)",
+            "Terraform / Helm, Cloudflare, мониторинг ошибок, health-checks",
+          ],
+        },
+        ai: {
+          title: "AI и автоматизация",
+          description: "Практичные LLM-интеграции там, где они дают бизнес-эффект.",
+          highlights: [
+            "OpenAI / Claude, LangChain, векторный поиск",
+            "Настройка разных AI-моделей и внешних сервисов под задачи продукта",
+            "Боты и автоматизация коммуникаций",
+            "Python-микросервисы рядом с основным стеком",
+          ],
+        },
+      },
     },
     achievements: {
       interactiveHint: "Наведите или нажмите, чтобы узнать подробнее",
@@ -403,15 +508,17 @@ export const translations: Record<Language, TranslationMap> = {
         portfolio: {
           label: "Проектов в портфолио",
           details: [
-            "20+ pet и коммерческих приложений",
-            "Fullstack стек: React, Next.js, NestJS",
+            "Pet, учебные и коммерческие продукты",
+            "Fullstack: React, Next.js, NestJS, Expo",
           ],
         },
         commercial: {
           label: "Коммерческих проектов",
           details: [
+            "Dropshipping Hub, Synapex Creative Editor",
+            "Service Platform, Ad Ops SaaS",
             "Driver-Pro, Park-Pro, EVE Corp Manager",
-            "ProCharity CRM для Яндекса",
+            "ProCharity CRM и SkillSwapAPI",
           ],
         },
         experience: {
@@ -424,13 +531,30 @@ export const translations: Record<Language, TranslationMap> = {
         technologies: {
           label: "Технологий освоено",
           details: [
-            "Frontend, backend, mobile и DevOps",
-            "AI стек: LangChain, Qdrant, Prometheus",
+            "Web, backend, mobile, DevOps и AI",
+            "Fabric.js, NATS, Shopify, Stripe, Terraform, WordPress",
+            "Платежи РБ, WooCommerce, Expo/EAS, K8s",
           ],
         },
         languages: {
           label: "Языков программирования",
           details: ["JavaScript / TypeScript / Python", "HTML5 + CSS3 для интерфейсов"],
+        },
+        mobile: {
+          label: "Mobile-проектов",
+          details: [
+            "React Native + Expo: iOS и Android",
+            "EAS Build / Submit, push, secure storage",
+            "Прод-продукты с нативными клиентами",
+          ],
+        },
+        integrations: {
+          label: "Интеграционных кейсов",
+          details: [
+            "ERP 1С (CommerceML / HTTP API), в т.ч. РБ",
+            "CRM Bitrix24, платежи РБ, WordPress / WooCommerce",
+            "NATS → Telegram (Grammy), Ads API, webhooks",
+          ],
         },
         ai: {
           label: "AI интеграций",
@@ -439,18 +563,6 @@ export const translations: Record<Language, TranslationMap> = {
             "LangChain + LlamaIndex",
             "Qdrant + spaCy/NLTK",
           ],
-        },
-        bots: {
-          label: "Работа с ботами",
-          details: [
-            "Telegram Bot + вебхуки",
-            "WhatsApp Business API",
-            "Уведомления в Driver-Pro и EVE Corp",
-          ],
-        },
-        backendShare: {
-          label: "Backend кода в команде",
-          details: ["SkillSwapAPI: CRUD, Auth, Tests", "NestJS + PostgreSQL + Prisma"],
         },
       },
     },
@@ -520,6 +632,8 @@ export const translations: Record<Language, TranslationMap> = {
         storybook: "Storybook",
         server: "Сервер",
         kanban: "Канбан",
+        nda: "NDA",
+        onRequest: "По запросу",
         status: {
           completed: "Завершен",
           progress: "В разработке",
@@ -552,7 +666,10 @@ export const translations: Record<Language, TranslationMap> = {
           openProject: "Открыть проект",
           openSite: "Открыть сайт",
           launchServer: "⚠️ Запустить сервер",
+          requestAccess: "Запросить демо",
         },
+        ndaNote:
+          "Исходный код закрыт по NDA. Публичный сайт и видео доступны; детали редактора — по запросу.",
       },
     },
     contact: {
@@ -591,11 +708,12 @@ export const translations: Record<Language, TranslationMap> = {
       },
     },
     footer: {
-      brandDescription: "Fullstack разработчик, создающий современные веб-приложения",
+      brandDescription: "Fullstack Software Engineer — современные продукты end-to-end",
       quickLinksTitle: "Быстрые ссылки",
       quickLinks: {
         home: "Главная",
         about: "О себе",
+        skills: "Стек",
         projects: "Проекты",
         contact: "Контакты",
       },
@@ -629,6 +747,7 @@ export const translations: Record<Language, TranslationMap> = {
       nav: {
         home: "Головна",
         about: "Про мене",
+        skills: "Стек",
         projects: "Проєкти",
         contact: "Контакти",
       },
@@ -642,7 +761,7 @@ export const translations: Record<Language, TranslationMap> = {
       profile: {
         firstName: "Дмитро",
         fullName: "Дмитро Багінський",
-        role: "Fullstack розробник",
+        role: "Fullstack Software Engineer",
         ageLabel: "{years} років",
         location: "Москва, Росія",
         compactAvatarTooltip: "Натисніть, щоб відкрити профіль",
@@ -669,22 +788,22 @@ export const translations: Record<Language, TranslationMap> = {
       footer: {
         experience: "Досвід: {years}+ років",
         projects: "Проєктів: {count}",
-        copyright: "© 2025 Дмитро Багінський",
+        copyrightName: "Дмитро Багінський",
       },
     },
     home: {
       hero: {
-        position: "Fullstack Developer",
+        position: "Fullstack Software Engineer",
         name: "Дмитро",
         subtitle:
-          "Створюю сучасні веб-застосунки на React, Next.js, Node.js, Nest.js та React Native",
+          "Проєктую й збираю сучасні продукти end-to-end: React, Next.js, Node.js, NestJS, Python, AI та React Native",
         primaryCta: "Переглянути проєкти",
         secondaryCta: "Зв'язатися зі мною",
-        tags: ["Frontend", "Backend", "Fullstack", "Mobile"],
+        tags: ["Frontend", "Backend", "Mobile", "AI/LLM", "DevOps", "Architecture"],
       },
       stats: {
         title: "У цифрах",
-        description: "Результати моєї роботи у сфері веб-розробки",
+        description: "Результати роботи fullstack software engineer",
         items: {
           experience: "Роки досвіду",
           projects: "Проєктів",
@@ -695,21 +814,27 @@ export const translations: Record<Language, TranslationMap> = {
       services: {
         title: "Про мою роботу",
         subtitle:
-          "Спеціалізуюся на створенні сучасних веб-застосунків із використанням передових технологій. Досвід повного стеку дозволяє будувати масштабовані та продуктивні рішення.",
+          "Веду продукт як fullstack software engineer: від архітектури й API до UI, мобільних клієнтів на React Native/Expo, AI-інтеграцій і стабільного деплою.",
         cards: {
           frontend: {
-            title: "Frontend",
-            description: "Створюю інтуїтивні інтерфейси на сучасних фреймворках",
+            title: "Frontend & UX",
+            description:
+              "Збираю швидкі інтерфейси на React/Next.js: дизайн-система, анімації, доступність і адаптив під реальні сценарії користувачів.",
           },
           backend: {
-            title: "Backend",
+            title: "Backend & Data",
             description:
-              "Розробляю надійні API та серверну логіку для навантажених систем",
+              "Проєктую API та доменну логіку на NestJS/Node/Python: БД, черги, auth, інтеграції й стійкість під навантаженням.",
+          },
+          mobile: {
+            title: "Mobile · React Native",
+            description:
+              "Роблю кросплатформені застосунки на React Native, переважно через Expo — один кодбаз під iOS і Android, з нативним відчуттям і зручним релізним циклом.",
           },
           devops: {
-            title: "DevOps",
+            title: "DevOps & Delivery",
             description:
-              "Налаштовую інфраструктуру та процеси деплою для стабільної роботи",
+              "Налаштовую CI/CD, контейнери й моніторинг, щоб релізи були передбачуваними, а системи — спостережуваними в проді.",
           },
         },
       },
@@ -721,18 +846,92 @@ export const translations: Record<Language, TranslationMap> = {
     },
     about: {
       heroSubtitle:
-        "Fullstack розробник із досвідом створення сучасних веб-застосунків. Працюю з React, Next.js, Node.js, NestJS, Python, AI інтеграціями та React Native.",
+        "Fullstack Software Engineer із досвідом створення сучасних продуктів. Працюю з React, Next.js, Node.js, NestJS, Python, AI-інтеграціями та React Native.",
       storyTitle: "Моя історія",
       storyParagraphs: [
         "Мій шлях у програмуванні почався в жовтні 2022 року з самостійного вивчення фронтенду та бекенду. Це був період глибокого занурення у веб-розробку: від HTML, CSS, JavaScript до сучасних технологій. Мене одразу захопила ідея створювати повноцінні застосунки від задуму до запуску.",
         "У 2023 році продовжив навчання у Яндекс.Практикум, де систематизував знання та отримав командний досвід. Спеціалізуюся на React, Next.js, Node.js, NestJS, Python, FastAPI та React Native.",
         "Активно розвиваюся у сфері AI та машинного навчання, інтегруючи мовні моделі (OpenAI API, Claude API) у свої проєкти. Працюю з LangChain, LlamaIndex, Qdrant та використовую spaCy і NLTK для обробки природної мови.",
         "Брав участь у командних проєктах для Яндекса (ProCharity, SkillSwapAPI), працював за Agile/Scrum, налаштовував моніторинг Prometheus + Grafana та інтегрував API Telegram і WhatsApp.",
+        "Як Fullstack Software Engineer працюю над комерційними продуктами компаній: від ТЗ і узгоджень із бізнесом, дизайном і копірайтерами до архітектури, web та мобільних клієнтів iOS/Android, WordPress, інтеграцій ERP/CRM і платежів (зокрема з білоруською компанією — їхні платежі, 1С та адаптація під законодавство РБ), деплою в прод і підтримки після релізу. Активно беру участь у мітингах із клієнтами та власниками бізнесу — розширюю функціонал під їхні запити, роблю кастомні інтеграції та налаштовую зовнішні сервіси й різні AI-моделі. UI — строго за Figma та брендбуком.",
         "Вважаю, що хороший код — це не лише функціональність, а й читабельність, масштабованість та продуктивність. Люблю вивчати нові технології й застосовувати їх у реальних проєктах, особливо в галузі AI.",
       ],
       achievementsTitle: "Досягнення",
       experienceTitle: "Досвід роботи",
       experienceSubtitle: "Мій професійний шлях у розробці",
+    },
+    skillsPage: {
+      pageTitle: "Skills & Stack",
+      pageSubtitle:
+        "Коротке саммарі навичок, важливих для бізнесу: від ТЗ і архітектури до web, mobile, інтеграцій і стабільного продакшену.",
+      sidebarNote:
+        "Тут — вітрина для бізнесу. Повний список технологій і рівнів дивіться в сайдбарі зліва.",
+      ctaProjects: "Дивитися проєкти",
+      ctaContact: "Обговорити задачу",
+      groups: {
+        product: {
+          title: "Продукт і архітектура",
+          description: "Веду продукт end-to-end: від гіпотези й ТЗ до релізу та підтримки.",
+          highlights: [
+            "Участь у ТЗ і коригуваннях із бізнесом, дизайном і копірайтерами",
+            "Мітинги з клієнтами та власниками бізнесу: запити → доробки й кастомні інтеграції",
+            "Архітектура monorepo: shared-пакети, API, web і mobile клієнти",
+            "Робота строго за Figma / брендбуком",
+            "Підтримка після релізу: інциденти, покращення, стабільність",
+          ],
+        },
+        web: {
+          title: "Web-платформи",
+          description: "Клієнтські кабінети, адмінки та адаптивні продуктові інтерфейси.",
+          highlights: [
+            "Next.js App Router + React + TypeScript",
+            "Fabric.js: модальний графічний редактор креативів / маркування",
+            "Multi-tenant кабінети, мапінг SKU і налаштування інтеграцій",
+            "Складні форми, ролі, особисті кабінети та admin-панелі",
+            "UX для desktop / tablet / mobile в одному продукті",
+          ],
+        },
+        backend: {
+          title: "Backend і інтеграції",
+          description: "API, дані, черги та зв’язка з ERP/CRM/платежами.",
+          highlights: [
+            "NestJS + PostgreSQL + Prisma, Redis, NATS і фонові черги",
+            "Інтеграції з 1С, CRM, платіжними провайдерами (зокрема РБ) та зовнішніми API",
+            "Конектори Shopify / WooCommerce / PrestaShop і маркетплейсів",
+            "Grammy / Telegram sync, Sharp, event-driven потоки (RxJS)",
+            "WordPress / WooCommerce: сайт продукту, плагіни та синхронізація з платформою",
+            "Адаптація продуктів під законодавство РБ",
+          ],
+        },
+        mobile: {
+          title: "Mobile delivery",
+          description: "Нативні клієнти iOS/Android і шлях до сторів.",
+          highlights: [
+            "React Native + Expo: один код для iOS та Android",
+            "EAS Build / Submit, push-сповіщення, secure storage",
+            "Паритет ключових сценаріїв із web-версією продукту",
+          ],
+        },
+        devops: {
+          title: "Інфраструктура і поставка",
+          description: "Щоб продукт жив у проді, а не лише на демо.",
+          highlights: [
+            "Docker, CI/CD (GitHub Actions / SourceCraft), середовища й міграції",
+            "Stage/preprod (Dokku) і prod (Yandex Cloud Kubernetes)",
+            "Terraform / Helm, Cloudflare, моніторинг помилок, health-checks",
+          ],
+        },
+        ai: {
+          title: "AI і автоматизація",
+          description: "Практичні LLM-інтеграції там, де вони дають бізнес-ефект.",
+          highlights: [
+            "OpenAI / Claude, LangChain, векторний пошук",
+            "Налаштування різних AI-моделей і зовнішніх сервісів під задачі продукту",
+            "Боти та автоматизація комунікацій",
+            "Python-мікросервіси поруч з основним стеком",
+          ],
+        },
+      },
     },
     achievements: {
       interactiveHint: "Наведіть або торкніться, щоб дізнатися більше",
@@ -740,31 +939,53 @@ export const translations: Record<Language, TranslationMap> = {
         portfolio: {
           label: "Проєктів у портфоліо",
           details: [
-            "20+ pet та комерційних застосунків",
-            "Fullstack стек: React, Next.js, NestJS",
+            "Pet, навчальні та комерційні продукти",
+            "Fullstack: React, Next.js, NestJS, Expo",
           ],
         },
         commercial: {
           label: "Комерційних проєктів",
           details: [
+            "Dropshipping Hub, Synapex Creative Editor",
+            "Service Platform, Ad Ops SaaS",
             "Driver-Pro, Park-Pro, EVE Corp Manager",
-            "ProCharity CRM для Яндекса",
+            "ProCharity CRM і SkillSwapAPI",
           ],
         },
         experience: {
           label: "Років досвіду",
-          details: ["Самостійне навчання з 2022 року", "Комерційні задачі з 2024 року"],
+          details: [
+            "Самостійне навчання з 2022 року",
+            "Комерційні задачі з 2024 року",
+          ],
         },
         technologies: {
           label: "Опрацьованих технологій",
           details: [
-            "Frontend, backend, mobile та DevOps",
-            "AI стек: LangChain, Qdrant, Prometheus",
+            "Web, backend, mobile, DevOps та AI",
+            "Fabric.js, NATS, Shopify, Stripe, Terraform, WordPress",
+            "Платежі РБ, WooCommerce, Expo/EAS, K8s",
           ],
         },
         languages: {
           label: "Мов програмування",
           details: ["JavaScript / TypeScript / Python", "HTML5 + CSS3 для інтерфейсів"],
+        },
+        mobile: {
+          label: "Mobile-проєктів",
+          details: [
+            "React Native + Expo: iOS та Android",
+            "EAS Build / Submit, push, secure storage",
+            "Прод-продукти з нативними клієнтами",
+          ],
+        },
+        integrations: {
+          label: "Інтеграційних кейсів",
+          details: [
+            "ERP 1С (CommerceML / HTTP API), зокрема РБ",
+            "CRM Bitrix24, платежі РБ, WordPress / WooCommerce",
+            "NATS → Telegram (Grammy), Ads API, webhooks",
+          ],
         },
         ai: {
           label: "AI інтеграцій",
@@ -773,18 +994,6 @@ export const translations: Record<Language, TranslationMap> = {
             "LangChain + LlamaIndex",
             "Qdrant + spaCy/NLTK",
           ],
-        },
-        bots: {
-          label: "Робота з ботами",
-          details: [
-            "Telegram Bot + вебхуки",
-            "WhatsApp Business API",
-            "Сповіщення в Driver-Pro та EVE Corp",
-          ],
-        },
-        backendShare: {
-          label: "Backend-коду в команді",
-          details: ["SkillSwapAPI: CRUD, Auth, Tests", "NestJS + PostgreSQL + Prisma"],
         },
       },
     },
@@ -854,6 +1063,8 @@ export const translations: Record<Language, TranslationMap> = {
         storybook: "Storybook",
         server: "Сервер",
         kanban: "Канбан",
+        nda: "NDA",
+        onRequest: "За запитом",
         status: {
           completed: "Завершено",
           progress: "У розробці",
@@ -886,7 +1097,10 @@ export const translations: Record<Language, TranslationMap> = {
           openProject: "Відкрити проєкт",
           openSite: "Відкрити сайт",
           launchServer: "⚠️ Запустити сервер",
+          requestAccess: "Запросити демо",
         },
+        ndaNote:
+          "Вихідний код закритий за NDA. Публічний сайт і відео доступні; деталі редактора — за запитом.",
       },
     },
     contact: {
@@ -924,11 +1138,12 @@ export const translations: Record<Language, TranslationMap> = {
       },
     },
     footer: {
-      brandDescription: "Fullstack розробник, що створює сучасні веб-застосунки",
+      brandDescription: "Fullstack Software Engineer — сучасні продукти end-to-end",
       quickLinksTitle: "Швидкі посилання",
       quickLinks: {
         home: "Головна",
         about: "Про мене",
+        skills: "Стек",
         projects: "Проєкти",
         contact: "Контакти",
       },
@@ -962,6 +1177,7 @@ export const translations: Record<Language, TranslationMap> = {
       nav: {
         home: "Home",
         about: "About",
+        skills: "Skills",
         projects: "Projects",
         contact: "Contact",
       },
@@ -975,7 +1191,7 @@ export const translations: Record<Language, TranslationMap> = {
       profile: {
         firstName: "Dmitry",
         fullName: "Dmitry Baginskij",
-        role: "Fullstack Developer",
+        role: "Fullstack Software Engineer",
         ageLabel: "{years} y.o.",
         location: "Moscow, Russia",
         compactAvatarTooltip: "Tap to open profile",
@@ -1002,22 +1218,22 @@ export const translations: Record<Language, TranslationMap> = {
       footer: {
         experience: "Experience: {years}+ yrs",
         projects: "Projects: {count}",
-        copyright: "© 2025 Dmitry Baginskij",
+        copyrightName: "Dmitry Baginskij",
       },
     },
     home: {
       hero: {
-        position: "Fullstack Developer",
+        position: "Fullstack Software Engineer",
         name: "Dmitry",
         subtitle:
-          "I build modern web applications with React, Next.js, Node.js, Nest.js, and React Native",
+          "I design and ship modern products end-to-end with React, Next.js, Node.js, NestJS, Python, AI, and React Native",
         primaryCta: "View projects",
         secondaryCta: "Contact me",
-        tags: ["Frontend", "Backend", "Fullstack", "Mobile"],
+        tags: ["Frontend", "Backend", "Mobile", "AI/LLM", "DevOps", "Architecture"],
       },
       stats: {
         title: "By the numbers",
-        description: "Highlights of my work in web development",
+        description: "Highlights from my work as a fullstack software engineer",
         items: {
           experience: "Years of experience",
           projects: "Projects",
@@ -1028,19 +1244,27 @@ export const translations: Record<Language, TranslationMap> = {
       services: {
         title: "What I do",
         subtitle:
-          "I specialize in building modern web applications with cutting-edge technologies. Full-stack experience helps me deliver scalable and performant solutions.",
+          "I operate as a fullstack software engineer: from architecture and APIs to UI, React Native/Expo mobile clients, AI integrations, and reliable delivery.",
         cards: {
           frontend: {
-            title: "Frontend",
-            description: "Craft intuitive user interfaces with modern frameworks",
+            title: "Frontend & UX",
+            description:
+              "I build fast React/Next.js interfaces with design systems, motion, accessibility, and real-world responsive flows.",
           },
           backend: {
-            title: "Backend",
-            description: "Build robust APIs and server logic for high-load systems",
+            title: "Backend & Data",
+            description:
+              "I design NestJS/Node/Python APIs and domain logic: databases, queues, auth, integrations, and resilience under load.",
+          },
+          mobile: {
+            title: "Mobile · React Native",
+            description:
+              "I build cross-platform apps with React Native, mostly via Expo — one codebase for iOS and Android, with a native feel and a practical release workflow.",
           },
           devops: {
-            title: "DevOps",
-            description: "Configure infrastructure and CI/CD for reliable deployments",
+            title: "DevOps & Delivery",
+            description:
+              "I set up CI/CD, containers, and monitoring so releases stay predictable and production systems stay observable.",
           },
         },
       },
@@ -1052,18 +1276,92 @@ export const translations: Record<Language, TranslationMap> = {
     },
     about: {
       heroSubtitle:
-        "Fullstack developer with experience building modern web applications. I focus on React, Next.js, Node.js, NestJS, Python, AI integrations, and React Native.",
+        "Fullstack Software Engineer with experience shipping modern products. I focus on React, Next.js, Node.js, NestJS, Python, AI integrations, and React Native.",
       storyTitle: "My story",
       storyParagraphs: [
         "I started coding in October 2022 by teaching myself frontend and backend development. It was a deep dive into web technologies, from HTML/CSS/JavaScript to modern frameworks. From day one I was fascinated by building full products—from idea to deployment.",
         "In 2023 I joined Yandex Practicum to structure my knowledge and gain teamwork experience. I now specialize in React, Next.js, Node.js, NestJS, Python, FastAPI, and React Native.",
         "I'm actively growing in AI and machine learning, integrating language models (OpenAI API, Claude API) into products. I work with LangChain, LlamaIndex, Qdrant, and use spaCy/NLTK for natural language processing.",
         "Participated in Yandex team projects (ProCharity, SkillSwapAPI), worked in Agile/Scrum, implemented Prometheus + Grafana monitoring, and integrated Telegram/WhatsApp APIs.",
+        "As a Fullstack Software Engineer I work on commercial products for companies: from requirements with business, design, and copywriters to architecture, web and iOS/Android clients, WordPress, ERP/CRM and payment integrations (including a Belarusian company — their payments, 1C, and adaptation to Belarus legislation), production deploy, and post-release support. I actively join meetings with clients and business owners — expand features from their requests, ship custom integrations, and configure external services and different AI models. UI follows Figma and the brand book.",
         "I believe good code means readability, scalability, and performance. I enjoy learning new technologies and applying them to real products, especially in AI and automation.",
       ],
       achievementsTitle: "Achievements",
       experienceTitle: "Work experience",
       experienceSubtitle: "My professional path in development",
+    },
+    skillsPage: {
+      pageTitle: "Skills & Stack",
+      pageSubtitle:
+        "A concise business-facing summary: from requirements and architecture to web, mobile, integrations, and reliable production delivery.",
+      sidebarNote:
+        "This page is a business showcase. The full technology list with levels is in the left sidebar.",
+      ctaProjects: "View projects",
+      ctaContact: "Discuss a project",
+      groups: {
+        product: {
+          title: "Product & architecture",
+          description: "I own products end-to-end: from discovery and specs to release and support.",
+          highlights: [
+            "Requirements work with business, design, and copywriters",
+            "Meetings with clients and business owners: requests → features and custom integrations",
+            "Monorepo architecture: shared packages, API, web and mobile clients",
+            "UI delivery strictly from Figma / brand guidelines",
+            "Post-release support: incidents, improvements, stability",
+          ],
+        },
+        web: {
+          title: "Web platforms",
+          description: "Client portals, admin tools, and responsive product UI.",
+          highlights: [
+            "Next.js App Router + React + TypeScript",
+            "Fabric.js: modal graphic creatives / marking editor",
+            "Multi-tenant dashboards, SKU mapping, and integration settings",
+            "Complex forms, roles, account areas, and admin panels",
+            "Desktop / tablet / mobile UX in one product",
+          ],
+        },
+        backend: {
+          title: "Backend & integrations",
+          description: "APIs, data, queues, and ERP/CRM/payment wiring.",
+          highlights: [
+            "NestJS + PostgreSQL + Prisma, Redis, NATS, and background jobs",
+            "1C, CRM, payment providers (incl. Belarus), and external APIs",
+            "Shopify / WooCommerce / PrestaShop and marketplace connectors",
+            "Grammy / Telegram sync, Sharp, event-driven flows (RxJS)",
+            "WordPress / WooCommerce: product site, plugins, and platform sync",
+            "Adapting products to Belarus (RB) legislation",
+          ],
+        },
+        mobile: {
+          title: "Mobile delivery",
+          description: "Native iOS/Android clients and store release pipelines.",
+          highlights: [
+            "React Native + Expo for shared iOS and Android codebases",
+            "EAS Build / Submit, push notifications, secure storage",
+            "Key user flows aligned with the web product",
+          ],
+        },
+        devops: {
+          title: "Infrastructure & delivery",
+          description: "So the product runs in production, not only as a demo.",
+          highlights: [
+            "Docker, CI/CD (GitHub Actions / SourceCraft), environments, migrations",
+            "Stage/preprod (Dokku) and prod (Yandex Cloud Kubernetes)",
+            "Terraform / Helm, Cloudflare, error monitoring, health checks",
+          ],
+        },
+        ai: {
+          title: "AI & automation",
+          description: "Practical LLM integrations where they create business value.",
+          highlights: [
+            "OpenAI / Claude, LangChain, vector search",
+            "Configure different AI models and external services for product needs",
+            "Bots and communication automation",
+            "Python microservices alongside the core stack",
+          ],
+        },
+      },
     },
     achievements: {
       interactiveHint: "Hover or tap to learn more",
@@ -1071,31 +1369,53 @@ export const translations: Record<Language, TranslationMap> = {
         portfolio: {
           label: "Portfolio projects",
           details: [
-            "20+ pet and commercial apps",
-            "Full-stack stack: React, Next.js, NestJS",
+            "Pet, learning, and commercial products",
+            "Fullstack: React, Next.js, NestJS, Expo",
           ],
         },
         commercial: {
           label: "Commercial projects",
           details: [
+            "Dropshipping Hub, Synapex Creative Editor",
+            "Service Platform, Ad Ops SaaS",
             "Driver-Pro, Park-Pro, EVE Corp Manager",
-            "ProCharity CRM for Yandex",
+            "ProCharity CRM and SkillSwapAPI",
           ],
         },
         experience: {
           label: "Years of experience",
-          details: ["Self-taught since 2022", "Commercial work since 2024"],
+          details: [
+            "Self-taught since 2022",
+            "Commercial work since 2024",
+          ],
         },
         technologies: {
           label: "Technologies mastered",
           details: [
-            "Frontend, backend, mobile & DevOps",
-            "AI stack: LangChain, Qdrant, Prometheus",
+            "Web, backend, mobile, DevOps, and AI",
+            "Fabric.js, NATS, Shopify, Stripe, Terraform, WordPress",
+            "Belarus payments, WooCommerce, Expo/EAS, K8s",
           ],
         },
         languages: {
           label: "Programming languages",
           details: ["JavaScript / TypeScript / Python", "HTML5 + CSS3 for interfaces"],
+        },
+        mobile: {
+          label: "Mobile projects",
+          details: [
+            "React Native + Expo for iOS and Android",
+            "EAS Build / Submit, push, secure storage",
+            "Production products with native clients",
+          ],
+        },
+        integrations: {
+          label: "Integration cases",
+          details: [
+            "ERP 1C (CommerceML / HTTP API), incl. Belarus",
+            "CRM Bitrix24, Belarus payments, WordPress / WooCommerce",
+            "NATS → Telegram (Grammy), Ads API, webhooks",
+          ],
         },
         ai: {
           label: "AI integrations",
@@ -1104,18 +1424,6 @@ export const translations: Record<Language, TranslationMap> = {
             "LangChain + LlamaIndex",
             "Qdrant + spaCy/NLTK",
           ],
-        },
-        bots: {
-          label: "Bot experience",
-          details: [
-            "Telegram Bot + webhooks",
-            "WhatsApp Business API",
-            "Driver-Pro & EVE Corp notifications",
-          ],
-        },
-        backendShare: {
-          label: "Backend contribution",
-          details: ["SkillSwapAPI: CRUD, Auth, Tests", "NestJS + PostgreSQL + Prisma"],
         },
       },
     },
@@ -1185,6 +1493,8 @@ export const translations: Record<Language, TranslationMap> = {
         storybook: "Storybook",
         server: "Server",
         kanban: "Kanban",
+        nda: "NDA",
+        onRequest: "On request",
         status: {
           completed: "Completed",
           progress: "In progress",
@@ -1216,7 +1526,10 @@ export const translations: Record<Language, TranslationMap> = {
           openProject: "Open project",
           openSite: "Open site",
           launchServer: "⚠️ Launch server",
+          requestAccess: "Request a demo",
         },
+        ndaNote:
+          "Source code is under NDA. Public site and video are available; editor details on request.",
       },
     },
     contact: {
@@ -1254,11 +1567,12 @@ export const translations: Record<Language, TranslationMap> = {
       },
     },
     footer: {
-      brandDescription: "Fullstack developer building modern web products",
+      brandDescription: "Fullstack Software Engineer building modern products end-to-end",
       quickLinksTitle: "Quick links",
       quickLinks: {
         home: "Home",
         about: "About",
+        skills: "Skills",
         projects: "Projects",
         contact: "Contact",
       },

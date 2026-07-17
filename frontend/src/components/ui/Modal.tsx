@@ -1,6 +1,7 @@
 "use client";
 
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 
@@ -13,6 +14,12 @@ interface ModalProps {
 }
 
 const Modal = ({ isOpen, onClose, children, title, size = "lg" }: ModalProps) => {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   // Блокируем скролл при открытом модальном окне
   useEffect(() => {
     if (isOpen) {
@@ -21,7 +28,6 @@ const Modal = ({ isOpen, onClose, children, title, size = "lg" }: ModalProps) =>
       document.body.style.overflow = "unset";
     }
 
-    // Очищаем стили при размонтировании
     return () => {
       document.body.style.overflow = "unset";
     };
@@ -51,10 +57,14 @@ const Modal = ({ isOpen, onClose, children, title, size = "lg" }: ModalProps) =>
     xl: "max-w-4xl",
   };
 
-  return (
+  if (!mounted) {
+    return null;
+  }
+
+  return createPortal(
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
           {/* Overlay */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -95,7 +105,8 @@ const Modal = ({ isOpen, onClose, children, title, size = "lg" }: ModalProps) =>
           </motion.div>
         </div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 };
 

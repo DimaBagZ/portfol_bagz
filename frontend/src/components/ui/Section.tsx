@@ -16,10 +16,10 @@ const Section = ({
   padding = "lg",
 }: SectionProps) => {
   const backgroundClasses = {
-    default: "bg-background",
-    card: "bg-card",
-    muted: "bg-muted",
-    primary: "bg-primary/10",
+    default: "bg-section-default",
+    card: "bg-section-card",
+    muted: "bg-section-muted",
+    primary: "bg-section-primary",
     secondary: "bg-secondary",
   };
 

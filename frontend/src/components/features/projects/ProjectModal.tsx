@@ -12,6 +12,7 @@ import {
   BookOpen,
   Server,
   Kanban,
+  MessageCircle,
 } from "lucide-react";
 import { Modal, Button, ImageGallery } from "@/components/ui";
 import TranslatedText from "@/components/ui/TranslatedText";
@@ -20,6 +21,7 @@ import { FeatureBlock } from "./FeatureBlock";
 import { featureBlocksConfig, filterFeaturesByCategory } from "./featureBlocksConfig";
 import { useTranslations } from "@/hooks/useTranslations";
 import { useProjectContent } from "@/hooks/useProjectContent";
+import { getImagePath } from "@/utils/imagePaths";
 
 interface ProjectModalProps {
   project: Project | null;
@@ -72,6 +74,21 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
       title={<TranslatedText>{localizedProject.title}</TranslatedText>}
     >
       <div className="p-6 space-y-6">
+        {project.videoUrl && (
+          <div className="overflow-hidden rounded-xl border border-theme bg-card">
+            <video
+              className="w-full aspect-video max-h-[420px] object-cover bg-black"
+              controls
+              playsInline
+              preload="metadata"
+              poster={getImagePath(project.image)}
+              src={project.videoUrl}
+            >
+              <track kind="captions" />
+            </video>
+          </div>
+        )}
+
         {/* Project Screenshots Gallery */}
         <ImageGallery
           images={project.screenshots || []}
@@ -102,7 +119,11 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
                   project.id === "1" ||
                   project.id === "3" ||
                   project.id === "5" ||
-                  project.id === "21") ? (
+                  project.id === "21" ||
+                  project.id === "23" ||
+                  project.id === "24" ||
+                  project.id === "25" ||
+                  project.id === "26") ? (
                   <>
                     <h3 className="text-lg font-semibold text-primary mb-4">
                       {modalTexts.advancedFeaturesTitle}
@@ -252,76 +273,86 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 pt-4 border-t border-theme">
-          {project.githubUrl && (
-            <Button
-              href={project.githubUrl}
-              variant="outline"
-              className="flex-1"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Github size={20} className="mr-2" />
-              {modalTexts.buttons.viewCode}
-            </Button>
+        <div className="space-y-3 pt-4 border-t border-theme">
+          {project.isNda && (
+            <p className="text-sm text-muted">{modalTexts.ndaNote}</p>
           )}
 
-          {project.liveUrl && (
-            <div className="flex-1 flex items-center space-x-3">
+          <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fit,minmax(14rem,1fr))] gap-3">
+            {project.isNda && (
+              <Button href="/contact" className="w-full justify-center">
+                <MessageCircle size={20} className="mr-2" />
+                {modalTexts.buttons.requestAccess}
+              </Button>
+            )}
+
+            {project.githubUrl && (
+              <Button
+                href={project.githubUrl}
+                variant="outline"
+                className="w-full justify-center"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Github size={20} className="mr-2" />
+                {modalTexts.buttons.viewCode}
+              </Button>
+            )}
+
+            {project.liveUrl && (
               <Button
                 href={project.liveUrl}
-                className="flex-1"
+                variant={project.isNda ? "outline" : "primary"}
+                className="w-full justify-center"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <ExternalLink size={20} className="mr-2" />
-                {project.id === "18"
+                {project.id === "18" || project.id === "25"
                   ? modalTexts.buttons.openSite
                   : modalTexts.buttons.openProject}
               </Button>
+            )}
 
-              {/* Кнопка запуска сервера */}
-              {project.serverUrl && (
-                <a
-                  href={project.serverUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center space-x-2 bg-warning/10 border border-warning/20 rounded-lg px-3 py-2 hover:bg-warning/20 transition-colors duration-200 cursor-pointer"
-                >
-                  <Server size={16} className="text-warning flex-shrink-0" />
-                  <span className="text-sm text-warning">
-                    {modalTexts.buttons.launchServer}
-                  </span>
-                </a>
-              )}
-            </div>
-          )}
+            {project.serverUrl && (
+              <Button
+                href={project.serverUrl}
+                variant="outline"
+                className="w-full justify-center"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Server size={20} className="mr-2" />
+                {modalTexts.buttons.launchServer}
+              </Button>
+            )}
 
-          {project.storybookUrl && (
-            <Button
-              href={project.storybookUrl}
-              variant="outline"
-              className="flex-1"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <BookOpen size={20} className="mr-2" />
-              {translations.projects.card.storybook}
-            </Button>
-          )}
+            {project.storybookUrl && (
+              <Button
+                href={project.storybookUrl}
+                variant="outline"
+                className="w-full justify-center"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <BookOpen size={20} className="mr-2" />
+                {translations.projects.card.storybook}
+              </Button>
+            )}
 
-          {project.kanbanUrl && (
-            <Button
-              href={project.kanbanUrl}
-              variant="outline"
-              className="flex-1"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Kanban size={20} className="mr-2" />
-              {translations.projects.card.kanban}
-            </Button>
-          )}
+            {project.kanbanUrl && (
+              <Button
+                href={project.kanbanUrl}
+                variant="outline"
+                className="w-full justify-center"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Kanban size={20} className="mr-2" />
+                {translations.projects.card.kanban}
+              </Button>
+            )}
+          </div>
         </div>
       </div>
     </Modal>

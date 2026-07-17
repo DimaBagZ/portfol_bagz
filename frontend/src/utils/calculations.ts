@@ -205,6 +205,67 @@ export const calculateAIIntegrations = (
 };
 
 /**
+ * Подсчитывает проекты с мобильной разработкой (RN / Expo / category mobile)
+ */
+export const calculateMobileProjects = (
+  projects: Array<{
+    technologies: string[];
+    category: string;
+    categories?: string[];
+  }>
+): number => {
+  const mobileKeywords = ["React Native", "Expo", "NativeWind", "EAS"];
+
+  return projects.filter((project) => {
+    const inCategory =
+      project.category === "mobile" ||
+      Boolean(project.categories?.includes("mobile"));
+    const inTech = project.technologies.some((tech) =>
+      mobileKeywords.some((keyword) =>
+        tech.toLowerCase().includes(keyword.toLowerCase())
+      )
+    );
+    return inCategory || inTech;
+  }).length;
+};
+
+/**
+ * Подсчитывает проекты с бизнес-интеграциями (ERP/CRM/payments/ads)
+ */
+export const calculateIntegrationProjects = (
+  projects: Array<{ technologies: string[]; features?: string[] }>
+): number => {
+  const integrationKeywords = [
+    "1C",
+    "1С",
+    "Bitrix24",
+    "Bitrix",
+    "Payments",
+    "WooCommerce",
+    "Ads API",
+    "CommerceML",
+    "ERP",
+    "CRM",
+  ];
+
+  return projects.filter((project) => {
+    const inTech = project.technologies.some((tech) =>
+      integrationKeywords.some((keyword) =>
+        tech.toLowerCase().includes(keyword.toLowerCase())
+      )
+    );
+    const inFeatures = Boolean(
+      project.features?.some((feature) =>
+        integrationKeywords.some((keyword) =>
+          feature.toLowerCase().includes(keyword.toLowerCase())
+        )
+      )
+    );
+    return inTech || inFeatures;
+  }).length;
+};
+
+/**
  * Подсчитывает количество проектов с ботами
  * @param projects - массив проектов
  * @returns количество проектов с ботами

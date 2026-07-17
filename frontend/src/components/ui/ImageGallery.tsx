@@ -1,9 +1,11 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, X, Maximize2 } from "lucide-react";
 import { getImagePath } from "@/utils/imagePaths";
+import { useTheme } from "@/contexts/ThemeContext";
 
 interface ImageGalleryProps {
   images: string[];
@@ -16,8 +18,32 @@ const ImageGallery = ({
   alt = "Screenshot",
   className = "",
 }: ImageGalleryProps) => {
+  const { theme } = useTheme();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (isFullscreen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isFullscreen]);
+
+  const galleryBg = getImagePath(
+    theme === "dark"
+      ? "/images/backgrounds/portfolio-bg-dark.webp"
+      : "/images/backgrounds/portfolio-bg-light.webp"
+  );
 
   // Refs для обработки touch-событий
   const touchStartX = useRef<number | null>(null);
@@ -162,31 +188,29 @@ const ImageGallery = ({
             </div>
           </div>
 
-          {/* Кнопка полноэкранного режима */}
           <button
             onClick={openFullscreen}
-            className="absolute top-4 right-4 p-2 bg-black/50 text-white rounded-lg opacity-100 md:opacity-70 md:group-hover:opacity-100 transition-opacity duration-200 z-10"
+            className="gallery-control absolute top-4 right-4 z-10 opacity-100 md:opacity-80 md:group-hover:opacity-100"
             title="Открыть в полноэкранном режиме"
           >
-            <Maximize2 size={20} />
+            <Maximize2 size={18} />
           </button>
 
-          {/* Навигационные кнопки */}
           {images.length > 1 && (
             <>
               <button
                 onClick={prevImage}
-                className="absolute left-4 top-1/2 -translate-y-1/2 p-2 bg-black/50 text-white rounded-lg opacity-100 md:opacity-70 md:hover:opacity-100 transition-opacity duration-200 z-10"
+                className="gallery-control absolute left-4 top-1/2 -translate-y-1/2 z-10 opacity-100 md:opacity-80 md:group-hover:opacity-100"
                 title="Предыдущее изображение"
               >
-                <ChevronLeft size={24} />
+                <ChevronLeft size={22} />
               </button>
               <button
                 onClick={nextImage}
-                className="absolute right-4 top-1/2 -translate-y-1/2 p-2 bg-black/50 text-white rounded-lg opacity-100 md:opacity-70 md:hover:opacity-100 transition-opacity duration-200 z-10"
+                className="gallery-control absolute right-4 top-1/2 -translate-y-1/2 z-10 opacity-100 md:opacity-80 md:group-hover:opacity-100"
                 title="Следующее изображение"
               >
-                <ChevronRight size={24} />
+                <ChevronRight size={22} />
               </button>
             </>
           )}
@@ -239,131 +263,62 @@ const ImageGallery = ({
         )}
       </div>
 
-      {/* Полноэкранный режим */}
-      <AnimatePresence>
-        {isFullscreen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[200] bg-black/95 backdrop-blur-sm flex items-center justify-center p-2 md:p-4 overflow-hidden"
-            onClick={closeFullscreen}
-          >
-            <div className="relative w-full h-full max-w-7xl max-h-full flex flex-col items-center justify-center overflow-hidden">
-              {/* Кнопка закрытия */}
-              <button
+      {mounted &&
+        createPortal(
+          <AnimatePresence>
+            {isFullscreen && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="gallery-lightbox"
                 onClick={closeFullscreen}
-                className="absolute top-2 right-2 md:top-4 md:right-4 p-1.5 md:p-2 bg-black/50 text-white rounded-lg z-10"
-                title="Закрыть"
               >
-                <X className="w-5 h-5 md:w-6 md:h-6" />
-              </button>
-
-              {/* Изображение */}
-              <div className="relative w-full flex-1 flex items-center justify-center min-h-0 px-2 md:px-0 mb-16 md:mb-0">
                 <div
-                  className="w-full max-w-full bg-gradient-to-br from-primary/20 to-accent/20 rounded-lg overflow-hidden flex items-center justify-center"
-                  style={{
-                    touchAction: "pan-y pinch-zoom",
-                    aspectRatio: "16/9",
-                    maxHeight: "calc(100vh - 14rem)",
-                    maxWidth: "calc(100vw - 1rem)",
-                    height: "auto",
-                  }}
-                  onTouchStart={onTouchStart}
-                  onTouchMove={onTouchMove}
-                  onTouchEnd={onTouchEnd}
+                  className="gallery-lightbox__bg"
+                  style={{ backgroundImage: `url('${galleryBg}')` }}
+                  aria-hidden="true"
+                />
+                <div className="gallery-lightbox__scrim" aria-hidden="true" />
+
+                <div
+                  className="relative z-10 w-full h-full max-w-7xl max-h-full flex flex-col items-center justify-center overflow-hidden p-2 md:p-4"
+                  onClick={(e) => e.stopPropagation()}
                 >
-                  {images[currentIndex] ? (
-                    <img
-                      src={getImagePath(images[currentIndex])}
-                      alt={`${alt} ${currentIndex + 1}`}
-                      className="w-full max-w-full max-h-full object-contain"
-                      style={{
-                        maxHeight: "100%",
-                        maxWidth: "100%",
-                        height: "auto",
-                        width: "auto",
-                      }}
-                      onError={(e) => {
-                        // Если изображение не загрузилось, показываем плейсхолдер
-                        const target = e.target as HTMLImageElement;
-                        target.style.display = "none";
-                        const placeholder = target.nextElementSibling as HTMLElement;
-                        if (placeholder) placeholder.style.display = "flex";
-                      }}
-                    />
-                  ) : null}
-
-                  {/* Плейсхолдер для полноэкранного режима */}
-                  <div
-                    className="absolute inset-0 flex items-center justify-center"
-                    style={{ display: images[currentIndex] ? "none" : "flex" }}
+                  <button
+                    onClick={closeFullscreen}
+                    className="gallery-control absolute top-2 right-2 md:top-4 md:right-4 z-20"
+                    title="Закрыть"
                   >
-                    <div className="text-center">
-                      <div className="text-6xl text-primary mb-4">📷</div>
-                      <p className="text-white text-xl">Скриншот {currentIndex + 1}</p>
-                    </div>
-                  </div>
-                </div>
+                    <X className="w-5 h-5 md:w-6 md:h-6" />
+                  </button>
 
-                {/* Навигационные кнопки */}
-                {images.length > 1 && (
-                  <>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        prevImage();
+                  <div className="relative w-full flex-1 flex items-center justify-center min-h-0 px-2 md:px-0 mb-16 md:mb-0">
+                    <div
+                      className="w-full max-w-full rounded-xl overflow-hidden flex items-center justify-center border border-primary/30 bg-card/40 backdrop-blur-sm"
+                      style={{
+                        touchAction: "pan-y pinch-zoom",
+                        aspectRatio: "16/9",
+                        maxHeight: "calc(100vh - 14rem)",
+                        maxWidth: "calc(100vw - 1rem)",
+                        height: "auto",
                       }}
-                      className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 p-2 md:p-3 bg-black/50 text-white rounded-lg hover:bg-black/70 transition-colors duration-200"
-                      title="Предыдущее изображение"
+                      onTouchStart={onTouchStart}
+                      onTouchMove={onTouchMove}
+                      onTouchEnd={onTouchEnd}
                     >
-                      <ChevronLeft className="w-5 h-5 md:w-8 md:h-8" />
-                    </button>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        nextImage();
-                      }}
-                      className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 p-2 md:p-3 bg-black/50 text-white rounded-lg hover:bg-black/70 transition-colors duration-200"
-                      title="Следующее изображение"
-                    >
-                      <ChevronRight className="w-5 h-5 md:w-8 md:h-8" />
-                    </button>
-                  </>
-                )}
-
-                {/* Счетчик */}
-                {images.length > 1 && (
-                  <div className="absolute bottom-2 md:bottom-4 left-1/2 -translate-x-1/2 px-3 md:px-4 py-1 md:py-2 bg-black/50 text-white text-sm md:text-lg rounded-full">
-                    {currentIndex + 1} / {images.length}
-                  </div>
-                )}
-              </div>
-
-              {/* Миниатюры в полноэкранном режиме */}
-              {images.length > 1 && (
-                <div className="absolute bottom-0 left-0 right-0 flex gap-2 md:gap-3 justify-center overflow-x-auto pb-2 w-full max-w-full px-2 md:relative md:mt-3 md:pb-0">
-                  {images.map((image, index) => (
-                    <button
-                      key={index}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        goToImage(index);
-                      }}
-                      className={`flex-shrink-0 w-16 h-10 md:w-24 md:h-16 rounded-lg overflow-hidden border-2 transition-all duration-200 ${
-                        index === currentIndex
-                          ? "border-primary"
-                          : "border-transparent hover:border-primary/50"
-                      }`}
-                    >
-                      {images[index] ? (
+                      {images[currentIndex] ? (
                         <img
-                          src={getImagePath(images[index])}
-                          alt={`${alt} thumbnail ${index + 1}`}
-                          className="w-full h-full object-cover"
+                          src={getImagePath(images[currentIndex])}
+                          alt={`${alt} ${currentIndex + 1}`}
+                          className="w-full max-w-full max-h-full object-contain"
+                          style={{
+                            maxHeight: "100%",
+                            maxWidth: "100%",
+                            height: "auto",
+                            width: "auto",
+                          }}
                           onError={(e) => {
-                            // Если изображение не загрузилось, показываем плейсхолдер
                             const target = e.target as HTMLImageElement;
                             target.style.display = "none";
                             const placeholder = target.nextElementSibling as HTMLElement;
@@ -373,19 +328,93 @@ const ImageGallery = ({
                       ) : null}
 
                       <div
-                        className="w-full h-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center"
-                        style={{ display: images[index] ? "none" : "flex" }}
+                        className="absolute inset-0 flex items-center justify-center"
+                        style={{ display: images[currentIndex] ? "none" : "flex" }}
                       >
-                        <span className="text-sm text-white">{index + 1}</span>
+                        <div className="text-center">
+                          <div className="text-6xl text-primary mb-4">📷</div>
+                          <p className="text-foreground text-xl">Скриншот {currentIndex + 1}</p>
+                        </div>
                       </div>
-                    </button>
-                  ))}
+                    </div>
+
+                    {images.length > 1 && (
+                      <>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            prevImage();
+                          }}
+                          className="gallery-control absolute left-2 md:left-4 top-1/2 -translate-y-1/2"
+                          title="Предыдущее изображение"
+                        >
+                          <ChevronLeft className="w-5 h-5 md:w-8 md:h-8" />
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            nextImage();
+                          }}
+                          className="gallery-control absolute right-2 md:right-4 top-1/2 -translate-y-1/2"
+                          title="Следующее изображение"
+                        >
+                          <ChevronRight className="w-5 h-5 md:w-8 md:h-8" />
+                        </button>
+                      </>
+                    )}
+
+                    {images.length > 1 && (
+                      <div className="tech-badge absolute bottom-2 md:bottom-4 left-1/2 -translate-x-1/2">
+                        {currentIndex + 1} / {images.length}
+                      </div>
+                    )}
+                  </div>
+
+                  {images.length > 1 && (
+                    <div className="absolute bottom-0 left-0 right-0 z-10 flex gap-2 md:gap-3 justify-center overflow-x-auto pb-2 w-full max-w-full px-2 md:relative md:mt-3 md:pb-0">
+                      {images.map((thumb, index) => (
+                        <button
+                          key={thumb || index}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            goToImage(index);
+                          }}
+                          className={`flex-shrink-0 w-16 h-10 md:w-24 md:h-16 rounded-lg overflow-hidden border-2 ${
+                            index === currentIndex
+                              ? "border-primary shadow-[0_0_12px_color-mix(in_srgb,var(--primary)_45%,transparent)]"
+                              : "border-primary/20 hover:border-primary/50"
+                          }`}
+                        >
+                          {thumb ? (
+                            <img
+                              src={getImagePath(thumb)}
+                              alt={`${alt} thumbnail ${index + 1}`}
+                              className="w-full h-full object-cover"
+                              onError={(e) => {
+                                const target = e.target as HTMLImageElement;
+                                target.style.display = "none";
+                                const placeholder = target.nextElementSibling as HTMLElement;
+                                if (placeholder) placeholder.style.display = "flex";
+                              }}
+                            />
+                          ) : null}
+
+                          <div
+                            className="w-full h-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center"
+                            style={{ display: thumb ? "none" : "flex" }}
+                          >
+                            <span className="text-sm text-foreground">{index + 1}</span>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-          </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>,
+          document.body
         )}
-      </AnimatePresence>
     </>
   );
 };

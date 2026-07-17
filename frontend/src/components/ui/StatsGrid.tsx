@@ -22,6 +22,28 @@ interface StatsGridProps {
   className?: string;
 }
 
+const getPopupAlignClass = (index: number, columns: 2 | 3 | 4) => {
+  if (columns !== 4) {
+    const col = index % columns;
+    if (col === 0) return "left-0 translate-x-0";
+    if (col === columns - 1) return "left-auto right-0 translate-x-0";
+    return "left-1/2 -translate-x-1/2";
+  }
+
+  // grid-cols-2 on mobile, md:grid-cols-4 on desktop
+  const mobileLeft = index % 2 === 0;
+  const desktopCol = index % 4;
+
+  if (desktopCol === 0) return "left-0 translate-x-0";
+  if (desktopCol === 3) return "left-auto right-0 translate-x-0";
+
+  if (mobileLeft) {
+    return "left-0 translate-x-0 md:left-1/2 md:-translate-x-1/2";
+  }
+
+  return "left-auto right-0 translate-x-0 md:left-1/2 md:right-auto md:-translate-x-1/2";
+};
+
 const StatsGrid = ({ stats, columns = 4, className = "" }: StatsGridProps) => {
   const gridClasses = {
     2: "grid-cols-2",
@@ -41,6 +63,7 @@ const StatsGrid = ({ stats, columns = 4, className = "" }: StatsGridProps) => {
         const useCounter = stat.useCounter !== false && isNumber;
         const hasDetails = Boolean(stat.details && stat.details.length > 0);
         const isActive = activeIndex === index;
+        const popupAlignClass = getPopupAlignClass(index, columns);
 
         return (
           <motion.div
@@ -48,9 +71,9 @@ const StatsGrid = ({ stats, columns = 4, className = "" }: StatsGridProps) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
-            className={`relative text-center flex flex-col justify-center min-h-[80px] md:min-h-[100px] px-2 rounded-lg border border-transparent ${
+            className={`relative z-0 text-center flex flex-col justify-center min-h-[80px] md:min-h-[100px] px-2 rounded-lg border border-transparent ${
               hasDetails ? "cursor-pointer hover:border-primary/40" : ""
-            }`}
+            } ${isActive ? "z-30" : ""}`}
             onMouseEnter={() => hasDetails && setActiveIndex(index)}
             onMouseLeave={() => hasDetails && setActiveIndex(null)}
             onClick={() => hasDetails && handleToggle(index)}
@@ -82,9 +105,9 @@ const StatsGrid = ({ stats, columns = 4, className = "" }: StatsGridProps) => {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 10 }}
                   transition={{ duration: 0.2 }}
-                  className="absolute left-1/2 top-full z-20 mt-3 w-max min-w-[180px] max-w-[220px] -translate-x-1/2 text-left"
+                  className={`absolute top-full z-40 mt-3 w-max min-w-[180px] max-w-[min(220px,calc(100vw-2rem))] text-left ${popupAlignClass}`}
                 >
-                  <div className="space-y-1 text-muted text-xs md:text-sm bg-card/90 border border-theme rounded-lg p-3 shadow-lg pointer-events-none">
+                  <div className="space-y-1 text-muted text-xs md:text-sm bg-card border border-theme rounded-lg p-3 shadow-lg pointer-events-none">
                     {stat.details!.map((item) => (
                       <div key={item} className="flex items-start gap-2">
                         <span className="mt-1 h-1.5 w-1.5 rounded-full bg-primary flex-shrink-0" />

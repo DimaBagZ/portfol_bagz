@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import { getImagePath } from "@/utils/imagePaths";
@@ -13,14 +15,36 @@ interface AvatarModalProps {
 const AvatarModal = ({ isOpen, onClose }: AvatarModalProps) => {
   const translations = useTranslations();
   const profile = translations.sidebar.profile;
-  return (
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isOpen]);
+
+  if (!mounted) {
+    return null;
+  }
+
+  return createPortal(
     <AnimatePresence>
       {isOpen && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
+          className="fixed inset-0 z-[200] flex items-center justify-center bg-black/80 backdrop-blur-sm"
           onClick={onClose}
         >
           <motion.div
@@ -31,7 +55,6 @@ const AvatarModal = ({ isOpen, onClose }: AvatarModalProps) => {
             className="relative max-w-2xl max-h-[90vh] mx-4"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Кнопка закрытия */}
             <button
               onClick={onClose}
               className="absolute -top-4 -right-4 z-10 w-10 h-10 bg-card rounded-full flex items-center justify-center shadow-lg hover:bg-primary/10 transition-colors"
@@ -39,7 +62,6 @@ const AvatarModal = ({ isOpen, onClose }: AvatarModalProps) => {
               <X size={20} className="text-muted" />
             </button>
 
-            {/* Увеличенное изображение */}
             <div className="relative rounded-lg overflow-hidden shadow-2xl">
               <img
                 src={getImagePath("/images/avatar/avatar.png")}
@@ -47,7 +69,6 @@ const AvatarModal = ({ isOpen, onClose }: AvatarModalProps) => {
                 className="w-full h-auto max-h-[80vh] object-contain"
               />
 
-              {/* Информация о фото */}
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
                 <h3 className="text-white font-semibold text-lg">{profile.fullName}</h3>
                 <p className="text-white/80 text-sm">{profile.role}</p>
@@ -56,7 +77,8 @@ const AvatarModal = ({ isOpen, onClose }: AvatarModalProps) => {
           </motion.div>
         </motion.div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 };
 

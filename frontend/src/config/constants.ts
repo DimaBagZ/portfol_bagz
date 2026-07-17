@@ -22,6 +22,7 @@ export const APP_CONFIG = {
 export const NAVIGATION = [
   { key: "home", href: "/" },
   { key: "about", href: "/about" },
+  { key: "skills", href: "/skills" },
   { key: "projects", href: "/projects" },
   { key: "contact", href: "/contact" },
 ] as const;
@@ -62,6 +63,12 @@ export const SOCIAL_LINKS = [
     href: "https://www.linkedin.com/in/дмитрий-багинский-39a63738b",
     icon: "Linkedin",
     color: "hover:text-blue-700",
+  },
+  {
+    name: "X",
+    href: "https://x.com/DimaBagZ",
+    icon: "X",
+    color: "hover:text-foreground",
   },
   {
     name: "Email",
