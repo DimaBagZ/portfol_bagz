@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <defs>
+    <style>
+      .n { fill: #e8a317; opacity: 0.35; }
+      .l { stroke: #e8a317; stroke-width: 1; fill: none; opacity: 0.18; }
+      .p {
+        animation: drift 28s linear infinite;
+        will-change: transform;
+      }
+      .p2 { animation-duration: 36s; animation-direction: reverse; opacity: 0.55; }
+      .p3 { animation-duration: 42s; opacity: 0.4; }
+      @keyframes drift {
+        from { transform: translate3d(-40px, 20px, 0); }
+        to { transform: translate3d(40px, -30px, 0); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .p, .p2, .p3 { animation: none; }
+      }
+    </style>
+  </defs>
+
+  <!-- sparse network -->
+  <g class="p">
+    <path class="l" d="M120 180 L280 140 L420 220 L560 160" />
+    <circle class="n" cx="120" cy="180" r="2.5"/>
+    <circle class="n" cx="280" cy="140" r="2"/>
+    <circle class="n" cx="420" cy="220" r="2.5"/>
+    <circle class="n" cx="560" cy="160" r="2"/>
+  </g>
+
+  <g class="p p2">
+    <path class="l" d="M980 120 L1120 200 L1280 150 L1360 260" />
+    <circle class="n" cx="980" cy="120" r="2"/>
+    <circle class="n" cx="1120" cy="200" r="2.5"/>
+    <circle class="n" cx="1280" cy="150" r="2"/>
+    <circle class="n" cx="1360" cy="260" r="2.5"/>
+  </g>
+
+  <g class="p p3">
+    <path class="l" d="M200 720 L360 640 L520 700 L700 620" />
+    <circle class="n" cx="200" cy="720" r="2"/>
+    <circle class="n" cx="360" cy="640" r="2.5"/>
+    <circle class="n" cx="520" cy="700" r="2"/>
+    <circle class="n" cx="700" cy="620" r="2"/>
+  </g>
+
+  <!-- faint hex outlines -->
+  <g class="p2" opacity="0.5">
+    <polygon class="l" points="1180,680 1220,700 1220,740 1180,760 1140,740 1140,700"/>
+    <polygon class="l" points="160,420 190,435 190,465 160,480 130,465 130,435"/>
+  </g>
+</svg>
